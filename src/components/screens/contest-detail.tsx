@@ -126,26 +126,44 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           </div>
         </div>
 
-        {/* About the contest */}
+        {/* About this contest — R&P + Leaderboard combined */}
         <div className="px-4 pt-4">
-          <p className="text-[17px] font-semibold mb-2">About the contest</p>
-          <div
-            className="rounded-xl border p-3 flex items-start gap-3"
-            style={{ borderColor: "var(--gray-5)" }}
-          >
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--earn-teal-10)" }}
-            >
-              <span className="text-lg">🏆</span>
+          <p className="text-[17px] font-semibold mb-2">About this contest</p>
+          <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--gray-5)" }}>
+            {/* Rules and Prizes row */}
+            <div className="p-3 flex items-start gap-3">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "var(--earn-teal-10)" }}
+              >
+                <span className="text-lg">🏆</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-semibold">Rules and Prizes</p>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal-deep)", fontWeight: 600 }}>
+                  Earn $0.03 per qualified read · up to $20.00
+                </p>
+              </div>
+              <span style={{ color: "var(--label-tertiary)" }}>›</span>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[14px] font-semibold">Rules and Prizes</p>
-              <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal-deep)", fontWeight: 600 }}>
-                Earn $0.03 per qualified read · up to $20.00
-              </p>
+            {/* Divider */}
+            <div style={{ height: "1px", background: "var(--gray-5)" }} />
+            {/* Leaderboard row */}
+            <div className="p-3 flex items-center gap-3">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "var(--earn-indigo-10)" }}
+              >
+                <span className="text-lg">📊</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-semibold">Leaderboard</p>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                  See how your earnings rank this contest
+                </p>
+              </div>
+              <span style={{ color: "var(--label-tertiary)" }}>›</span>
             </div>
-            <span style={{ color: "var(--label-tertiary)" }}>›</span>
           </div>
         </div>
 
@@ -205,31 +223,42 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           </div>
         </div>
 
-        {/* Contest activity — replaces Leaderboard for Earn Mode */}
-        {/* Leaderboard removed from contest detail. Replaced by aggregate activity below.
-            Rationale: Earn Mode is not competitive — individual leaderboard ranking misleads users.
-            Full leaderboard moved to post-compete view (Phase 2: restore if bonus pool/leagues added). */}
+        {/* Prize pool urgency block */}
         <div className="px-4 pt-4 pb-2">
-          <p className="text-[17px] font-semibold mb-2">Contest activity</p>
+          <div className="flex items-baseline justify-between mb-2">
+            <p className="text-[17px] font-semibold">Prize pool</p>
+            <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>
+              Claim yours before it&apos;s gone
+            </p>
+          </div>
           <div
-            className="rounded-xl border p-3 flex items-center gap-4"
+            className="rounded-xl border p-3"
             style={{ borderColor: "var(--gray-5)" }}
           >
-            <div className="flex-1 text-center">
-              <p className="text-[17px] font-bold">142</p>
-              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>participants</p>
+            {/* Bar */}
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                ${poolRemaining.toFixed(2)} remaining
+              </span>
+              <span className="text-[12px]" style={{ color: "var(--label-tertiary)" }}>
+                of ${prizePool.toFixed(2)}
+              </span>
             </div>
-            <div className="w-px h-8" style={{ background: "var(--gray-5)" }} />
-            <div className="flex-1 text-center">
-              <p className="text-[17px] font-bold">1,840</p>
-              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>qualified reads</p>
+            <div className="h-2 rounded-full mb-3 overflow-hidden" style={{ background: "var(--gray-5)" }}>
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${poolPct}%`, background: "var(--earn-teal)" }}
+              />
             </div>
-            <div className="w-px h-8" style={{ background: "var(--gray-5)" }} />
-            <div className="flex-1 text-center">
-              <p className="text-[17px] font-bold" style={{ color: "var(--earn-teal-deep)" }}>
-                ${poolRemaining.toFixed(0)}
-              </p>
-              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>remaining</p>
+            {/* Earning now */}
+            <div className="flex items-center gap-1.5">
+              <span
+                className="inline-block w-2 h-2 rounded-full"
+                style={{ background: "var(--earn-red)", boxShadow: "0 0 0 3px rgba(255,59,48,0.15)" }}
+              />
+              <span className="text-[12px] font-medium" style={{ color: "var(--label-secondary)" }}>
+                38 earning right now
+              </span>
             </div>
           </div>
         </div>
