@@ -23,11 +23,11 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
   ];
 
   // Pool state
-  const prizePool = 20.0;
-  const poolRemaining = 18.5;
-  const poolPct = (poolRemaining / prizePool) * 100;
+  const personalCap = 20.0;
   const userEarned = IS_RETURNING_USER ? 0.12 : 0;
-  const userEarnedPct = (userEarned / prizePool) * 100;
+  const userEarnedPct = (userEarned / personalCap) * 100;
+  const poolTotal = 2000.0;
+  const poolRemaining = 1850.0;
 
   return (
     <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
@@ -59,7 +59,6 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}
           >
             <div className="flex items-start gap-3 mb-3">
-              {/* Teal icon — mirrors the circular icon in the Accuracy card */}
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ background: "var(--earn-teal)", color: "white", fontSize: "16px" }}
@@ -73,7 +72,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                       $0.12 earned in this contest
                     </p>
                     <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
-                      4 qualified reads · ${poolRemaining.toFixed(2)} remaining in pool
+                      ${(personalCap - userEarned).toFixed(2)} still available for you
                     </p>
                   </>
                 ) : (
@@ -82,46 +81,43 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                       Earn $0.03 per qualified read
                     </p>
                     <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
-                      ${poolRemaining.toFixed(2)} of ${prizePool.toFixed(2)} prize pool remaining
+                      Up to ${personalCap.toFixed(2)} for you in this contest
                     </p>
                   </>
                 )}
               </div>
             </div>
 
-            {/* Progress bar — pool remaining */}
-            <div className="relative">
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--gray-5)" }}>
-                {/* Pool remaining fill */}
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${poolPct}%`,
-                    background: "var(--earn-teal)",
-                    opacity: 0.35,
-                  }}
-                />
-                {/* User's earnings fill (on top, solid) */}
-                {IS_RETURNING_USER && (
-                  <div
-                    className="h-full rounded-full absolute top-0 left-0"
-                    style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
-                  />
-                )}
-              </div>
-              {/* Labels */}
-              <div className="flex justify-between mt-1">
-                <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>$0</span>
-                {IS_RETURNING_USER && (
-                  <span
-                    className="text-[10px] font-semibold"
-                    style={{ color: "var(--earn-teal-deep)", marginLeft: `${userEarnedPct}%`, transform: "translateX(-50%)", position: "absolute" }}
-                  >
-                    $0.12
-                  </span>
-                )}
-                <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>${prizePool.toFixed(2)}</span>
-              </div>
+            {/* Progress bar — personal cap */}
+            <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
+              />
+            </div>
+            <div className="flex justify-between mb-2.5">
+              <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
+                {IS_RETURNING_USER ? `$${userEarned.toFixed(2)} earned` : "$0"}
+              </span>
+              <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
+                ${personalCap.toFixed(0)} cap
+              </span>
+            </div>
+
+            {/* Pool remaining — text only, no bar */}
+            <p className="text-[11px] mb-2" style={{ color: "var(--label-secondary)" }}>
+              ${poolRemaining.toLocaleString()} of ${poolTotal.toLocaleString()} prize pool remaining
+            </p>
+
+            {/* Live count */}
+            <div className="flex items-center gap-1.5">
+              <span
+                className="inline-block w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: "var(--earn-red)", boxShadow: "0 0 0 3px rgba(255,59,48,0.15)" }}
+              />
+              <span className="text-[11px] font-medium" style={{ color: "var(--label-secondary)" }}>
+                38 earning right now
+              </span>
             </div>
           </div>
         </div>
@@ -223,45 +219,6 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           </div>
         </div>
 
-        {/* Prize pool urgency block */}
-        <div className="px-4 pt-4 pb-2">
-          <div className="flex items-baseline justify-between mb-2">
-            <p className="text-[17px] font-semibold">Prize pool</p>
-            <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>
-              Claim yours before it&apos;s gone
-            </p>
-          </div>
-          <div
-            className="rounded-xl border p-3"
-            style={{ borderColor: "var(--gray-5)" }}
-          >
-            {/* Bar */}
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
-                ${poolRemaining.toFixed(2)} remaining
-              </span>
-              <span className="text-[12px]" style={{ color: "var(--label-tertiary)" }}>
-                of ${prizePool.toFixed(2)}
-              </span>
-            </div>
-            <div className="h-2 rounded-full mb-3 overflow-hidden" style={{ background: "var(--gray-5)" }}>
-              <div
-                className="h-full rounded-full"
-                style={{ width: `${poolPct}%`, background: "var(--earn-teal)" }}
-              />
-            </div>
-            {/* Earning now */}
-            <div className="flex items-center gap-1.5">
-              <span
-                className="inline-block w-2 h-2 rounded-full"
-                style={{ background: "var(--earn-red)", boxShadow: "0 0 0 3px rgba(255,59,48,0.15)" }}
-              />
-              <span className="text-[12px] font-medium" style={{ color: "var(--label-secondary)" }}>
-                38 earning right now
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* CTA */}
