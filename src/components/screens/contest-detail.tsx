@@ -1,0 +1,179 @@
+"use client";
+
+import { useState } from "react";
+
+interface ContestDetailProps {
+  onNavigate: (screen: string) => void;
+}
+
+export function ContestDetail({ onNavigate }: ContestDetailProps) {
+  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [stepsCompleted] = useState([true, false, false, false]);
+
+  const steps = [
+    { label: "Location Requirements", sub: "Required for this contest.", icon: "📍" },
+    { label: "Business Associate Agreement", sub: null, icon: "📄", locked: true },
+    { label: "Instructions — learn how to qualify", sub: null, icon: "📋", locked: true },
+    { label: "Practice Round — see qualifying in action", sub: null, icon: "🎯", locked: true },
+  ];
+
+  return (
+    <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
+      {/* Hero image */}
+      <div className="relative h-[200px] flex-shrink-0" style={{ background: "linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)" }}>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        {/* Back button */}
+        <button
+          onClick={() => onNavigate("contest-browse")}
+          className="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center"
+        >
+          <span className="text-white text-sm">←</span>
+        </button>
+        {/* Notification */}
+        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center">
+          <span className="text-white text-sm">🔔</span>
+        </button>
+        <div className="absolute bottom-3 left-4 right-4">
+          <p className="text-white font-semibold text-[16px] leading-tight">Diabetic Retinopathy</p>
+          <p className="text-white/70 text-[12px] mt-0.5">⏱ Ends in 6 hours 34 minutes</p>
+        </div>
+      </div>
+
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto pb-20">
+        {/* About the contest */}
+        <div className="px-4 pt-4">
+          <p className="text-[17px] font-semibold mb-2">About the contest</p>
+          <div
+            className="rounded-xl border p-3 flex items-start gap-3"
+            style={{ borderColor: "var(--gray-5)" }}
+          >
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: "var(--earn-teal-10)" }}
+            >
+              <span className="text-lg">🏆</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] font-semibold">Rules and Prizes</p>
+              {/* REDESIGNED: rate in subtitle */}
+              <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal-deep)", fontWeight: 600 }}>
+                Earn $0.03 per qualified read · up to $20.00
+              </p>
+            </div>
+            <span style={{ color: "var(--label-tertiary)" }}>›</span>
+          </div>
+        </div>
+
+        {/* Steps to join — REDESIGNED copy */}
+        <div className="px-4 pt-4">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-[17px] font-semibold">Steps to start earning</p>
+            <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
+              1/4 Completed
+            </span>
+          </div>
+          <p className="text-[12px] mb-3" style={{ color: "var(--label-secondary)" }}>
+            Complete these to unlock your earnings.
+          </p>
+
+          <div className="space-y-2">
+            {steps.map((step, i) => (
+              <div
+                key={i}
+                className="rounded-xl border p-3 flex items-center gap-3"
+                style={{
+                  borderColor: i === 0 ? "var(--earn-indigo)" : "var(--gray-5)",
+                  background: i === 0 ? "var(--earn-indigo-10)" : "white",
+                }}
+              >
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[12px] font-bold"
+                  style={
+                    i === 0
+                      ? { background: "var(--earn-indigo)", color: "white" }
+                      : stepsCompleted[i]
+                      ? { background: "var(--earn-teal)", color: "white" }
+                      : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
+                  }
+                >
+                  {stepsCompleted[i] && i !== 0 ? "✓" : i + 1}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="text-[13px] font-medium"
+                    style={{ color: step.locked ? "var(--label-tertiary)" : "var(--label-primary)" }}
+                  >
+                    {step.label}
+                  </p>
+                  {step.sub && (
+                    <p className="text-[11px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                      {step.sub}
+                    </p>
+                  )}
+                </div>
+                {step.locked && <span style={{ color: "var(--label-tertiary)" }}>🔒</span>}
+                {!step.locked && <span style={{ color: "var(--label-tertiary)" }}>›</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Leaderboard row */}
+        <div className="px-4 pt-4">
+          <p className="text-[17px] font-semibold mb-2">Leaderboard</p>
+          <div
+            className="rounded-xl border p-3 flex items-center gap-3"
+            style={{ borderColor: "var(--gray-5)" }}
+          >
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "var(--gray-6)" }}>
+              <span className="text-lg">📊</span>
+            </div>
+            <div className="flex-1">
+              <p className="text-[14px] font-semibold">Leaderboard</p>
+              <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>Check how many users are competing.</p>
+            </div>
+            <span style={{ color: "var(--label-tertiary)" }}>›</span>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
+        <button
+          onClick={() => onNavigate("labeling-option-b")}
+          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-opacity"
+          style={{ background: "var(--earn-teal)" }}
+        >
+          Compete
+        </button>
+      </div>
+
+      {/* First-entry onboarding sheet */}
+      {showOnboarding && (
+        <div className="absolute inset-0 bg-black/40 flex items-end">
+          <div className="bg-white rounded-t-3xl w-full p-6 pb-10">
+            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
+            <div
+              className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+              style={{ background: "var(--earn-teal-10)" }}
+            >
+              <span className="text-2xl">💰</span>
+            </div>
+            <h2 className="text-[20px] font-bold mb-2">Earn Mode</h2>
+            <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--label-secondary)" }}>
+              Earn $0.03 for every qualified read. Your reads are scored — meet the quality bar and you earn. Miss it and you don&apos;t.
+            </p>
+            <button
+              onClick={() => setShowOnboarding(false)}
+              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+              style={{ background: "var(--earn-teal)" }}
+            >
+              Got it — show me how
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

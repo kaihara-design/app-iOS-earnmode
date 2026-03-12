@@ -47,6 +47,34 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Earn Mode design tokens — from DiagnosUs iOS Figma (BvtitRNTy7kUjbkLrXsB2h) */
+:root {
+  /* Brand */
+  --earn-teal: #4DC3D0;
+  --earn-teal-deep: #00c3d0;
+  --earn-teal-10: rgba(77, 195, 208, 0.10);
+  --earn-indigo: #6155f5;
+  --earn-indigo-10: #f3f3ff;
+  --earn-indigo-30: #cdc9ff;
+  /* Feedback states */
+  --earn-red: #FF3B30;
+  --earn-red-10: rgba(255, 59, 48, 0.08);
+  /* Labels */
+  --label-primary: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.60);
+  --label-tertiary: rgba(60, 60, 67, 0.30);
+  /* Fills */
+  --fill-quaternary: rgba(116, 116, 128, 0.08);
+  /* Grays */
+  --gray-5: #e5e5ea;
+  --gray-6: #f2f2f7;
+  /* Chip colors — contest types */
+  --chip-earn: #4DC3D0;
+  --chip-accuracy: #6155f5;
+  --chip-streak: #FF9500;
+  --chip-prize: #F5A623;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
