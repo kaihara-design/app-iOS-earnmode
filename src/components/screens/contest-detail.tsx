@@ -6,30 +6,40 @@ interface ContestDetailProps {
   onNavigate: (screen: string) => void;
 }
 
+// Toggle to simulate returning user state
+const IS_RETURNING_USER = false;
+
 export function ContestDetail({ onNavigate }: ContestDetailProps) {
-  const [showOnboarding, setShowOnboarding] = useState(true);
-  const [stepsCompleted] = useState([true, false, false, false]);
+  const [showOnboarding, setShowOnboarding] = useState(!IS_RETURNING_USER);
+  const [stepsCompleted] = useState(
+    IS_RETURNING_USER ? [true, true, true, true] : [true, false, false, false]
+  );
 
   const steps = [
-    { label: "Location Requirements", sub: "Required for this contest.", icon: "📍" },
-    { label: "Business Associate Agreement", sub: null, icon: "📄", locked: true },
-    { label: "Instructions — learn how to qualify", sub: null, icon: "📋", locked: true },
-    { label: "Practice Round — see qualifying in action", sub: null, icon: "🎯", locked: true },
+    { label: "Location Requirements", sub: "Required for this contest." },
+    { label: "Business Associate Agreement", sub: null, locked: !IS_RETURNING_USER },
+    { label: "Instructions — learn how to qualify", sub: null, locked: !IS_RETURNING_USER },
+    { label: "Practice Round — see qualifying in action", sub: null, locked: !IS_RETURNING_USER },
   ];
+
+  // Pool state
+  const prizePool = 20.0;
+  const poolRemaining = 18.5;
+  const poolPct = (poolRemaining / prizePool) * 100;
+  const userEarned = IS_RETURNING_USER ? 0.12 : 0;
+  const userEarnedPct = (userEarned / prizePool) * 100;
 
   return (
     <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
       {/* Hero image */}
       <div className="relative h-[200px] flex-shrink-0" style={{ background: "linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)" }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        {/* Back button */}
         <button
           onClick={() => onNavigate("contest-browse")}
           className="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center"
         >
           <span className="text-white text-sm">←</span>
         </button>
-        {/* Notification */}
         <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center">
           <span className="text-white text-sm">🔔</span>
         </button>
@@ -41,6 +51,81 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
 
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pb-20">
+
+        {/* ── Earnings status card (adapted from Accuracy leaderboard progress card) ── */}
+        <div className="px-4 pt-4">
+          <div
+            className="rounded-xl p-3"
+            style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}
+          >
+            <div className="flex items-start gap-3 mb-3">
+              {/* Teal icon — mirrors the circular icon in the Accuracy card */}
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ background: "var(--earn-teal)", color: "white", fontSize: "16px" }}
+              >
+                💰
+              </div>
+              <div className="flex-1 min-w-0">
+                {IS_RETURNING_USER ? (
+                  <>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                      $0.12 earned in this contest
+                    </p>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                      4 qualified reads · ${poolRemaining.toFixed(2)} remaining in pool
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                      Earn $0.03 per qualified read
+                    </p>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                      ${poolRemaining.toFixed(2)} of ${prizePool.toFixed(2)} prize pool remaining
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Progress bar — pool remaining */}
+            <div className="relative">
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--gray-5)" }}>
+                {/* Pool remaining fill */}
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${poolPct}%`,
+                    background: "var(--earn-teal)",
+                    opacity: 0.35,
+                  }}
+                />
+                {/* User's earnings fill (on top, solid) */}
+                {IS_RETURNING_USER && (
+                  <div
+                    className="h-full rounded-full absolute top-0 left-0"
+                    style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
+                  />
+                )}
+              </div>
+              {/* Labels */}
+              <div className="flex justify-between mt-1">
+                <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>$0</span>
+                {IS_RETURNING_USER && (
+                  <span
+                    className="text-[10px] font-semibold"
+                    style={{ color: "var(--earn-teal-deep)", marginLeft: `${userEarnedPct}%`, transform: "translateX(-50%)", position: "absolute" }}
+                  >
+                    $0.12
+                  </span>
+                )}
+                <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>${prizePool.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* About the contest */}
         <div className="px-4 pt-4">
           <p className="text-[17px] font-semibold mb-2">About the contest</p>
@@ -56,7 +141,6 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[14px] font-semibold">Rules and Prizes</p>
-              {/* REDESIGNED: rate in subtitle */}
               <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal-deep)", fontWeight: 600 }}>
                 Earn $0.03 per qualified read · up to $20.00
               </p>
@@ -65,12 +149,12 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           </div>
         </div>
 
-        {/* Steps to join — REDESIGNED copy */}
+        {/* Steps to start earning */}
         <div className="px-4 pt-4">
           <div className="flex items-center justify-between mb-1">
             <p className="text-[17px] font-semibold">Steps to start earning</p>
             <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
-              1/4 Completed
+              {IS_RETURNING_USER ? "4/4" : "1/4"} Completed
             </span>
           </div>
           <p className="text-[12px] mb-3" style={{ color: "var(--label-secondary)" }}>
@@ -83,21 +167,21 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                 key={i}
                 className="rounded-xl border p-3 flex items-center gap-3"
                 style={{
-                  borderColor: i === 0 ? "var(--earn-indigo)" : "var(--gray-5)",
-                  background: i === 0 ? "var(--earn-indigo-10)" : "white",
+                  borderColor: !IS_RETURNING_USER && i === 1 ? "var(--earn-indigo)" : "var(--gray-5)",
+                  background: !IS_RETURNING_USER && i === 1 ? "var(--earn-indigo-10)" : "white",
                 }}
               >
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[12px] font-bold"
                   style={
-                    i === 0
-                      ? { background: "var(--earn-indigo)", color: "white" }
-                      : stepsCompleted[i]
+                    stepsCompleted[i]
                       ? { background: "var(--earn-teal)", color: "white" }
+                      : !IS_RETURNING_USER && i === 1
+                      ? { background: "var(--earn-indigo)", color: "white" }
                       : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
                   }
                 >
-                  {stepsCompleted[i] && i !== 0 ? "✓" : i + 1}
+                  {stepsCompleted[i] ? "✓" : i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p
@@ -112,28 +196,41 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                     </p>
                   )}
                 </div>
-                {step.locked && <span style={{ color: "var(--label-tertiary)" }}>🔒</span>}
-                {!step.locked && <span style={{ color: "var(--label-tertiary)" }}>›</span>}
+                {step.locked
+                  ? <span style={{ color: "var(--label-tertiary)" }}>🔒</span>
+                  : <span style={{ color: "var(--label-tertiary)" }}>›</span>
+                }
               </div>
             ))}
           </div>
         </div>
 
-        {/* Leaderboard row */}
-        <div className="px-4 pt-4">
-          <p className="text-[17px] font-semibold mb-2">Leaderboard</p>
+        {/* Contest activity — replaces Leaderboard for Earn Mode */}
+        {/* Leaderboard removed from contest detail. Replaced by aggregate activity below.
+            Rationale: Earn Mode is not competitive — individual leaderboard ranking misleads users.
+            Full leaderboard moved to post-compete view (Phase 2: restore if bonus pool/leagues added). */}
+        <div className="px-4 pt-4 pb-2">
+          <p className="text-[17px] font-semibold mb-2">Contest activity</p>
           <div
-            className="rounded-xl border p-3 flex items-center gap-3"
+            className="rounded-xl border p-3 flex items-center gap-4"
             style={{ borderColor: "var(--gray-5)" }}
           >
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "var(--gray-6)" }}>
-              <span className="text-lg">📊</span>
+            <div className="flex-1 text-center">
+              <p className="text-[17px] font-bold">142</p>
+              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>participants</p>
             </div>
-            <div className="flex-1">
-              <p className="text-[14px] font-semibold">Leaderboard</p>
-              <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>Check how many users are competing.</p>
+            <div className="w-px h-8" style={{ background: "var(--gray-5)" }} />
+            <div className="flex-1 text-center">
+              <p className="text-[17px] font-bold">1,840</p>
+              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>qualified reads</p>
             </div>
-            <span style={{ color: "var(--label-tertiary)" }}>›</span>
+            <div className="w-px h-8" style={{ background: "var(--gray-5)" }} />
+            <div className="flex-1 text-center">
+              <p className="text-[17px] font-bold" style={{ color: "var(--earn-teal-deep)" }}>
+                ${poolRemaining.toFixed(0)}
+              </p>
+              <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>remaining</p>
+            </div>
           </div>
         </div>
       </div>
@@ -142,7 +239,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
         <button
           onClick={() => onNavigate("labeling-option-b")}
-          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-opacity"
+          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
           style={{ background: "var(--earn-teal)" }}
         >
           Compete
