@@ -8,17 +8,16 @@ interface LabelingOptionAProps {
 
 type FeedbackState = "none" | "earned" | "not-earned";
 
+const notEarnedScore = 64;
+const earnedScore = 74;
+const qualityBar = 70;
+
 export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
   const [feedback, setFeedback] = useState<FeedbackState>("none");
   const [sessionEarnings, setSessionEarnings] = useState(0.09);
   const [qualifiedCount, setQualifiedCount] = useState(3);
-  const [readCount, setReadCount] = useState(4);
+  const [readCount, setReadCount] = useState(3);
   const [showContestEnded, setShowContestEnded] = useState(false);
-
-  // Simulated scores for demo
-  const notEarnedScore = 64;
-  const earnedScore = 74;
-  const qualityBar = 70;
 
   function handleEarned() {
     setFeedback("earned");
@@ -34,162 +33,192 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
 
   function handleNext() {
     setFeedback("none");
-    if (readCount >= 6) {
-      setShowContestEnded(true);
-    }
+    if (readCount >= 5) setShowContestEnded(true);
   }
 
   return (
-    <div className="h-full flex flex-col" style={{ background: "#fff" }}>
-      {/* Earn Mode HUD */}
+    <div className="h-full relative overflow-hidden" style={{ background: "#0a0a0a" }}>
+
+      {/* ── Full-screen medical image ── */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="w-[340px] h-[340px] rounded-full"
+          style={{ background: "radial-gradient(circle, #8b2500 0%, #4a1200 40%, #1a0600 80%, #0a0400 100%)", opacity: 0.85 }}
+        />
+        {/* Primary annotation box */}
+        <div
+          className="absolute border-2 rounded"
+          style={{ borderColor: "var(--earn-teal)", top: "28%", left: "22%", width: "48%", height: "32%" }}
+        />
+        {/* Secondary lesion */}
+        <div
+          className="absolute border-2 rounded opacity-70"
+          style={{ borderColor: "#ffd060", top: "58%", left: "48%", width: "22%", height: "17%" }}
+        />
+      </div>
+
+      {/* ── Top bar overlay ── */}
       <div
-        className="flex items-center justify-between px-4 py-2 border-b"
-        style={{ borderColor: "var(--gray-5)" }}
+        className="absolute top-0 left-0 right-0 flex items-center justify-between px-3 py-2.5"
+        style={{ background: "rgba(0,0,0,0.6)" }}
       >
-        <div className="flex items-center gap-2">
-          <button onClick={() => onNavigate("contest-detail")} className="text-[13px]" style={{ color: "var(--label-secondary)" }}>
-            ✕
-          </button>
+        {/* Close */}
+        <button
+          onClick={() => onNavigate("contest-detail")}
+          className="w-8 h-8 rounded-full flex items-center justify-center"
+          style={{ background: "rgba(255,255,255,0.12)" }}
+        >
+          <span className="text-white text-[14px]">✕</span>
+        </button>
+
+        {/* Progress */}
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="flex gap-1">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="w-5 h-1.5 rounded-full"
+                style={{
+                  background: i < readCount
+                    ? "var(--earn-teal)"
+                    : "rgba(255,255,255,0.22)",
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.55)" }}>
+            {qualifiedCount} qualified
+          </span>
+        </div>
+
+        {/* Earn Mode HUD */}
+        <div className="flex items-center gap-1.5">
           <span
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold"
+            className="px-2 py-0.5 rounded-full text-[11px] font-bold"
             style={{ background: "var(--earn-teal)", color: "white" }}
           >
-            💰 Earn Mode
+            💰 Earn
           </span>
-        </div>
-        <div className="text-right">
-          <p className="text-[15px] font-bold" style={{ color: "var(--earn-teal-deep)" }}>
-            ${sessionEarnings.toFixed(2)}
-          </p>
-          <p className="text-[10px]" style={{ color: "var(--label-secondary)" }}>earned</p>
+          <span className="text-[14px] font-bold text-white">${sessionEarnings.toFixed(2)}</span>
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div className="px-4 pt-2 pb-1">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
-            Read {readCount} of 6 · {qualifiedCount} qualified
-          </span>
-        </div>
-        <div className="flex gap-1">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex-1 h-1 rounded-full"
-              style={{ background: i < readCount ? "var(--earn-teal)" : "var(--gray-5)" }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Medical image */}
-      <div
-        className="mx-4 rounded-2xl flex-1 flex flex-col items-center justify-center relative overflow-hidden"
-        style={{ background: "#0f0f0f", minHeight: "240px", maxHeight: "300px" }}
-      >
-        <div
-          className="w-[200px] h-[200px] rounded-full opacity-60"
-          style={{ background: "radial-gradient(circle, #8b2500 0%, #4a1200 40%, #1a0600 100%)" }}
-        />
-        <div
-          className="absolute border-2 rounded-lg"
-          style={{ borderColor: "var(--earn-teal)", top: "35%", left: "30%", width: "40%", height: "30%" }}
-        />
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-          <div className="flex gap-2">
-            <button className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white text-[14px]">💬</button>
-            <button className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white text-[14px]">🚩</button>
-            <button className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white text-[14px]">👁</button>
-          </div>
-        </div>
-      </div>
-
-      {/* Task instruction */}
-      <div className="px-4 pt-3">
-        <p className="text-[13px]" style={{ color: "var(--label-secondary)" }}>
-          Draw a bounding box around all lesions visible in this fundus image.
-        </p>
-      </div>
-
-      {/* Feedback banner — Option A (score + quality bar visible) */}
-      {feedback === "not-earned" && (
-        <div
-          className="mx-4 mt-2 rounded-xl px-3 py-2.5"
-          style={{ background: "rgba(255,149,0,0.08)", border: "1px solid rgba(255,149,0,0.2)" }}
-        >
-          <div className="flex items-start gap-2">
-            <span style={{ color: "#e65c00" }}>⚠️</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <p className="text-[13px] font-semibold" style={{ color: "#e65c00" }}>
+      {/* ── Bottom chrome (pre-submission) — always visible ── */}
+      {feedback === "none" && (
+        <div className="absolute bottom-0 left-0 right-0">
+          {/* Scrim */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.55) 55%, transparent 100%)" }}
+          />
+          <div className="relative px-4 pt-10 pb-6">
+            {/* Instruction */}
+            <p className="text-white text-[13px] leading-snug mb-3">
+              Draw a bounding box around all lesions visible in this fundus image.
+            </p>
+            {/* Utility + action row */}
+            <div className="flex items-center gap-2">
+              <button
+                className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
+                style={{ background: "rgba(255,255,255,0.13)" }}
+              >
+                <span className="text-[14px]">💬</span>
+              </button>
+              <button
+                className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
+                style={{ background: "rgba(255,255,255,0.13)" }}
+              >
+                <span className="text-[14px]">🚩</span>
+              </button>
+              <button
+                className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
+                style={{ background: "rgba(255,255,255,0.13)" }}
+              >
+                <span className="text-[14px]">👁</span>
+              </button>
+              <div className="flex-1 flex gap-1.5 ml-1">
+                <button
+                  onClick={handleNotEarned}
+                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold"
+                  style={{ background: "rgba(255,255,255,0.13)", color: "white", border: "1px solid rgba(255,255,255,0.18)" }}
+                >
                   Score: {notEarnedScore}
-                </p>
-                <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>·</span>
-                <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
-                  Earn at {qualityBar}+
-                </p>
+                </button>
+                <button
+                  onClick={handleEarned}
+                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold text-white"
+                  style={{ background: "var(--earn-teal)" }}
+                >
+                  Score: {earnedScore}
+                </button>
               </div>
-              <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
-                More precise boxes = higher quality score = earnings.
-              </p>
             </div>
           </div>
         </div>
       )}
 
-      {feedback === "earned" && (
-        <div
-          className="mx-4 mt-2 rounded-xl px-3 py-2.5"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.25)" }}
-        >
-          <div className="flex items-start gap-2">
-            <span style={{ color: "var(--earn-teal-deep)" }}>💰</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
-                  You&apos;re earning! &nbsp; Score: {earnedScore} ✓
-                </p>
+      {/* ── Feedback bottom sheet (partial — image still visible above) ── */}
+      {feedback !== "none" && !showContestEnded && (
+        <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-4 pb-8">
+          <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
+
+          {feedback === "earned" ? (
+            <>
+              <div className="flex items-start gap-2.5 mb-1">
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[14px] font-bold mt-0.5"
+                  style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                >
+                  ✓
+                </div>
+                <div>
+                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                    Earned · Score: {earnedScore}
+                  </p>
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>
+                    Quality bar: {qualityBar}+ · you cleared it ✓
+                  </p>
+                </div>
               </div>
-              <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--label-secondary)" }}>
                 +$0.03 added · ${sessionEarnings.toFixed(2)} earned this session
               </p>
-            </div>
-          </div>
-        </div>
-      )}
+            </>
+          ) : (
+            <>
+              <div className="flex items-start gap-2.5 mb-1">
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[14px] font-bold mt-0.5"
+                  style={{ background: "var(--earn-red-10)", color: "var(--earn-red)" }}
+                >
+                  ✗
+                </div>
+                <div>
+                  <p className="text-[15px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                    Score: {notEarnedScore} · Earn at {qualityBar}+
+                  </p>
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>
+                    {qualityBar - notEarnedScore} points below the quality bar
+                  </p>
+                </div>
+              </div>
+              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--label-secondary)" }}>
+                More precise boxes = higher quality score = earnings.
+              </p>
+            </>
+          )}
 
-      {/* Action row */}
-      <div className="px-4 pt-3 pb-5 flex gap-2">
-        {feedback === "none" ? (
-          <>
-            <button
-              onClick={handleNotEarned}
-              className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border"
-              style={{ borderColor: "var(--gray-5)", color: "var(--label-secondary)" }}
-            >
-              Simulate: score 64
-            </button>
-            <button
-              onClick={handleEarned}
-              className="flex-1 py-3 rounded-2xl text-[14px] font-semibold text-white"
-              style={{ background: "var(--earn-teal)" }}
-            >
-              Simulate: score 74
-            </button>
-          </>
-        ) : (
           <button
             onClick={handleNext}
-            className="flex-1 py-3 rounded-2xl text-[14px] font-semibold text-white"
+            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
             style={{ background: "var(--earn-teal)" }}
           >
             Next →
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Contest ended bottom sheet */}
+      {/* ── Contest ended sheet ── */}
       {showContestEnded && (
         <div className="absolute inset-0 bg-black/40 flex items-end">
           <div className="bg-white rounded-t-3xl w-full p-6 pb-10">

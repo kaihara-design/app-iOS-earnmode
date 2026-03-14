@@ -2,10 +2,9 @@ import { ReactNode } from "react";
 
 interface PhoneFrameProps {
   children: ReactNode;
-  screenTitle?: string;
 }
 
-export function PhoneFrame({ children, screenTitle }: PhoneFrameProps) {
+export function PhoneFrame({ children }: PhoneFrameProps) {
   return (
     <div className="relative w-[390px] flex-shrink-0" style={{ height: "844px" }}>
       {/* Device shell */}
@@ -43,8 +42,11 @@ export function PhoneFrame({ children, screenTitle }: PhoneFrameProps) {
           </div>
         </div>
 
-        {/* Screen content */}
-        <div className="h-full overflow-y-auto pb-8" style={{ paddingTop: "8px" }}>
+        {/* Screen content — SF Pro via system font stack */}
+        <div
+          className="h-full overflow-y-auto pb-8"
+          style={{ paddingTop: "8px", fontFamily: "-apple-system, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif" }}
+        >
           {children}
         </div>
       </div>

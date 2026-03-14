@@ -11,6 +11,7 @@ const IS_RETURNING_USER = false;
 
 export function ContestDetail({ onNavigate }: ContestDetailProps) {
   const [showOnboarding, setShowOnboarding] = useState(!IS_RETURNING_USER);
+  const [showRulesSheet, setShowRulesSheet] = useState(false);
   const [stepsCompleted] = useState(
     IS_RETURNING_USER ? [true, true, true, true] : [true, false, false, false]
   );
@@ -105,20 +106,9 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             </div>
 
             {/* Pool remaining — text only, no bar */}
-            <p className="text-[11px] mb-2" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
               ${poolRemaining.toLocaleString()} of ${poolTotal.toLocaleString()} prize pool remaining
             </p>
-
-            {/* Live count */}
-            <div className="flex items-center gap-1.5">
-              <span
-                className="inline-block w-2 h-2 rounded-full flex-shrink-0"
-                style={{ background: "var(--earn-red)", boxShadow: "0 0 0 3px rgba(255,59,48,0.15)" }}
-              />
-              <span className="text-[11px] font-medium" style={{ color: "var(--label-secondary)" }}>
-                38 earning right now
-              </span>
-            </div>
           </div>
         </div>
 
@@ -127,7 +117,10 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           <p className="text-[17px] font-semibold mb-2">About this contest</p>
           <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--gray-5)" }}>
             {/* Rules and Prizes row */}
-            <div className="p-3 flex items-start gap-3">
+            <button
+              onClick={() => setShowRulesSheet(true)}
+              className="w-full p-3 flex items-start gap-3 text-left"
+            >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: "var(--earn-teal-10)" }}
@@ -141,7 +134,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                 </p>
               </div>
               <span style={{ color: "var(--label-tertiary)" }}>›</span>
-            </div>
+            </button>
             {/* Divider */}
             <div style={{ height: "1px", background: "var(--gray-5)" }} />
             {/* Leaderboard row */}
@@ -231,6 +224,105 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           Compete
         </button>
       </div>
+
+      {/* Rules & Prizes / Score Explained sheet */}
+      {showRulesSheet && (
+        <div className="absolute inset-0 bg-black/40 flex items-end" onClick={() => setShowRulesSheet(false)}>
+          <div className="bg-white rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
+            <h2 className="text-[18px] font-bold mb-4">Rules &amp; Prizes</h2>
+
+            {/* Earnings summary */}
+            <div
+              className="rounded-xl p-3 flex items-center gap-3 mb-5"
+              style={{ background: "var(--earn-teal-10)" }}
+            >
+              <div
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[16px]"
+                style={{ background: "var(--earn-teal)", color: "white" }}
+              >
+                💰
+              </div>
+              <div>
+                <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                  $0.03 per qualified read
+                </p>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                  Up to $20.00 for you · $2,000 prize pool
+                </p>
+              </div>
+            </div>
+
+            {/* How qualifying works */}
+            <p className="text-[14px] font-semibold mb-1">How qualifying works</p>
+            <p className="text-[13px] leading-relaxed mb-4" style={{ color: "var(--label-secondary)" }}>
+              Every read is scored 0–100 based on annotation quality. Meet the quality bar and you earn. Miss it and you don&apos;t.
+            </p>
+
+            {/* Score bar visualization */}
+            <div className="rounded-xl p-4 mb-5" style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}>
+              {/* Bar */}
+              <div className="relative h-3 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
+                {/* Not earned zone — 0 to 70% */}
+                <div
+                  className="absolute left-0 top-0 h-full rounded-l-full"
+                  style={{ width: "70%", background: "var(--earn-red-10)" }}
+                />
+                {/* Earned zone — 70 to 100% */}
+                <div
+                  className="absolute top-0 h-full rounded-r-full"
+                  style={{ left: "70%", right: 0, background: "var(--earn-teal-10)" }}
+                />
+                {/* Quality bar marker */}
+                <div
+                  className="absolute top-0 h-full w-0.5"
+                  style={{ left: "70%", background: "var(--earn-teal)" }}
+                />
+              </div>
+              {/* Labels row */}
+              <div className="flex justify-between mb-3">
+                <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>0</span>
+                <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)", marginLeft: "calc(70% - 16px)" }}>70</span>
+                <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>100</span>
+              </div>
+              {/* Legend */}
+              <div className="flex gap-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-red)" }} />
+                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>Below 70 — not earned</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-teal)" }} />
+                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>70+ — earned ✓</span>
+                </div>
+              </div>
+            </div>
+
+            {/* What affects your score */}
+            <p className="text-[14px] font-semibold mb-2">What affects your score</p>
+            <div className="space-y-2 mb-6">
+              {[
+                { icon: "🎯", text: "Precision of your bounding boxes" },
+                { icon: "👁", text: "Coverage of all visible lesions" },
+                { icon: "✓", text: "Avoiding false positives" },
+              ].map((item) => (
+                <div key={item.text} className="flex items-center gap-2.5">
+                  <span className="text-[14px] w-5 text-center flex-shrink-0">{item.icon}</span>
+                  <p className="text-[13px]" style={{ color: "var(--label-secondary)" }}>{item.text}</p>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setShowRulesSheet(false)}
+              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+              style={{ background: "var(--earn-teal)" }}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* First-entry onboarding sheet */}
       {showOnboarding && (
