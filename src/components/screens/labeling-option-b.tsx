@@ -199,7 +199,7 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
           <button
             onClick={handleNext}
             className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-            style={{ background: "var(--earn-teal)" }}
+            style={{ background: "var(--earn-indigo)" }}
           >
             Next →
           </button>

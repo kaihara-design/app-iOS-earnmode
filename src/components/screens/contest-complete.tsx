@@ -21,7 +21,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
       >
         <button
           onClick={() => onNavigate("contest-browse")}
-          style={{ color: "var(--earn-teal-deep)" }}
+          style={{ color: "var(--earn-indigo)" }}
         >
           <X size={20} />
         </button>
@@ -50,7 +50,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
         {/* Earnings summary card */}
         <div
           className="w-full rounded-2xl p-4 text-left"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.2)" }}
+          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
         >
           <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal-deep)" }}>
             DIABETIC RETINOPATHY · EARN MODE
@@ -75,7 +75,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
 
           <div
             className="flex items-center gap-2 pt-3"
-            style={{ borderTop: "1px solid rgba(77,195,208,0.2)" }}
+            style={{ borderTop: "1px solid rgba(0,106,101,0.2)" }}
           >
             <Trophy size={14} style={{ color: "var(--earn-teal-deep)", flexShrink: 0 }} />
             <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
@@ -96,14 +96,14 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
         <button
           onClick={() => onNavigate("post-compete")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-          style={{ background: "var(--earn-teal)" }}
+          style={{ background: "var(--earn-indigo)" }}
         >
           View my earnings
         </button>
         <button
           onClick={() => onNavigate("contest-browse")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border"
-          style={{ borderColor: "var(--earn-teal)", color: "var(--earn-teal-deep)" }}
+          style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
         >
           Browse contests
         </button>

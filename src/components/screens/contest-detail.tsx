@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   ChevronLeft, ChevronRight, Bell, DollarSign, Trophy, BarChart2,
-  Lock, Target, Eye, Check, X, Coins,
+  Lock, Target, Eye, Check, Coins,
 } from "lucide-react";
 
 interface ContestDetailProps {
@@ -226,7 +226,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
         <button
           onClick={() => onNavigate("labeling-option-b")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-          style={{ background: "var(--earn-teal)" }}
+          style={{ background: "var(--earn-indigo)" }}
         >
           Compete
         </button>
@@ -308,7 +308,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <button
               onClick={() => setShowRulesSheet(false)}
               className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-              style={{ background: "var(--earn-teal)" }}
+              style={{ background: "var(--earn-indigo)" }}
             >
               Got it
             </button>
@@ -323,7 +323,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
+              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
             >
               <Coins size={24} />
             </div>
@@ -334,9 +334,9 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <button
               onClick={() => setShowOnboarding(false)}
               className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-              style={{ background: "var(--earn-teal)" }}
+              style={{ background: "var(--earn-indigo)" }}
             >
-              Got it — show me how
+              Got it
             </button>
           </div>
         </div>

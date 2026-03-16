@@ -27,7 +27,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
         {/* Earnings summary card */}
         <div
           className="rounded-2xl p-4"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.2)" }}
+          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
         >
           <p className="text-[12px] font-semibold mb-1" style={{ color: "var(--earn-teal-deep)" }}>
             DIABETIC RETINOPATHY · EARN MODE
@@ -57,7 +57,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
                 up to ${maxEarnings.toFixed(2)} max
               </span>
             </div>
-            <div className="h-2 rounded-full" style={{ background: "rgba(77,195,208,0.2)" }}>
+            <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.15)" }}>
               <div
                 className="h-2 rounded-full"
                 style={{ background: "var(--earn-teal)", width: `${progressPct}%` }}
@@ -141,7 +141,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
         <button
           onClick={() => onNavigate("contest-browse")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
-          style={{ background: "var(--earn-teal)" }}
+          style={{ background: "var(--earn-indigo)" }}
         >
           Browse more contests
         </button>

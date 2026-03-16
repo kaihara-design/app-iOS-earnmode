@@ -3,7 +3,7 @@
 import {
   Coins, DollarSign, Trophy, BarChart2, Lock, ChevronRight, ChevronLeft,
   X, Check, Target, MessageCircle, Flag, Eye, Clock, Star, BookOpen,
-  User, Sparkles, Bell, Check as CheckIcon,
+  User, Sparkles, Bell,
 } from "lucide-react";
 
 // ─── Primitives ────────────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ function TokenLabel({ name, value }: { name: string; value: string }) {
 
 // ─── Color Swatch ──────────────────────────────────────────────────────────
 
-function Swatch({ bg, border, name, hex, dark }: { bg: string; border?: string; name: string; hex: string; dark?: boolean }) {
+function Swatch({ bg, border, name, hex }: { bg: string; border?: string; name: string; hex: string }) {
   return (
     <div className="flex flex-col gap-2">
       <div
@@ -187,12 +187,12 @@ export default function DesignSystem() {
             <Swatch bg="#ffffff" name="Grays / White" hex="#ffffff" />
           </div>
 
-          <SubHeader>DiagnosUs Brand — Teal (Earn Mode)</SubHeader>
+          <SubHeader>DiagnosUs Brand — Teal (Earn Mode identity) — Android Material 3 Secondary</SubHeader>
           <div className="grid grid-cols-4 gap-4 mb-8">
-            <Swatch bg="#4DC3D0" name="Earn Teal" hex="#4DC3D0 (--earn-teal)" />
-            <Swatch bg="#00c3d0" name="Earn Teal Deep" hex="#00c3d0 (--earn-teal-deep)" />
-            <Swatch bg="rgba(77,195,208,0.10)" name="Earn Teal 10%" hex="rgba(77,195,208,0.10) (--earn-teal-10)" />
-            <div />
+            <Swatch bg="#006A65" name="Secondary" hex="#006A65 (--earn-teal)" />
+            <Swatch bg="rgba(0,106,101,0.10)" name="10% tint" hex="rgba(0,106,101,0.10) (--earn-teal-10) — icon bg, subtle fills" />
+            <Swatch bg="rgba(0,106,101,0.30)" name="30% tint" hex="rgba(0,106,101,0.30) (--earn-teal-30) — visible containers" />
+            <Swatch bg="#38DCD1" name="Secondary Container" hex="#38DCD1 (--earn-teal-container) — callout only" />
           </div>
 
           <SubHeader>DiagnosUs Brand — Indigo (App Primary)</SubHeader>
@@ -213,7 +213,7 @@ export default function DesignSystem() {
 
           <SubHeader>Contest Mode Colors</SubHeader>
           <div className="grid grid-cols-4 gap-4">
-            <Swatch bg="#4DC3D0" name="Earn Mode" hex="#4DC3D0" />
+            <Swatch bg="#006A65" name="Earn Mode" hex="#006A65" />
             <Swatch bg="#6155f5" name="Accuracy" hex="#6155f5" />
             <Swatch bg="#FF9500" name="Streak" hex="#FF9500" />
             <Swatch bg="#F5A623" name="Prize" hex="#F5A623" />
@@ -297,16 +297,16 @@ export default function DesignSystem() {
         <section id="buttons" className="mb-16">
           <SectionHeader id="buttons">Buttons</SectionHeader>
 
-          <ComponentBlock label="Primary CTA — Earn Mode (teal)">
+          <ComponentBlock label="Primary CTA — Universal (indigo, all screens including Earn Mode)">
             <button
               className="px-8 py-3 rounded-2xl text-[15px] font-semibold text-white"
-              style={{ background: "var(--earn-teal)" }}
+              style={{ background: "var(--earn-indigo)" }}
             >
-              View my earnings
+              Compete
             </button>
             <button
               className="px-8 py-3 rounded-2xl text-[15px] font-semibold text-white"
-              style={{ background: "var(--earn-teal)", opacity: 0.3 }}
+              style={{ background: "var(--earn-indigo)", opacity: 0.3 }}
             >
               Disabled
             </button>
@@ -404,7 +404,7 @@ export default function DesignSystem() {
           <ComponentBlock label="Featured Tinted Card — Earnings Summary">
             <div
               className="w-full rounded-2xl p-4"
-              style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.2)" }}
+              style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
             >
               <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal-deep)" }}>
                 DIABETIC RETINOPATHY · EARN MODE
@@ -423,7 +423,7 @@ export default function DesignSystem() {
               </div>
               <div
                 className="flex items-center gap-2 pt-3"
-                style={{ borderTop: "1px solid rgba(77,195,208,0.2)" }}
+                style={{ borderTop: "1px solid rgba(0,106,101,0.2)" }}
               >
                 <Trophy size={14} style={{ color: "var(--earn-teal-deep)" }} />
                 <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
@@ -566,7 +566,7 @@ export default function DesignSystem() {
                   <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>$0.12 earned</span>
                   <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>up to $20.00 max</span>
                 </div>
-                <div className="h-2 rounded-full" style={{ background: "rgba(77,195,208,0.2)" }}>
+                <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.2)" }}>
                   <div className="h-2 rounded-full" style={{ background: "var(--earn-teal)", width: "0.6%" }} />
                 </div>
               </div>
@@ -575,7 +575,7 @@ export default function DesignSystem() {
                   <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>$9.50 earned</span>
                   <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>up to $20.00 max</span>
                 </div>
-                <div className="h-2 rounded-full" style={{ background: "rgba(77,195,208,0.2)" }}>
+                <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.2)" }}>
                   <div className="h-2 rounded-full" style={{ background: "var(--earn-teal)", width: "47.5%" }} />
                 </div>
               </div>
@@ -606,7 +606,7 @@ export default function DesignSystem() {
               </div>
               <div className="relative h-3 rounded-full overflow-hidden">
                 <div className="absolute inset-0 rounded-full" style={{ background: "rgba(255,59,48,0.25)", width: "70%" }} />
-                <div className="absolute top-0 bottom-0 rounded-r-full" style={{ background: "rgba(77,195,208,0.35)", left: "70%", right: 0 }} />
+                <div className="absolute top-0 bottom-0 rounded-r-full" style={{ background: "rgba(0,106,101,0.35)", left: "70%", right: 0 }} />
                 {/* threshold */}
                 <div className="absolute top-0 bottom-0 w-0.5" style={{ left: "70%", background: "var(--label-tertiary)" }} />
                 {/* score dot */}
@@ -646,7 +646,7 @@ export default function DesignSystem() {
                   <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Earned · +$0.03</p>
                 </div>
                 <p className="text-[12px] mb-4 ml-[42px]" style={{ color: "var(--label-secondary)" }}>$0.12 earned this session</p>
-                <button className="w-full py-3 rounded-2xl text-[14px] font-semibold text-white" style={{ background: "var(--earn-teal)" }}>
+                <button className="w-full py-3 rounded-2xl text-[14px] font-semibold text-white" style={{ background: "var(--earn-indigo)" }}>
                   Next →
                 </button>
               </div>
@@ -719,11 +719,12 @@ export default function DesignSystem() {
 
           <div
             className="rounded-xl p-4 mb-6 text-[13px] leading-relaxed"
-            style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.2)", color: "var(--earn-teal-deep)" }}
+            style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)", color: "var(--earn-teal-deep)" }}
           >
-            Earn Mode uses teal as its primary accent in place of the app&apos;s default indigo.
-            Teal = &ldquo;you can earn here.&rdquo; Never mix teal and indigo accents on the same screen.
-            Positive feedback in Earn Mode is <strong>teal</strong>, not system green.
+            Earn Mode uses a two-color system: <strong>teal (#006A65)</strong> for identity and informational elements
+            (badge, HUD, earned state, earnings card), and <strong>indigo (#6155f5)</strong> for all universal action CTAs
+            (Compete, Next, Got it, Browse). Teal = &ldquo;you&apos;re in earning mode / you qualified.&rdquo;
+            Indigo = &ldquo;tap to take action.&rdquo; Both colors appear on the same screen — that is intentional.
           </div>
 
           <ComponentBlock label="Earn HUD Chip (labeling screen top bar)">
@@ -774,29 +775,33 @@ export default function DesignSystem() {
             </div>
           </ComponentBlock>
 
-          <ComponentBlock label="Earn Mode Overrides vs App Default">
+          <ComponentBlock label="Color Split — Teal (identity) vs Indigo (actions)">
             <div className="w-full overflow-x-auto">
               <table className="w-full text-[12px] border-collapse">
                 <thead>
                   <tr style={{ borderBottom: "2px solid var(--gray-5)" }}>
                     <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--label-primary)" }}>Element</th>
-                    <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--earn-indigo)" }}>App Default (Indigo)</th>
-                    <th className="text-left py-2 font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Earn Mode Override (Teal)</th>
+                    <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Color</th>
+                    <th className="text-left py-2 font-semibold" style={{ color: "var(--label-secondary)" }}>Rule</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ["Primary CTA", "--earn-indigo #6155f5", "--earn-teal #4DC3D0"],
-                    ["Active filter chip", "--earn-indigo", "--earn-teal"],
-                    ["Progress bar fill", "--earn-indigo", "--earn-teal"],
-                    ["Nav accent (back/link)", "--earn-indigo", "--earn-teal-deep"],
-                    ["Tinted card bg", "--earn-indigo-10 #f3f3ff", "--earn-teal-10 rgba(77,195,208,0.10)"],
-                    ["Positive feedback icon", "system green #34c759", "--earn-teal #4DC3D0"],
-                  ].map(([el, app, earn]) => (
+                    ["Earn Mode badge / chip", "--earn-teal #006A65", "Identity"],
+                    ["Earnings HUD (label + total)", "--earn-teal #006A65", "Identity"],
+                    ["Qualified / earned banner", "--earn-teal #006A65", "Identity"],
+                    ["Earnings progress bar fill", "--earn-teal #006A65", "Identity"],
+                    ["Earnings card accents", "--earn-teal #006A65", "Identity"],
+                    ["Compete button", "--earn-indigo #6155f5", "Universal action"],
+                    ["Next → button", "--earn-indigo #6155f5", "Universal action"],
+                    ["Got it button", "--earn-indigo #6155f5", "Universal action"],
+                    ["Browse contests CTA", "--earn-indigo #6155f5", "Universal action"],
+                    ["View my earnings CTA", "--earn-indigo #6155f5", "Universal action"],
+                  ].map(([el, token, rule]) => (
                     <tr key={el} style={{ borderBottom: "1px solid var(--gray-5)" }}>
                       <td className="py-2 pr-4 font-medium" style={{ color: "var(--label-primary)" }}>{el}</td>
-                      <td className="py-2 pr-4 font-mono" style={{ color: "var(--earn-indigo)" }}>{app}</td>
-                      <td className="py-2 font-mono" style={{ color: "var(--earn-teal-deep)" }}>{earn}</td>
+                      <td className="py-2 pr-4 font-mono" style={{ color: rule === "Identity" ? "var(--earn-teal-deep)" : "var(--earn-indigo)" }}>{token}</td>
+                      <td className="py-2" style={{ color: "var(--label-secondary)" }}>{rule}</td>
                     </tr>
                   ))}
                 </tbody>
