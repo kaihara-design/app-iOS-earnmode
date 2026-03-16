@@ -7,12 +7,14 @@ import { ContestDetail } from "@/components/screens/contest-detail";
 import { LabelingOptionA } from "@/components/screens/labeling-option-a";
 import { LabelingOptionB } from "@/components/screens/labeling-option-b";
 import { PostCompete } from "@/components/screens/post-compete";
+import { ContestComplete } from "@/components/screens/contest-complete";
 
 type Screen =
   | "contest-browse"
   | "contest-detail"
   | "labeling-option-a"
   | "labeling-option-b"
+  | "contest-complete"
   | "post-compete";
 
 const SCREEN_LABELS: Record<Screen, string> = {
@@ -20,6 +22,7 @@ const SCREEN_LABELS: Record<Screen, string> = {
   "contest-detail": "Contest Detail",
   "labeling-option-a": "Labeling — Option A (score visible)",
   "labeling-option-b": "Labeling — Option B (pass/fail)",
+  "contest-complete": "Contest Complete",
   "post-compete": "Post-Compete Earnings",
 };
 
@@ -28,6 +31,7 @@ const ALL_SCREENS: Screen[] = [
   "contest-detail",
   "labeling-option-a",
   "labeling-option-b",
+  "contest-complete",
   "post-compete",
 ];
 
@@ -44,6 +48,8 @@ export default function Home() {
         return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} />;
       case "labeling-option-b":
         return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} />;
+      case "contest-complete":
+        return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
       case "post-compete":
         return <PostCompete onNavigate={(s) => setScreen(s as Screen)} />;
     }
@@ -83,6 +89,16 @@ export default function Home() {
             <p>2 → Labeling A/B / Post-compete</p>
             <p>3 → Contest ended (tap Next in labeling)</p>
           </div>
+        </div>
+
+        <div className="mt-4 pt-4 border-t" style={{ borderColor: "#eee" }}>
+          <a
+            href="/design-system"
+            className="block px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
+            style={{ color: "var(--earn-teal-deep)", background: "var(--earn-teal-10)", textDecoration: "none" }}
+          >
+            → Design System
+          </a>
         </div>
       </aside>
 
