@@ -1,5 +1,7 @@
 "use client";
 
+import { ChevronLeft, Check, X, Trophy } from "lucide-react";
+
 interface PostCompeteProps {
   onNavigate: (screen: string) => void;
 }
@@ -15,8 +17,8 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
     <div className="h-full flex flex-col" style={{ background: "#fff" }}>
       {/* Nav header */}
       <div className="px-4 pt-2 pb-3 border-b flex items-center gap-3" style={{ borderColor: "var(--gray-5)" }}>
-        <button onClick={() => onNavigate("contest-browse")} className="text-[15px]" style={{ color: "var(--earn-indigo)" }}>
-          ←
+        <button onClick={() => onNavigate("contest-browse")} style={{ color: "var(--earn-indigo)" }}>
+          <ChevronLeft size={20} />
         </button>
         <h1 className="text-[17px] font-semibold">My Earnings</h1>
       </div>
@@ -28,7 +30,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
           style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(77,195,208,0.2)" }}
         >
           <p className="text-[12px] font-semibold mb-1" style={{ color: "var(--earn-teal-deep)" }}>
-            ⚖️ DIABETIC RETINOPATHY · EARN MODE
+            DIABETIC RETINOPATHY · EARN MODE
           </p>
           <div className="flex items-end gap-3 mb-3">
             <div>
@@ -82,14 +84,14 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
               >
                 <div className="flex items-center gap-2.5">
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold"
+                    className="w-7 h-7 rounded-full flex items-center justify-center"
                     style={
                       didEarn
                         ? { background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }
                         : { background: "var(--earn-red-10)", color: "var(--earn-red)" }
                     }
                   >
-                    {didEarn ? "✓" : "✗"}
+                    {didEarn ? <Check size={13} strokeWidth={2.5} /> : <X size={13} strokeWidth={2.5} />}
                   </div>
                   <span className="text-[13px]" style={{ color: "var(--label-secondary)" }}>
                     Read {read}
@@ -112,7 +114,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
           style={{ background: "var(--earn-indigo-10)", border: "1px solid var(--earn-indigo-30)" }}
         >
           <div className="flex items-center gap-2 mb-2">
-            <span>🏆</span>
+            <Trophy size={16} style={{ color: "var(--earn-indigo)" }} />
             <p className="text-[14px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
               Milestone: 100 qualified reads
             </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check } from "lucide-react";
 
 interface LabelingOptionAProps {
   onNavigate: (screen: string) => void;
@@ -68,7 +69,7 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
           className="w-8 h-8 rounded-full flex items-center justify-center"
           style={{ background: "rgba(255,255,255,0.12)" }}
         >
-          <span className="text-white text-[14px]">✕</span>
+          <X size={14} color="white" />
         </button>
 
         {/* Progress */}
@@ -94,10 +95,11 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
         {/* Earn Mode HUD */}
         <div className="flex items-center gap-1.5">
           <span
-            className="px-2 py-0.5 rounded-full text-[11px] font-bold"
+            className="px-2 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1"
             style={{ background: "var(--earn-teal)", color: "white" }}
           >
-            💰 Earn
+            <Coins size={10} />
+            Earn
           </span>
           <span className="text-[14px] font-bold text-white">${sessionEarnings.toFixed(2)}</span>
         </div>
@@ -122,19 +124,19 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
                 className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
                 style={{ background: "rgba(255,255,255,0.13)" }}
               >
-                <span className="text-[14px]">💬</span>
+                <MessageCircle size={16} color="white" />
               </button>
               <button
                 className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
                 style={{ background: "rgba(255,255,255,0.13)" }}
               >
-                <span className="text-[14px]">🚩</span>
+                <Flag size={16} color="white" />
               </button>
               <button
                 className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center"
                 style={{ background: "rgba(255,255,255,0.13)" }}
               >
-                <span className="text-[14px]">👁</span>
+                <Eye size={16} color="white" />
               </button>
               <div className="flex-1 flex gap-1.5 ml-1">
                 <button
@@ -166,17 +168,17 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
             <>
               <div className="flex items-start gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[14px] font-bold mt-0.5"
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5"
                   style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
                 >
-                  ✓
+                  <Check size={15} strokeWidth={2.5} />
                 </div>
                 <div>
                   <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
                     Earned · Score: {earnedScore}
                   </p>
                   <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>
-                    Quality bar: {qualityBar}+ · you cleared it ✓
+                    Quality bar: {qualityBar}+ · you cleared it
                   </p>
                 </div>
               </div>
@@ -188,10 +190,10 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
             <>
               <div className="flex items-start gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[14px] font-bold mt-0.5"
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5"
                   style={{ background: "var(--earn-red-10)", color: "var(--earn-red)" }}
                 >
-                  ✗
+                  <X size={15} strokeWidth={2.5} />
                 </div>
                 <div>
                   <p className="text-[15px] font-semibold" style={{ color: "var(--label-primary)" }}>
@@ -225,9 +227,9 @@ export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3"
-              style={{ background: "var(--earn-indigo-10)" }}
+              style={{ background: "var(--earn-indigo-10)", color: "var(--earn-indigo)" }}
             >
-              <span className="text-2xl">💰</span>
+              <DollarSign size={24} />
             </div>
             <h2 className="text-[18px] font-bold mb-2">This contest has ended</h2>
             <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--label-secondary)" }}>

@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import {
+  ChevronLeft, ChevronRight, Bell, DollarSign, Trophy, BarChart2,
+  Lock, Target, Eye, Check, X, Coins,
+} from "lucide-react";
 
 interface ContestDetailProps {
   onNavigate: (screen: string) => void;
@@ -39,10 +43,10 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           onClick={() => onNavigate("contest-browse")}
           className="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center"
         >
-          <span className="text-white text-sm">←</span>
+          <ChevronLeft size={18} color="white" />
         </button>
         <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center">
-          <span className="text-white text-sm">🔔</span>
+          <Bell size={16} color="white" />
         </button>
         <div className="absolute bottom-3 left-4 right-4">
           <p className="text-white font-semibold text-[16px] leading-tight">Diabetic Retinopathy</p>
@@ -53,7 +57,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pb-20">
 
-        {/* ── Earnings status card (adapted from Accuracy leaderboard progress card) ── */}
+        {/* ── Earnings status card ── */}
         <div className="px-4 pt-4">
           <div
             className="rounded-xl p-3"
@@ -62,9 +66,9 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <div className="flex items-start gap-3 mb-3">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal)", color: "white", fontSize: "16px" }}
+                style={{ background: "var(--earn-teal)", color: "white" }}
               >
-                💰
+                <DollarSign size={18} strokeWidth={2.5} />
               </div>
               <div className="flex-1 min-w-0">
                 {IS_RETURNING_USER ? (
@@ -119,13 +123,13 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             {/* Rules and Prizes row */}
             <button
               onClick={() => setShowRulesSheet(true)}
-              className="w-full p-3 flex items-start gap-3 text-left"
+              className="w-full p-3 flex items-center gap-3 text-left"
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal-10)" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
               >
-                <span className="text-lg">🏆</span>
+                <Trophy size={18} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-semibold">Rules and Prizes</p>
@@ -133,7 +137,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                   Earn $0.03 per qualified read · up to $20.00
                 </p>
               </div>
-              <span style={{ color: "var(--label-tertiary)" }}>›</span>
+              <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
             </button>
             {/* Divider */}
             <div style={{ height: "1px", background: "var(--gray-5)" }} />
@@ -141,9 +145,9 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <div className="p-3 flex items-center gap-3">
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-indigo-10)" }}
+                style={{ background: "var(--earn-indigo-10)", color: "var(--earn-indigo)" }}
               >
-                <span className="text-lg">📊</span>
+                <BarChart2 size={18} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-semibold">Leaderboard</p>
@@ -151,7 +155,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                   See how your earnings rank this contest
                 </p>
               </div>
-              <span style={{ color: "var(--label-tertiary)" }}>›</span>
+              <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
             </div>
           </div>
         </div>
@@ -179,7 +183,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                 }}
               >
                 <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[12px] font-bold"
+                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
                   style={
                     stepsCompleted[i]
                       ? { background: "var(--earn-teal)", color: "white" }
@@ -188,7 +192,10 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                       : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
                   }
                 >
-                  {stepsCompleted[i] ? "✓" : i + 1}
+                  {stepsCompleted[i]
+                    ? <Check size={13} strokeWidth={2.5} />
+                    : <span className="text-[12px] font-bold">{i + 1}</span>
+                  }
                 </div>
                 <div className="flex-1 min-w-0">
                   <p
@@ -204,8 +211,8 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                   )}
                 </div>
                 {step.locked
-                  ? <span style={{ color: "var(--label-tertiary)" }}>🔒</span>
-                  : <span style={{ color: "var(--label-tertiary)" }}>›</span>
+                  ? <Lock size={15} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
+                  : <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
                 }
               </div>
             ))}
@@ -238,10 +245,10 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
               style={{ background: "var(--earn-teal-10)" }}
             >
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[16px]"
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ background: "var(--earn-teal)", color: "white" }}
               >
-                💰
+                <DollarSign size={18} strokeWidth={2.5} />
               </div>
               <div>
                 <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
@@ -261,31 +268,16 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
 
             {/* Score bar visualization */}
             <div className="rounded-xl p-4 mb-5" style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}>
-              {/* Bar */}
               <div className="relative h-3 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
-                {/* Not earned zone — 0 to 70% */}
-                <div
-                  className="absolute left-0 top-0 h-full rounded-l-full"
-                  style={{ width: "70%", background: "var(--earn-red-10)" }}
-                />
-                {/* Earned zone — 70 to 100% */}
-                <div
-                  className="absolute top-0 h-full rounded-r-full"
-                  style={{ left: "70%", right: 0, background: "var(--earn-teal-10)" }}
-                />
-                {/* Quality bar marker */}
-                <div
-                  className="absolute top-0 h-full w-0.5"
-                  style={{ left: "70%", background: "var(--earn-teal)" }}
-                />
+                <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "var(--earn-red-10)" }} />
+                <div className="absolute top-0 h-full rounded-r-full" style={{ left: "70%", right: 0, background: "var(--earn-teal-10)" }} />
+                <div className="absolute top-0 h-full w-0.5" style={{ left: "70%", background: "var(--earn-teal)" }} />
               </div>
-              {/* Labels row */}
               <div className="flex justify-between mb-3">
                 <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>0</span>
                 <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)", marginLeft: "calc(70% - 16px)" }}>70</span>
                 <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>100</span>
               </div>
-              {/* Legend */}
               <div className="flex gap-3">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-red)" }} />
@@ -293,7 +285,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-teal)" }} />
-                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>70+ — earned ✓</span>
+                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>70+ — earned</span>
                 </div>
               </div>
             </div>
@@ -302,12 +294,12 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <p className="text-[14px] font-semibold mb-2">What affects your score</p>
             <div className="space-y-2 mb-6">
               {[
-                { icon: "🎯", text: "Precision of your bounding boxes" },
-                { icon: "👁", text: "Coverage of all visible lesions" },
-                { icon: "✓", text: "Avoiding false positives" },
+                { icon: <Target size={14} />, text: "Precision of your bounding boxes" },
+                { icon: <Eye size={14} />, text: "Coverage of all visible lesions" },
+                { icon: <Check size={14} />, text: "Avoiding false positives" },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-2.5">
-                  <span className="text-[14px] w-5 text-center flex-shrink-0">{item.icon}</span>
+                  <span className="w-5 flex justify-center flex-shrink-0" style={{ color: "var(--label-tertiary)" }}>{item.icon}</span>
                   <p className="text-[13px]" style={{ color: "var(--label-secondary)" }}>{item.text}</p>
                 </div>
               ))}
@@ -331,9 +323,9 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-              style={{ background: "var(--earn-teal-10)" }}
+              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
             >
-              <span className="text-2xl">💰</span>
+              <Coins size={24} />
             </div>
             <h2 className="text-[20px] font-bold mb-2">Earn Mode</h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--label-secondary)" }}>

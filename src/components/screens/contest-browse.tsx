@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Clock, Coins, Trophy, Star, BookOpen, User, Sparkles } from "lucide-react";
 
 interface ContestBrowseProps {
   onNavigate: (screen: string) => void;
@@ -64,8 +65,9 @@ function ContestCard({
           {modeChip}
           <Chip color="#e8e5ff" textColor="#6155f5" label="Individual" />
         </div>
-        <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
-          <span className="mr-1">⏱</span>{deadline}
+        <p className="text-[11px] flex items-center gap-1" style={{ color: "var(--label-secondary)" }}>
+          <Clock size={10} />
+          {deadline}
         </p>
       </div>
     </div>
@@ -85,10 +87,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             Compete
           </h1>
           <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M7 1a6 6 0 100 12A6 6 0 007 1z" stroke="#666" strokeWidth="1.5"/>
-              <path d="M7 4.5v3l2 1" stroke="#666" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+            <Clock size={14} color="#666" />
           </button>
         </div>
         <p className="text-[20px] font-semibold mb-2.5">Contests</p>
@@ -118,10 +117,11 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
         <div>
           <div className="flex items-center gap-1.5 mb-1.5 px-0.5">
             <div
-              className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
+              className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full flex items-center gap-1"
               style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
             >
-              ✦ Recommended
+              <Sparkles size={9} />
+              Recommended
             </div>
           </div>
           <ContestCard
@@ -134,7 +134,8 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
                 style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
               >
-                💰 $0.03/read
+                <Coins size={10} />
+                $0.03/read
               </span>
             }
             modeChip={
@@ -142,7 +143,8 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
                 style={{ background: "var(--earn-teal)", color: "white" }}
               >
-                ⚖️ Earn Mode
+                <Coins size={10} />
+                Earn Mode
               </span>
             }
             deadline="Up to $20.00 · Ends in 10 hours"
@@ -154,7 +156,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
           image="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)"
           title="Diabetic Retinopathy"
           prizeChip={
-            <Chip color="#f3f3ff" textColor="#6155f5" icon={<span>🏆</span>} label="$70 Pool" />
+            <Chip color="#f3f3ff" textColor="#6155f5" icon={<Trophy size={10} />} label="$70 Pool" />
           }
           modeChip={
             <Chip color="#6155f5" label="Accuracy" />
@@ -167,7 +169,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
           image="linear-gradient(135deg, #1a1a1a 0%, #333 100%)"
           title="Endoscopy (Erosions and Ulcers) Long Contest Title"
           prizeChip={
-            <Chip color="#fff3e0" textColor="#e65100" icon={<span>🏆</span>} label="$20 Pool" />
+            <Chip color="#fff3e0" textColor="#e65100" icon={<Trophy size={10} />} label="$20 Pool" />
           }
           modeChip={
             <Chip color="#FF9500" label="Streak" />
@@ -192,7 +194,8 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
               style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
             >
-              ⚖️ Earn Mode
+              <Coins size={10} />
+              Earn Mode
             </span>
           }
           deadline="Contest ended · $0.00 remaining"
@@ -205,13 +208,13 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
         style={{ borderColor: "var(--gray-5)" }}
       >
         {[
-          { icon: "🏆", label: "Compete", active: true },
-          { icon: "⭐", label: "For You", active: false },
-          { icon: "📖", label: "Learn", active: false },
-          { icon: "👤", label: "Profile", active: false },
+          { icon: <Trophy size={22} />, label: "Compete", active: true },
+          { icon: <Star size={22} />, label: "For You", active: false },
+          { icon: <BookOpen size={22} />, label: "Learn", active: false },
+          { icon: <User size={22} />, label: "Profile", active: false },
         ].map(({ icon, label, active }) => (
           <button key={label} className="flex flex-col items-center gap-1">
-            <span className="text-[20px]">{icon}</span>
+            <span style={{ color: active ? "var(--earn-teal)" : "var(--label-secondary)" }}>{icon}</span>
             <span
               className="text-[10px] font-medium"
               style={{ color: active ? "var(--earn-teal)" : "var(--label-secondary)" }}
