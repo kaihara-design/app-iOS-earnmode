@@ -6,33 +6,32 @@ import { ContestBrowse } from "@/components/screens/contest-browse";
 import { ContestDetail } from "@/components/screens/contest-detail";
 import { LabelingOptionA } from "@/components/screens/labeling-option-a";
 import { LabelingOptionB } from "@/components/screens/labeling-option-b";
-import { PostCompete } from "@/components/screens/post-compete";
 import { ContestComplete } from "@/components/screens/contest-complete";
 
 type Screen =
   | "contest-browse"
-  | "contest-detail"
+  | "contest-detail-new"
+  | "contest-detail-post-compete"
   | "labeling-option-a"
   | "labeling-option-b"
-  | "contest-complete"
-  | "post-compete";
+  | "contest-complete";
 
 const SCREEN_LABELS: Record<Screen, string> = {
   "contest-browse": "Contest Browse",
-  "contest-detail": "Contest Detail",
+  "contest-detail-new": "Contest Detail — New User",
+  "contest-detail-post-compete": "Contest Detail — Post-Compete",
   "labeling-option-a": "Labeling — Option A (score visible)",
   "labeling-option-b": "Labeling — Option B (pass/fail)",
   "contest-complete": "Contest Complete",
-  "post-compete": "Post-Compete Earnings",
 };
 
 const ALL_SCREENS: Screen[] = [
   "contest-browse",
-  "contest-detail",
+  "contest-detail-new",
+  "contest-detail-post-compete",
   "labeling-option-a",
   "labeling-option-b",
   "contest-complete",
-  "post-compete",
 ];
 
 export default function Home() {
@@ -42,16 +41,16 @@ export default function Home() {
     switch (screen) {
       case "contest-browse":
         return <ContestBrowse onNavigate={(s) => setScreen(s as Screen)} />;
-      case "contest-detail":
-        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} />;
+      case "contest-detail-new":
+        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="new" />;
+      case "contest-detail-post-compete":
+        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="post-compete" />;
       case "labeling-option-a":
         return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} />;
       case "labeling-option-b":
         return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} />;
       case "contest-complete":
         return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
-      case "post-compete":
-        return <PostCompete onNavigate={(s) => setScreen(s as Screen)} />;
     }
   }
 
@@ -86,7 +85,7 @@ export default function Home() {
           <p className="text-[10px] mb-2" style={{ color: "#bbb" }}>PROBLEM</p>
           <div className="space-y-1 text-[11px]" style={{ color: "#888" }}>
             <p>1 → Browse / Detail / Onboarding</p>
-            <p>2 → Labeling A/B / Post-compete</p>
+            <p>2 → Labeling A/B / Back to contest detail</p>
             <p>3 → Contest ended (tap Next in labeling)</p>
           </div>
         </div>
@@ -111,7 +110,9 @@ export default function Home() {
         </div>
 
         <PhoneFrame>
-          {renderScreen()}
+          <div key={screen} className="animate-screen-in h-full">
+            {renderScreen()}
+          </div>
         </PhoneFrame>
 
         <div className="mt-5 flex items-center gap-4">

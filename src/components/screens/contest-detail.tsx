@@ -6,30 +6,37 @@ import {
   Lock, Target, Eye, Check, Coins,
 } from "lucide-react";
 
+type UserState = "new" | "post-compete";
+
 interface ContestDetailProps {
   onNavigate: (screen: string) => void;
+  userState?: UserState;
 }
 
-// Toggle to simulate returning user state
-const IS_RETURNING_USER = false;
+// Session data (used in post-compete state)
+const SESSION_EARNED = 0.12;
+const SESSION_QUALIFIED = 4;
+const SESSION_TOTAL = 5;
 
-export function ContestDetail({ onNavigate }: ContestDetailProps) {
-  const [showOnboarding, setShowOnboarding] = useState(!IS_RETURNING_USER);
+export function ContestDetail({ onNavigate, userState = "new" }: ContestDetailProps) {
+  const [showOnboarding, setShowOnboarding] = useState(userState === "new");
   const [showRulesSheet, setShowRulesSheet] = useState(false);
   const [stepsCompleted] = useState(
-    IS_RETURNING_USER ? [true, true, true, true] : [true, false, false, false]
+    userState !== "new" ? [true, true, true, true] : [true, false, false, false]
   );
+
+  const isNew = userState === "new";
 
   const steps = [
     { label: "Location Requirements", sub: "Required for this contest." },
-    { label: "Business Associate Agreement", sub: null, locked: !IS_RETURNING_USER },
-    { label: "Instructions — learn how to qualify", sub: null, locked: !IS_RETURNING_USER },
-    { label: "Practice Round — see qualifying in action", sub: null, locked: !IS_RETURNING_USER },
+    { label: "Business Associate Agreement", sub: null, locked: isNew },
+    { label: "Instructions — learn how to qualify", sub: null, locked: isNew },
+    { label: "Practice Round — see qualifying in action", sub: null, locked: isNew },
   ];
 
   // Pool state
   const personalCap = 20.0;
-  const userEarned = IS_RETURNING_USER ? 0.12 : 0;
+  const userEarned = userState === "new" ? 0 : SESSION_EARNED;
   const userEarnedPct = (userEarned / personalCap) * 100;
   const poolTotal = 2000.0;
   const poolRemaining = 1850.0;
@@ -71,10 +78,19 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
                 <DollarSign size={18} strokeWidth={2.5} />
               </div>
               <div className="flex-1 min-w-0">
-                {IS_RETURNING_USER ? (
+                {userState === "post-compete" ? (
                   <>
                     <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
-                      $0.12 earned in this contest
+                      ${SESSION_EARNED.toFixed(2)} earned this session
+                    </p>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                      {SESSION_QUALIFIED} qualified reads · {SESSION_TOTAL} total
+                    </p>
+                  </>
+                ) : userState === "returning" ? (
+                  <>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                      ${userEarned.toFixed(2)} earned in this contest
                     </p>
                     <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
                       ${(personalCap - userEarned).toFixed(2)} still available for you
@@ -96,13 +112,13 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             {/* Progress bar — personal cap */}
             <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
               <div
-                className="h-full rounded-full"
+                className="h-full rounded-full transition-all duration-[700ms] ease-out"
                 style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
               />
             </div>
             <div className="flex justify-between mb-2.5">
               <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
-                {IS_RETURNING_USER ? `$${userEarned.toFixed(2)} earned` : "$0"}
+                {userState !== "new" ? `$${userEarned.toFixed(2)} earned` : "$0"}
               </span>
               <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
                 ${personalCap.toFixed(0)} cap
@@ -160,64 +176,66 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
           </div>
         </div>
 
-        {/* Steps to start earning */}
-        <div className="px-4 pt-4">
-          <div className="flex items-center justify-between mb-1">
-            <p className="text-[17px] font-semibold">Steps to start earning</p>
-            <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
-              {IS_RETURNING_USER ? "4/4" : "1/4"} Completed
-            </span>
-          </div>
-          <p className="text-[12px] mb-3" style={{ color: "var(--label-secondary)" }}>
-            Complete these to unlock your earnings.
-          </p>
+        {/* Steps to start earning — hidden after competing */}
+        {userState !== "post-compete" && (
+          <div className="px-4 pt-4">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-[17px] font-semibold">Steps to start earning</p>
+              <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
+                {isNew ? "1/4" : "4/4"} Completed
+              </span>
+            </div>
+            <p className="text-[12px] mb-3" style={{ color: "var(--label-secondary)" }}>
+              Complete these to unlock your earnings.
+            </p>
 
-          <div className="space-y-2">
-            {steps.map((step, i) => (
-              <div
-                key={i}
-                className="rounded-xl border p-3 flex items-center gap-3"
-                style={{
-                  borderColor: !IS_RETURNING_USER && i === 1 ? "var(--earn-indigo)" : "var(--gray-5)",
-                  background: !IS_RETURNING_USER && i === 1 ? "var(--earn-indigo-10)" : "white",
-                }}
-              >
+            <div className="space-y-2">
+              {steps.map((step, i) => (
                 <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={
-                    stepsCompleted[i]
-                      ? { background: "var(--earn-teal)", color: "white" }
-                      : !IS_RETURNING_USER && i === 1
-                      ? { background: "var(--earn-indigo)", color: "white" }
-                      : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
-                  }
+                  key={i}
+                  className="rounded-xl border p-3 flex items-center gap-3"
+                  style={{
+                    borderColor: isNew && i === 1 ? "var(--earn-indigo)" : "var(--gray-5)",
+                    background: isNew && i === 1 ? "var(--earn-indigo-10)" : "white",
+                  }}
                 >
-                  {stepsCompleted[i]
-                    ? <Check size={13} strokeWidth={2.5} />
-                    : <span className="text-[12px] font-bold">{i + 1}</span>
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={
+                      stepsCompleted[i]
+                        ? { background: "var(--earn-teal)", color: "white" }
+                        : isNew && i === 1
+                        ? { background: "var(--earn-indigo)", color: "white" }
+                        : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
+                    }
+                  >
+                    {stepsCompleted[i]
+                      ? <Check size={13} strokeWidth={2.5} />
+                      : <span className="text-[12px] font-bold">{i + 1}</span>
+                    }
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-[13px] font-medium"
+                      style={{ color: step.locked ? "var(--label-tertiary)" : "var(--label-primary)" }}
+                    >
+                      {step.label}
+                    </p>
+                    {step.sub && (
+                      <p className="text-[11px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                        {step.sub}
+                      </p>
+                    )}
+                  </div>
+                  {step.locked
+                    ? <Lock size={15} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
+                    : <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
                   }
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p
-                    className="text-[13px] font-medium"
-                    style={{ color: step.locked ? "var(--label-tertiary)" : "var(--label-primary)" }}
-                  >
-                    {step.label}
-                  </p>
-                  {step.sub && (
-                    <p className="text-[11px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
-                      {step.sub}
-                    </p>
-                  )}
-                </div>
-                {step.locked
-                  ? <Lock size={15} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
-                  : <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
-                }
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
 
@@ -225,17 +243,17 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
         <button
           onClick={() => onNavigate("labeling-option-b")}
-          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--earn-indigo)" }}
         >
-          Compete
+          {userState === "post-compete" ? "Compete again" : "Compete"}
         </button>
       </div>
 
       {/* Rules & Prizes / Score Explained sheet */}
       {showRulesSheet && (
-        <div className="absolute inset-0 bg-black/40 flex items-end" onClick={() => setShowRulesSheet(false)}>
-          <div className="bg-white rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in" onClick={() => setShowRulesSheet(false)}>
+          <div className="bg-white rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto animate-sheet-up" onClick={(e) => e.stopPropagation()}>
             <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
             <h2 className="text-[18px] font-bold mb-4">Rules &amp; Prizes</h2>
 
@@ -307,7 +325,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
 
             <button
               onClick={() => setShowRulesSheet(false)}
-              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
               style={{ background: "var(--earn-indigo)" }}
             >
               Got it
@@ -318,8 +336,8 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
 
       {/* First-entry onboarding sheet */}
       {showOnboarding && (
-        <div className="absolute inset-0 bg-black/40 flex items-end">
-          <div className="bg-white rounded-t-3xl w-full p-6 pb-10">
+        <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in">
+          <div className="bg-white rounded-t-3xl w-full p-6 pb-10 animate-sheet-up">
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
@@ -333,7 +351,7 @@ export function ContestDetail({ onNavigate }: ContestDetailProps) {
             </p>
             <button
               onClick={() => setShowOnboarding(false)}
-              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
               style={{ background: "var(--earn-indigo)" }}
             >
               Got it

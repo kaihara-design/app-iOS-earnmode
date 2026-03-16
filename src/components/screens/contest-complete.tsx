@@ -1,6 +1,6 @@
 "use client";
 
-import { X, DollarSign, Check, Trophy } from "lucide-react";
+import { X, DollarSign, Check } from "lucide-react";
 
 interface ContestCompleteProps {
   onNavigate: (screen: string) => void;
@@ -33,24 +33,24 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
 
         {/* Completion icon */}
         <div
-          className="w-20 h-20 rounded-full flex items-center justify-center mb-5"
-          style={{ background: "var(--earn-teal-10)" }}
+          className="w-20 h-20 rounded-full flex items-center justify-center mb-5 animate-pop-in"
+          style={{ background: "var(--earn-teal-10)", animationDelay: "80ms" }}
         >
           <DollarSign size={36} style={{ color: "var(--earn-teal-deep)" }} />
         </div>
 
         {/* Headline */}
-        <h2 className="text-[22px] font-bold mb-2" style={{ color: "var(--label-primary)" }}>
+        <h2 className="text-[22px] font-bold mb-2 animate-fade-up" style={{ color: "var(--label-primary)", animationDelay: "220ms" }}>
           You&apos;ve read them all
         </h2>
-        <p className="text-[14px] leading-relaxed mb-6" style={{ color: "var(--label-secondary)" }}>
+        <p className="text-[14px] leading-relaxed mb-6 animate-fade-up" style={{ color: "var(--label-secondary)", animationDelay: "300ms" }}>
           You&apos;ve completed all available cases in this contest. New cases may appear as more are added.
         </p>
 
         {/* Earnings summary card */}
         <div
-          className="w-full rounded-2xl p-4 text-left"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
+          className="w-full rounded-2xl p-4 text-left animate-fade-up"
+          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)", animationDelay: "380ms" }}
         >
           <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal-deep)" }}>
             DIABETIC RETINOPATHY · EARN MODE
@@ -77,7 +77,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
             className="flex items-center gap-2 pt-3"
             style={{ borderTop: "1px solid rgba(0,106,101,0.2)" }}
           >
-            <Trophy size={14} style={{ color: "var(--earn-teal-deep)", flexShrink: 0 }} />
+            <Check size={14} style={{ color: "var(--earn-teal-deep)", flexShrink: 0 }} />
             <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
               {qualifiedReads} qualified reads&nbsp;
               <span className="font-normal" style={{ color: "var(--label-secondary)" }}>
@@ -94,15 +94,15 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
         style={{ borderColor: "var(--gray-5)" }}
       >
         <button
-          onClick={() => onNavigate("post-compete")}
-          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+          onClick={() => onNavigate("contest-detail-post-compete")}
+          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--earn-indigo)" }}
         >
-          View my earnings
+          Back to contest
         </button>
         <button
           onClick={() => onNavigate("contest-browse")}
-          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border"
+          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
         >
           Browse contests

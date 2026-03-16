@@ -61,7 +61,7 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
       >
         {/* Close */}
         <button
-          onClick={() => onNavigate("contest-detail")}
+          onClick={() => onNavigate("contest-detail-new")}
           className="w-8 h-8 rounded-full flex items-center justify-center"
           style={{ background: "rgba(255,255,255,0.12)" }}
         >
@@ -74,7 +74,7 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="w-5 h-1.5 rounded-full"
+                className="w-5 h-1.5 rounded-full transition-all duration-[300ms]"
                 style={{
                   background: i < readCount
                     ? "var(--earn-teal)"
@@ -97,13 +97,13 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
             <Coins size={10} />
             Earn
           </span>
-          <span className="text-[14px] font-bold text-white">${sessionEarnings.toFixed(2)}</span>
+          <span key={sessionEarnings} className="text-[14px] font-bold text-white animate-earn-tick">${sessionEarnings.toFixed(2)}</span>
         </div>
       </div>
 
       {/* ── Bottom chrome (pre-submission) — always visible ── */}
       {feedback === "none" && (
-        <div className="absolute bottom-0 left-0 right-0">
+        <div key={readCount} className="absolute bottom-0 left-0 right-0 animate-fade-up">
           {/* Scrim */}
           <div
             className="absolute inset-0 pointer-events-none"
@@ -137,14 +137,14 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
               <div className="flex-1 flex gap-1.5 ml-1">
                 <button
                   onClick={handleNotEarned}
-                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold"
+                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold transition-transform duration-[100ms] active:scale-[0.96]"
                   style={{ background: "rgba(255,255,255,0.13)", color: "white", border: "1px solid rgba(255,255,255,0.18)" }}
                 >
                   Simulate miss
                 </button>
                 <button
                   onClick={handleEarned}
-                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold text-white"
+                  className="flex-1 py-2.5 rounded-2xl text-[12px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.96]"
                   style={{ background: "var(--earn-teal)" }}
                 >
                   Simulate hit
@@ -157,15 +157,15 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
 
       {/* ── Feedback bottom sheet (partial — image still visible above) ── */}
       {feedback !== "none" && !showContestEnded && (
-        <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-4 pb-8">
+        <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-4 pb-8 animate-sheet-up">
           <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
 
           {feedback === "earned" ? (
             <>
               <div className="flex items-center gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center"
-                  style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center animate-pop-in"
+                  style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)", animationDelay: "120ms" }}
                 >
                   <Check size={15} strokeWidth={2.5} />
                 </div>
@@ -181,8 +181,8 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
             <>
               <div className="flex items-center gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center"
-                  style={{ background: "var(--earn-red-10)", color: "var(--earn-red)" }}
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center animate-pop-in"
+                  style={{ background: "var(--earn-red-10)", color: "var(--earn-red)", animationDelay: "120ms" }}
                 >
                   <X size={15} strokeWidth={2.5} />
                 </div>
@@ -198,7 +198,7 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
 
           <button
             onClick={handleNext}
-            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white"
+            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
             style={{ background: "var(--earn-indigo)" }}
           >
             Next →
@@ -208,8 +208,8 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
 
       {/* ── Contest ended sheet ── */}
       {showContestEnded && (
-        <div className="absolute inset-0 bg-black/40 flex items-end">
-          <div className="bg-white rounded-t-3xl w-full p-6 pb-10">
+        <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in">
+          <div className="bg-white rounded-t-3xl w-full p-6 pb-10 animate-sheet-up">
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3"
@@ -229,14 +229,14 @@ export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
             <div className="flex gap-2">
               <button
                 onClick={() => onNavigate("post-compete")}
-                className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border"
+                className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
                 style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
               >
                 View my earnings
               </button>
               <button
                 onClick={() => onNavigate("contest-browse")}
-                className="flex-1 py-3 rounded-2xl text-[14px] font-semibold text-white"
+                className="flex-1 py-3 rounded-2xl text-[14px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
                 style={{ background: "var(--earn-indigo)" }}
               >
                 Browse contests

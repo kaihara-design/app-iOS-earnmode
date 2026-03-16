@@ -48,7 +48,8 @@ function ContestCard({
 }) {
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-gray-100 bg-white cursor-pointer active:scale-[0.99] transition-transform"
+      className="rounded-2xl overflow-hidden border border-gray-100 bg-white cursor-pointer active:scale-[0.98] transition-transform duration-[120ms]"
+      style={{ willChange: "transform" }}
       onClick={onClick}
     >
       {/* Hero image */}
@@ -98,7 +99,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className="flex-shrink-0 px-3 py-1 rounded-full text-[13px] font-medium border transition-colors"
+              className="flex-shrink-0 px-3 py-1 rounded-full text-[13px] font-medium border transition-all duration-[200ms] active:scale-[0.94]"
               style={
                 activeFilter === f
                   ? { background: "var(--earn-teal)", color: "white", borderColor: "transparent" }
@@ -114,7 +115,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
       {/* Contest list */}
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {/* Earn Mode contest — REDESIGNED */}
-        <div>
+        <div className="animate-fade-up" style={{ animationDelay: "0ms" }}>
           <div className="flex items-center gap-1.5 mb-1.5 px-0.5">
             <div
               className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full flex items-center gap-1"
@@ -128,7 +129,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             image="linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)"
             title="Diabetic Retinopathy"
             isEarnMode
-            onClick={() => onNavigate("contest-detail")}
+            onClick={() => onNavigate("contest-detail-new")}
             prizeChip={
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
@@ -152,54 +153,60 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
         </div>
 
         {/* Accuracy contest */}
-        <ContestCard
-          image="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)"
-          title="Diabetic Retinopathy"
-          prizeChip={
-            <Chip color="#f3f3ff" textColor="#6155f5" icon={<Trophy size={10} />} label="$70 Pool" />
-          }
-          modeChip={
-            <Chip color="#6155f5" label="Accuracy" />
-          }
-          deadline="Ends in 10 hours"
-        />
+        <div className="animate-fade-up" style={{ animationDelay: "60ms" }}>
+          <ContestCard
+            image="linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)"
+            title="Diabetic Retinopathy"
+            prizeChip={
+              <Chip color="#f3f3ff" textColor="#6155f5" icon={<Trophy size={10} />} label="$70 Pool" />
+            }
+            modeChip={
+              <Chip color="#6155f5" label="Accuracy" />
+            }
+            deadline="Ends in 10 hours"
+          />
+        </div>
 
         {/* Streak contest */}
-        <ContestCard
-          image="linear-gradient(135deg, #1a1a1a 0%, #333 100%)"
-          title="Endoscopy (Erosions and Ulcers) Long Contest Title"
-          prizeChip={
-            <Chip color="#fff3e0" textColor="#e65100" icon={<Trophy size={10} />} label="$20 Pool" />
-          }
-          modeChip={
-            <Chip color="#FF9500" label="Streak" />
-          }
-          deadline="Ends in 1 day 23 hours"
-        />
+        <div className="animate-fade-up" style={{ animationDelay: "120ms" }}>
+          <ContestCard
+            image="linear-gradient(135deg, #1a1a1a 0%, #333 100%)"
+            title="Endoscopy (Erosions and Ulcers) Long Contest Title"
+            prizeChip={
+              <Chip color="#fff3e0" textColor="#e65100" icon={<Trophy size={10} />} label="$20 Pool" />
+            }
+            modeChip={
+              <Chip color="#FF9500" label="Streak" />
+            }
+            deadline="Ends in 1 day 23 hours"
+          />
+        </div>
 
         {/* Earn Mode — exhausted state */}
-        <ContestCard
-          image="linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)"
-          title="Chest X-Ray Pathology"
-          prizeChip={
-            <span
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
-              style={{ background: "var(--gray-6)", color: "var(--label-secondary)" }}
-            >
-              Prize claimed
-            </span>
-          }
-          modeChip={
-            <span
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
-            >
-              <Coins size={10} />
-              Earn Mode
-            </span>
-          }
-          deadline="Contest ended · $0.00 remaining"
-        />
+        <div className="animate-fade-up" style={{ animationDelay: "180ms" }}>
+          <ContestCard
+            image="linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)"
+            title="Chest X-Ray Pathology"
+            prizeChip={
+              <span
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium"
+                style={{ background: "var(--gray-6)", color: "var(--label-secondary)" }}
+              >
+                Prize claimed
+              </span>
+            }
+            modeChip={
+              <span
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+              >
+                <Coins size={10} />
+                Earn Mode
+              </span>
+            }
+            deadline="Contest ended · $0.00 remaining"
+          />
+        </div>
       </div>
 
       {/* Bottom nav */}
