@@ -5,12 +5,13 @@ import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check } from "lucide-re
 
 interface LabelingOptionBProps {
   onNavigate: (screen: string) => void;
+  initialFeedback?: "earned" | "not-earned";
 }
 
 type FeedbackState = "none" | "earned" | "not-earned";
 
-export function LabelingOptionB({ onNavigate }: LabelingOptionBProps) {
-  const [feedback, setFeedback] = useState<FeedbackState>("none");
+export function LabelingOptionB({ onNavigate, initialFeedback }: LabelingOptionBProps) {
+  const [feedback, setFeedback] = useState<FeedbackState>(initialFeedback ?? "none");
   const [sessionEarnings, setSessionEarnings] = useState(0.09);
   const [qualifiedCount, setQualifiedCount] = useState(3);
   const [readCount, setReadCount] = useState(3);

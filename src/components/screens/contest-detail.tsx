@@ -6,11 +6,12 @@ import {
   Lock, Target, Eye, Check, Coins,
 } from "lucide-react";
 
-type UserState = "new" | "post-compete";
+type UserState = "new" | "post-compete" | "returning";
 
 interface ContestDetailProps {
   onNavigate: (screen: string) => void;
   userState?: UserState;
+  initialShowRules?: boolean;
 }
 
 // Session data (used in post-compete state)
@@ -18,9 +19,9 @@ const SESSION_EARNED = 0.12;
 const SESSION_QUALIFIED = 4;
 const SESSION_TOTAL = 5;
 
-export function ContestDetail({ onNavigate, userState = "new" }: ContestDetailProps) {
-  const [showOnboarding, setShowOnboarding] = useState(userState === "new");
-  const [showRulesSheet, setShowRulesSheet] = useState(false);
+export function ContestDetail({ onNavigate, userState = "new", initialShowRules = false }: ContestDetailProps) {
+  const [showOnboarding, setShowOnboarding] = useState(userState === "new" && !initialShowRules);
+  const [showRulesSheet, setShowRulesSheet] = useState(initialShowRules);
   const [stepsCompleted] = useState(
     userState !== "new" ? [true, true, true, true] : [true, false, false, false]
   );

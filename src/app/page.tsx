@@ -34,21 +34,46 @@ const ALL_SCREENS: Screen[] = [
   "contest-complete",
 ];
 
+function getInitialScreen(): Screen {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    const s = params.get("screen") as Screen;
+    if (s && ALL_SCREENS.includes(s)) return s;
+  }
+  return "contest-browse";
+}
+
+function getSheetParam(): string | null {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("sheet");
+  }
+  return null;
+}
+
+function getFeedbackParam(): string | null {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search).get("feedback");
+  }
+  return null;
+}
+
 export default function Home() {
-  const [screen, setScreen] = useState<Screen>("contest-browse");
+  const [screen, setScreen] = useState<Screen>(getInitialScreen);
+  const sheet = getSheetParam();
+  const feedback = getFeedbackParam() as "earned" | "not-earned" | null;
 
   function renderScreen() {
     switch (screen) {
       case "contest-browse":
         return <ContestBrowse onNavigate={(s) => setScreen(s as Screen)} />;
       case "contest-detail-new":
-        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="new" />;
+        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="new" initialShowRules={sheet === "rules"} />;
       case "contest-detail-post-compete":
         return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="post-compete" />;
       case "labeling-option-a":
-        return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} />;
+        return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
       case "labeling-option-b":
-        return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} />;
+        return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
       case "contest-complete":
         return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
     }

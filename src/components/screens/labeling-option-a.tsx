@@ -5,6 +5,7 @@ import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check } from "lucide-re
 
 interface LabelingOptionAProps {
   onNavigate: (screen: string) => void;
+  initialFeedback?: "earned" | "not-earned";
 }
 
 type FeedbackState = "none" | "earned" | "not-earned";
@@ -13,8 +14,8 @@ const notEarnedScore = 64;
 const earnedScore = 74;
 const qualityBar = 70;
 
-export function LabelingOptionA({ onNavigate }: LabelingOptionAProps) {
-  const [feedback, setFeedback] = useState<FeedbackState>("none");
+export function LabelingOptionA({ onNavigate, initialFeedback }: LabelingOptionAProps) {
+  const [feedback, setFeedback] = useState<FeedbackState>(initialFeedback ?? "none");
   const [sessionEarnings, setSessionEarnings] = useState(0.09);
   const [qualifiedCount, setQualifiedCount] = useState(3);
   const [readCount, setReadCount] = useState(3);
