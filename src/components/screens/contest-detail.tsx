@@ -15,9 +15,9 @@ interface ContestDetailProps {
 }
 
 // Session data (used in post-compete state)
-const SESSION_EARNED = 0.12;
-const SESSION_QUALIFIED = 4;
-const SESSION_TOTAL = 5;
+const SESSION_EARNED = 20.0;
+const SESSION_QUALIFIED = 667;
+const SESSION_TOTAL = 680;
 
 export function ContestDetail({ onNavigate, userState = "new", initialShowRules = false }: ContestDetailProps) {
   const [showOnboarding, setShowOnboarding] = useState(userState === "new" && !initialShowRules);
@@ -74,7 +74,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             <div className="flex items-start gap-3 mb-3">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal)", color: "white" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <DollarSign size={18} strokeWidth={2.5} />
               </div>
@@ -144,13 +144,13 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <Trophy size={18} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-semibold">Rules and Prizes</p>
-                <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal-deep)", fontWeight: 600 }}>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal)", fontWeight: 600 }}>
                   Earn $0.03 per qualified read · up to $20.00
                 </p>
               </div>
@@ -204,7 +204,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                     className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
                     style={
                       stepsCompleted[i]
-                        ? { background: "var(--earn-teal)", color: "white" }
+                        ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)" }
                         : isNew && i === 1
                         ? { background: "var(--earn-indigo)", color: "white" }
                         : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
@@ -265,12 +265,12 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             >
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal)", color: "white" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <DollarSign size={18} strokeWidth={2.5} />
               </div>
               <div>
-                <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal)" }}>
                   $0.03 per qualified read
                 </p>
                 <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
@@ -342,7 +342,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
             >
               <Coins size={24} />
             </div>

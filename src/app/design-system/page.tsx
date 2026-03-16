@@ -123,7 +123,7 @@ export default function DesignSystem() {
               className="w-7 h-7 rounded-lg flex items-center justify-center"
               style={{ background: "var(--earn-teal-10)" }}
             >
-              <Coins size={14} style={{ color: "var(--earn-teal-deep)" }} />
+              <Coins size={14} style={{ color: "var(--earn-teal)" }} />
             </div>
             <span className="text-[13px] font-bold" style={{ color: "var(--label-primary)" }}>DiagnosUs iOS</span>
           </div>
@@ -145,7 +145,7 @@ export default function DesignSystem() {
           <a
             href="/"
             className="text-[11px] flex items-center gap-1 hover:opacity-80"
-            style={{ color: "var(--earn-teal-deep)", textDecoration: "none" }}
+            style={{ color: "var(--earn-teal)", textDecoration: "none" }}
           >
             <ChevronLeft size={12} />
             Back to mockup
@@ -158,7 +158,7 @@ export default function DesignSystem() {
 
         {/* Page header */}
         <div className="mb-12">
-          <p className="text-[12px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--earn-teal-deep)" }}>
+          <p className="text-[12px] font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--earn-teal)" }}>
             iOS · DiagnosUs
           </p>
           <h1 className="text-[36px] font-bold mb-3" style={{ color: "var(--label-primary)" }}>Design System</h1>
@@ -330,7 +330,7 @@ export default function DesignSystem() {
           <ComponentBlock label="Secondary Outline">
             <button
               className="px-8 py-3 rounded-2xl text-[15px] font-semibold border"
-              style={{ borderColor: "var(--earn-teal)", color: "var(--earn-teal-deep)" }}
+              style={{ borderColor: "var(--earn-teal)", color: "var(--earn-teal)" }}
             >
               Browse contests
             </button>
@@ -389,7 +389,7 @@ export default function DesignSystem() {
             >
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <Trophy size={18} />
               </div>
@@ -406,7 +406,7 @@ export default function DesignSystem() {
               className="w-full rounded-2xl p-4"
               style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
             >
-              <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal-deep)" }}>
+              <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal)" }}>
                 DIABETIC RETINOPATHY · EARN MODE
               </p>
               <div className="flex items-center gap-3 mb-3">
@@ -417,7 +417,7 @@ export default function DesignSystem() {
                   <Check size={18} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="text-[26px] font-bold leading-none" style={{ color: "var(--earn-teal-deep)" }}>$0.12</p>
+                  <p className="text-[26px] font-bold leading-none" style={{ color: "var(--earn-teal)" }}>$0.12</p>
                   <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>earned this session</p>
                 </div>
               </div>
@@ -425,8 +425,8 @@ export default function DesignSystem() {
                 className="flex items-center gap-2 pt-3"
                 style={{ borderTop: "1px solid rgba(0,106,101,0.2)" }}
               >
-                <Trophy size={14} style={{ color: "var(--earn-teal-deep)" }} />
-                <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                <Trophy size={14} style={{ color: "var(--earn-teal)" }} />
+                <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal)" }}>
                   4 qualified reads <span className="font-normal" style={{ color: "var(--label-secondary)" }}>out of 5 total</span>
                 </p>
               </div>
@@ -481,7 +481,7 @@ export default function DesignSystem() {
                 <div className="flex flex-wrap gap-1.5 mb-1.5">
                   <span
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                    style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                    style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
                   >
                     <Coins size={10} />$0.03/read
                   </span>
@@ -520,10 +520,10 @@ export default function DesignSystem() {
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: "var(--earn-indigo-10)", color: "var(--earn-indigo)" }}>
               4/4 Completed
             </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}>
               <Sparkles size={9} />Recommended
             </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}>
               <Coins size={10} />$0.03/read
             </span>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium" style={{ background: "#f2f2f7", color: "var(--label-secondary)" }}>
@@ -536,7 +536,7 @@ export default function DesignSystem() {
 
           <ComponentBlock label="Icon Bubbles">
             {[
-              { bg: "var(--earn-teal-10)", color: "var(--earn-teal-deep)", icon: <Check size={15} strokeWidth={2.5} />, label: "Earned" },
+              { bg: "var(--earn-teal-10)", color: "var(--earn-teal)", icon: <Check size={15} strokeWidth={2.5} />, label: "Earned" },
               { bg: "var(--earn-red-10)", color: "var(--earn-red)", icon: <X size={15} strokeWidth={2.5} />, label: "Not earned" },
               { bg: "#ebf9ee", color: "#34c759", icon: <Check size={13} strokeWidth={2.5} />, label: "Completed" },
               { bg: "var(--earn-indigo)", color: "white", icon: <p className="text-[12px] font-semibold leading-none">2</p>, label: "Step number" },
@@ -563,7 +563,7 @@ export default function DesignSystem() {
             <div className="w-full space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>$0.12 earned</span>
+                  <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)" }}>$0.12 earned</span>
                   <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>up to $20.00 max</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.2)" }}>
@@ -572,7 +572,7 @@ export default function DesignSystem() {
               </div>
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>$9.50 earned</span>
+                  <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)" }}>$9.50 earned</span>
                   <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>up to $20.00 max</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.2)" }}>
@@ -601,7 +601,7 @@ export default function DesignSystem() {
           <ComponentBlock label="Score Bar — Quality Threshold">
             <div className="w-full">
               <div className="flex justify-between mb-2">
-                <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Quality score</span>
+                <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)" }}>Quality score</span>
                 <span className="text-[11px] font-semibold" style={{ color: "var(--label-secondary)" }}>Earn at 70+</span>
               </div>
               <div className="relative h-3 rounded-full overflow-hidden">
@@ -640,10 +640,10 @@ export default function DesignSystem() {
               <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-4 pb-6">
                 <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
                 <div className="flex items-center gap-2.5 mb-1">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}>
                     <Check size={15} strokeWidth={2.5} />
                   </div>
-                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Earned · +$0.03</p>
+                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>Earned · +$0.03</p>
                 </div>
                 <p className="text-[12px] mb-4 ml-[42px]" style={{ color: "var(--label-secondary)" }}>$0.12 earned this session</p>
                 <button className="w-full py-3 rounded-2xl text-[14px] font-semibold text-white" style={{ background: "var(--earn-indigo)" }}>
@@ -688,7 +688,7 @@ export default function DesignSystem() {
           <ComponentBlock label="Navigation Bar — Earn Mode (teal back)">
             <div className="w-full">
               <div className="px-4 pt-2 pb-3 border-b flex items-center gap-3 bg-white" style={{ borderColor: "var(--gray-5)" }}>
-                <button style={{ color: "var(--earn-teal-deep)" }}>
+                <button style={{ color: "var(--earn-teal)" }}>
                   <X size={20} />
                 </button>
                 <h1 className="text-[17px] font-semibold">Contest Complete</h1>
@@ -719,7 +719,7 @@ export default function DesignSystem() {
 
           <div
             className="rounded-xl p-4 mb-6 text-[13px] leading-relaxed"
-            style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)", color: "var(--earn-teal-deep)" }}
+            style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)", color: "var(--earn-teal)" }}
           >
             Earn Mode uses a two-color system: <strong>teal (#006A65)</strong> for identity and informational elements
             (badge, HUD, earned state, earnings card), and <strong>indigo (#6155f5)</strong> for all universal action CTAs
@@ -755,10 +755,10 @@ export default function DesignSystem() {
             <div className="flex-1 min-w-[200px] bg-white rounded-2xl px-5 pt-4 pb-5 border" style={{ borderColor: "var(--gray-5)" }}>
               <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
               <div className="flex items-center gap-2.5 mb-1">
-                <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}>
+                <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}>
                   <Check size={15} strokeWidth={2.5} />
                 </div>
-                <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Earned · +$0.03</p>
+                <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>Earned · +$0.03</p>
               </div>
               <p className="text-[12px] ml-[42px]" style={{ color: "var(--label-secondary)" }}>$0.12 earned this session</p>
             </div>
@@ -781,7 +781,7 @@ export default function DesignSystem() {
                 <thead>
                   <tr style={{ borderBottom: "2px solid var(--gray-5)" }}>
                     <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--label-primary)" }}>Element</th>
-                    <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--earn-teal-deep)" }}>Color</th>
+                    <th className="text-left py-2 pr-4 font-semibold" style={{ color: "var(--earn-teal)" }}>Color</th>
                     <th className="text-left py-2 font-semibold" style={{ color: "var(--label-secondary)" }}>Rule</th>
                   </tr>
                 </thead>
@@ -800,7 +800,7 @@ export default function DesignSystem() {
                   ].map(([el, token, rule]) => (
                     <tr key={el} style={{ borderBottom: "1px solid var(--gray-5)" }}>
                       <td className="py-2 pr-4 font-medium" style={{ color: "var(--label-primary)" }}>{el}</td>
-                      <td className="py-2 pr-4 font-mono" style={{ color: rule === "Identity" ? "var(--earn-teal-deep)" : "var(--earn-indigo)" }}>{token}</td>
+                      <td className="py-2 pr-4 font-mono" style={{ color: rule === "Identity" ? "var(--earn-teal)" : "var(--earn-indigo)" }}>{token}</td>
                       <td className="py-2" style={{ color: "var(--label-secondary)" }}>{rule}</td>
                     </tr>
                   ))}

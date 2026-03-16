@@ -1,16 +1,16 @@
 "use client";
 
-import { ChevronLeft, Check, X, Trophy } from "lucide-react";
+import { ChevronLeft, Check, X } from "lucide-react";
 
 interface PostCompeteProps {
   onNavigate: (screen: string) => void;
 }
 
 export function PostCompete({ onNavigate }: PostCompeteProps) {
-  const earned = 0.12;
+  const earned = 20.0;
   const maxEarnings = 20.0;
-  const qualifiedReads = 4;
-  const totalReads = 5;
+  const qualifiedReads = 667;
+  const totalReads = 680;
   const progressPct = (earned / maxEarnings) * 100;
 
   return (
@@ -27,14 +27,14 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
         {/* Earnings summary card */}
         <div
           className="rounded-2xl p-4"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)" }}
+          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(56,220,209,0.2)" }}
         >
-          <p className="text-[12px] font-semibold mb-1" style={{ color: "var(--earn-teal-deep)" }}>
+          <p className="text-[12px] font-semibold mb-1" style={{ color: "var(--earn-teal)" }}>
             DIABETIC RETINOPATHY · EARN MODE
           </p>
           <div className="flex items-end gap-3 mb-3">
             <div>
-              <p className="text-[32px] font-bold" style={{ color: "var(--earn-teal-deep)" }}>
+              <p className="text-[32px] font-bold" style={{ color: "var(--earn-teal)" }}>
                 ${earned.toFixed(2)}
               </p>
               <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>earned this session</p>
@@ -50,14 +50,14 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
           {/* Progress bar */}
           <div className="mb-1.5">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-medium" style={{ color: "var(--earn-teal-deep)" }}>
+              <span className="text-[11px] font-medium" style={{ color: "var(--earn-teal)" }}>
                 ${earned.toFixed(2)} earned
               </span>
               <span className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
                 up to ${maxEarnings.toFixed(2)} max
               </span>
             </div>
-            <div className="h-2 rounded-full" style={{ background: "rgba(0,106,101,0.15)" }}>
+            <div className="h-2 rounded-full" style={{ background: "rgba(56,220,209,0.20)" }}>
               <div
                 className="h-2 rounded-full"
                 style={{ background: "var(--earn-teal)", width: `${progressPct}%` }}
@@ -68,7 +68,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
 
         {/* Read quality breakdown */}
         <div>
-          <p className="text-[15px] font-semibold mb-2">This session</p>
+          <p className="text-[15px] font-semibold mb-2">Recent reads</p>
           <div className="space-y-2">
             {[
               { read: 1, earned: true, amount: 0.03 },
@@ -87,7 +87,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
                     className="w-7 h-7 rounded-full flex items-center justify-center"
                     style={
                       didEarn
-                        ? { background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }
+                        ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)" }
                         : { background: "var(--earn-red-10)", color: "var(--earn-red)" }
                     }
                   >
@@ -99,7 +99,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
                 </div>
                 <span
                   className="text-[13px] font-semibold"
-                  style={{ color: didEarn ? "var(--earn-teal-deep)" : "var(--label-tertiary)" }}
+                  style={{ color: didEarn ? "var(--earn-teal)" : "var(--label-tertiary)" }}
                 >
                   {didEarn ? `+$${amount.toFixed(2)}` : "—"}
                 </span>
@@ -108,32 +108,6 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
           </div>
         </div>
 
-        {/* Milestone progress */}
-        <div
-          className="rounded-2xl p-4"
-          style={{ background: "var(--earn-indigo-10)", border: "1px solid var(--earn-indigo-30)" }}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <Trophy size={16} style={{ color: "var(--earn-indigo)" }} />
-            <p className="text-[14px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
-              Milestone: 100 qualified reads
-            </p>
-          </div>
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>
-              {qualifiedReads} / 100 qualified reads
-            </span>
-            <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
-              $5 bonus
-            </span>
-          </div>
-          <div className="h-1.5 rounded-full" style={{ background: "var(--earn-indigo-30)" }}>
-            <div
-              className="h-1.5 rounded-full"
-              style={{ background: "var(--earn-indigo)", width: `${(qualifiedReads / 100) * 100}%` }}
-            />
-          </div>
-        </div>
       </div>
 
       {/* CTA */}

@@ -1,15 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { X, DollarSign, Check } from "lucide-react";
 
 interface ContestCompleteProps {
   onNavigate: (screen: string) => void;
 }
 
+const confettiItems = [
+  { tx: "0px",   ty: "-56px", delay: "200ms", color: "var(--earn-teal)" },
+  { tx: "40px",  ty: "-40px", delay: "230ms", color: "var(--earn-indigo)" },
+  { tx: "56px",  ty: "0px",   delay: "200ms", color: "var(--earn-teal)" },
+  { tx: "40px",  ty: "40px",  delay: "250ms", color: "var(--earn-indigo)" },
+  { tx: "0px",   ty: "56px",  delay: "210ms", color: "var(--earn-teal)" },
+  { tx: "-40px", ty: "40px",  delay: "230ms", color: "var(--earn-indigo)" },
+  { tx: "-56px", ty: "0px",   delay: "200ms", color: "var(--earn-teal)" },
+  { tx: "-40px", ty: "-40px", delay: "250ms", color: "var(--earn-indigo)" },
+];
+
 export function ContestComplete({ onNavigate }: ContestCompleteProps) {
   const earned = 0.12;
   const qualifiedReads = 4;
   const totalReads = 5;
+
+  const [displayEarned, setDisplayEarned] = useState(0);
+  useEffect(() => {
+    const duration = 900;
+    const startDelay = 320;
+    let startTime: number | null = null;
+    let raf: number;
+    const timeout = setTimeout(() => {
+      const tick = (now: number) => {
+        if (!startTime) startTime = now;
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        setDisplayEarned(parseFloat((eased * earned).toFixed(2)));
+        if (progress < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, startDelay);
+    return () => { clearTimeout(timeout); cancelAnimationFrame(raf); };
+  }, []);
 
   return (
     <div className="h-full flex flex-col" style={{ background: "#fff" }}>
@@ -25,66 +56,72 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
         >
           <X size={20} />
         </button>
-        <h1 className="text-[17px] font-semibold">Contest Complete</h1>
+        <h1 className="text-[17px] font-semibold">Session Complete</h1>
       </div>
 
-      {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto flex flex-col items-center justify-center px-6 text-center py-10">
+      {/* Centered body */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
 
-        {/* Completion icon */}
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center mb-5 animate-pop-in"
-          style={{ background: "var(--earn-teal-10)", animationDelay: "80ms" }}
-        >
-          <DollarSign size={36} style={{ color: "var(--earn-teal-deep)" }} />
+        {/* Icon — supporting role, with confetti burst */}
+        <div className="relative mb-5">
+          {confettiItems.map((c, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 rounded-sm animate-confetti-fly pointer-events-none"
+              style={{
+                top: "50%",
+                left: "50%",
+                background: c.color,
+                animationDelay: c.delay,
+                "--tx": c.tx,
+                "--ty": c.ty,
+              } as React.CSSProperties}
+            />
+          ))}
+          <div className="animate-float" style={{ animationDelay: "440ms" }}>
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center animate-pop-in"
+              style={{ background: "var(--earn-teal-10)", animationDelay: "60ms" }}
+            >
+              <DollarSign size={28} color="var(--earn-teal)" />
+            </div>
+          </div>
         </div>
 
-        {/* Headline */}
-        <h2 className="text-[22px] font-bold mb-2 animate-fade-up" style={{ color: "var(--label-primary)", animationDelay: "220ms" }}>
-          You&apos;ve read them all
-        </h2>
-        <p className="text-[14px] leading-relaxed mb-6 animate-fade-up" style={{ color: "var(--label-secondary)", animationDelay: "300ms" }}>
-          You&apos;ve completed all available cases in this contest. New cases may appear as more are added.
+        {/* Context label */}
+        <p
+          className="text-[11px] font-semibold tracking-wide mb-2 animate-fade-up"
+          style={{ color: "var(--earn-teal)", animationDelay: "200ms", letterSpacing: "0.04em" }}
+        >
+          EARN MODE · DIABETIC RETINOPATHY
         </p>
 
-        {/* Earnings summary card */}
-        <div
-          className="w-full rounded-2xl p-4 text-left animate-fade-up"
-          style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.2)", animationDelay: "380ms" }}
+        {/* HERO: earnings — this is the headline */}
+        <p
+          className="text-[48px] font-bold leading-none tabular-nums mb-1.5 animate-fade-up"
+          style={{ color: "var(--earn-teal)", animationDelay: "240ms" }}
         >
-          <p className="text-[11px] font-semibold mb-2" style={{ color: "var(--earn-teal-deep)" }}>
-            DIABETIC RETINOPATHY · EARN MODE
-          </p>
+          ${displayEarned.toFixed(2)}
+        </p>
+        <p
+          className="text-[15px] mb-6 animate-fade-up"
+          style={{ color: "var(--label-secondary)", animationDelay: "290ms" }}
+        >
+          earned this session
+        </p>
 
-          <div className="flex items-center gap-3 mb-3">
-            <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--earn-teal)", color: "white" }}
-            >
-              <Check size={18} strokeWidth={2.5} />
-            </div>
-            <div>
-              <p className="text-[26px] font-bold leading-none" style={{ color: "var(--earn-teal-deep)" }}>
-                ${earned.toFixed(2)}
-              </p>
-              <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
-                earned this session
-              </p>
-            </div>
-          </div>
-
-          <div
-            className="flex items-center gap-2 pt-3"
-            style={{ borderTop: "1px solid rgba(0,106,101,0.2)" }}
-          >
-            <Check size={14} style={{ color: "var(--earn-teal-deep)", flexShrink: 0 }} />
-            <p className="text-[13px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
-              {qualifiedReads} qualified reads&nbsp;
-              <span className="font-normal" style={{ color: "var(--label-secondary)" }}>
-                out of {totalReads} total
-              </span>
-            </p>
-          </div>
+        {/* Stats row */}
+        <div
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl animate-fade-up"
+          style={{ background: "var(--earn-teal-10)", animationDelay: "350ms" }}
+        >
+          <Check size={13} strokeWidth={2.5} style={{ color: "var(--earn-teal)", flexShrink: 0 }} />
+          <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal)" }}>
+            {qualifiedReads} qualified
+          </span>
+          <span className="text-[13px]" style={{ color: "var(--label-tertiary)" }}>
+            · {totalReads} total reads
+          </span>
         </div>
       </div>
 
@@ -98,7 +135,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--earn-indigo)" }}
         >
-          Back to contest
+          View my earnings
         </button>
         <button
           onClick={() => onNavigate("contest-browse")}

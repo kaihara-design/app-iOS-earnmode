@@ -97,7 +97,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback }: LabelingOptionA
         <div className="flex items-center gap-1.5">
           <span
             className="px-2 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1"
-            style={{ background: "var(--earn-teal)", color: "white" }}
+            style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
           >
             <Coins size={10} />
             Earn
@@ -169,13 +169,13 @@ export function LabelingOptionA({ onNavigate, initialFeedback }: LabelingOptionA
             <>
               <div className="flex items-start gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5 animate-pop-in"
-                  style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)", animationDelay: "120ms" }}
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5 animate-pop-in animate-earned-glow"
+                  style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)", animationDelay: "120ms" }}
                 >
                   <Check size={15} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal-deep)" }}>
+                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>
                     Earned · Score: {earnedScore}
                   </p>
                   <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>

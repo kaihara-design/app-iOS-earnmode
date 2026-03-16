@@ -7,6 +7,7 @@ import { ContestDetail } from "@/components/screens/contest-detail";
 import { LabelingOptionA } from "@/components/screens/labeling-option-a";
 import { LabelingOptionB } from "@/components/screens/labeling-option-b";
 import { ContestComplete } from "@/components/screens/contest-complete";
+import { ContestCompleteConfetti } from "@/components/screens/contest-complete-confetti";
 
 type Screen =
   | "contest-browse"
@@ -14,7 +15,8 @@ type Screen =
   | "contest-detail-post-compete"
   | "labeling-option-a"
   | "labeling-option-b"
-  | "contest-complete";
+  | "contest-complete"
+  | "contest-complete-confetti";
 
 const SCREEN_LABELS: Record<Screen, string> = {
   "contest-browse": "Contest Browse",
@@ -23,6 +25,7 @@ const SCREEN_LABELS: Record<Screen, string> = {
   "labeling-option-a": "Labeling — Option A (score visible)",
   "labeling-option-b": "Labeling — Option B (pass/fail)",
   "contest-complete": "Contest Complete",
+  "contest-complete-confetti": "Contest Complete — Max Earned",
 };
 
 const ALL_SCREENS: Screen[] = [
@@ -32,6 +35,7 @@ const ALL_SCREENS: Screen[] = [
   "labeling-option-a",
   "labeling-option-b",
   "contest-complete",
+  "contest-complete-confetti",
 ];
 
 function getInitialScreen(): Screen {
@@ -76,6 +80,8 @@ export default function Home() {
         return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
       case "contest-complete":
         return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
+      case "contest-complete-confetti":
+        return <ContestCompleteConfetti onNavigate={(s) => setScreen(s as Screen)} />;
     }
   }
 
@@ -98,7 +104,7 @@ export default function Home() {
             className="text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
             style={
               screen === s
-                ? { background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)", fontWeight: 700 }
+                ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)", fontWeight: 700 }
                 : { color: "#555" }
             }
           >
@@ -119,7 +125,7 @@ export default function Home() {
           <a
             href="/design-system"
             className="block px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
-            style={{ color: "var(--earn-teal-deep)", background: "var(--earn-teal-10)", textDecoration: "none" }}
+            style={{ color: "var(--earn-teal)", background: "var(--earn-teal-10)", textDecoration: "none" }}
           >
             → Design System
           </a>

@@ -35,7 +35,6 @@ function ContestCard({
   prizeChip,
   modeChip,
   deadline,
-  isEarnMode,
   onClick,
 }: {
   image: string;
@@ -43,7 +42,6 @@ function ContestCard({
   prizeChip: React.ReactNode;
   modeChip: React.ReactNode;
   deadline: string;
-  isEarnMode?: boolean;
   onClick?: () => void;
 }) {
   return (
@@ -64,7 +62,7 @@ function ContestCard({
         <div className="flex flex-wrap gap-1.5 mb-1.5">
           {prizeChip}
           {modeChip}
-          <Chip color="#e8e5ff" textColor="#6155f5" label="Individual" />
+          <Chip color="var(--earn-indigo-10)" textColor="var(--earn-indigo)" label="Individual" />
         </div>
         <p className="text-[11px] flex items-center gap-1" style={{ color: "var(--label-secondary)" }}>
           <Clock size={10} />
@@ -88,7 +86,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             Compete
           </h1>
           <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <Clock size={14} color="#666" />
+            <Clock size={14} color="var(--label-secondary)" />
           </button>
         </div>
         <p className="text-[20px] font-semibold mb-2.5">Contests</p>
@@ -102,7 +100,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
               className="flex-shrink-0 px-3 py-1 rounded-full text-[13px] font-medium border transition-all duration-[200ms] active:scale-[0.94]"
               style={
                 activeFilter === f
-                  ? { background: "var(--earn-teal)", color: "white", borderColor: "transparent" }
+                  ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)", borderColor: "transparent" }
                   : { background: "white", color: "var(--label-primary)", borderColor: "var(--gray-5)" }
               }
             >
@@ -119,7 +117,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
           <div className="flex items-center gap-1.5 mb-1.5 px-0.5">
             <div
               className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full flex items-center gap-1"
-              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
             >
               <Sparkles size={9} />
               Recommended
@@ -128,12 +126,11 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
           <ContestCard
             image="linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)"
             title="Diabetic Retinopathy"
-            isEarnMode
             onClick={() => onNavigate("contest-detail-new")}
             prizeChip={
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <Coins size={10} />
                 $0.03/read
@@ -198,7 +195,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             modeChip={
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal-deep)" }}
+                style={{ background: "var(--earn-teal)", color: "white" }}
               >
                 <Coins size={10} />
                 Earn Mode
