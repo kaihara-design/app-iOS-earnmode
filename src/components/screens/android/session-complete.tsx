@@ -150,7 +150,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
             /* Max Earned: larger icon */
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center animate-pop-in"
-              style={{ background: "rgba(56,220,209,0.12)", animationDelay: "80ms" }}
+              style={{ background: "var(--earn-teal-10)", animationDelay: "80ms" }}
             >
               <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#006A65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2.5-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>
@@ -160,7 +160,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
             /* Session: standard icon */
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center animate-pop-in"
-              style={{ background: "rgba(56,220,209,0.12)", animationDelay: "60ms" }}
+              style={{ background: "var(--earn-teal-10)", animationDelay: "60ms" }}
             >
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#006A65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2.5-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>
@@ -214,7 +214,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
       {/* ── CTAs ── */}
       <div
         className="relative z-10 px-4 pb-8 pt-3 flex flex-col gap-2 shrink-0"
-        style={{ borderTop: "1px solid #f0e8f0", background: "white" }}
+        style={{ borderTop: "1px solid #D2C1D4", background: "white" }}
       >
         {isMax ? (
           <>

@@ -115,7 +115,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
         <div
           className="rounded-[24px] px-5 py-5 mb-5"
           style={{
-            background: isEarned ? "#006A65" : "#B3261E",
+            background: isEarned ? "#006A65" : "#BA1A1A",
           }}
         >
             <div className="flex items-start gap-3">
@@ -165,7 +165,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
                   {/* Score marker */}
                   <div
                     className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-white -translate-y-1/2 -translate-x-1/2"
-                    style={{ left: `${NOT_EARNED_SCORE}%`, background: "#B3261E" }}
+                    style={{ left: `${NOT_EARNED_SCORE}%`, background: "#BA1A1A" }}
                   />
                 </div>
                 <div className="flex justify-between mt-1">
@@ -198,7 +198,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
             className="rounded-[16px] px-4 py-3 mb-5"
             style={{ background: "#FFF8F7", border: "1px solid #F2B8B5" }}
           >
-            <p className="text-[13px] font-medium mb-1" style={{ color: "#B3261E" }}>Tips to improve your score</p>
+            <p className="text-[13px] font-medium mb-1" style={{ color: "#BA1A1A" }}>Tips to improve your score</p>
             <div className="flex flex-col gap-1">
               {[
                 "Tight boxes — avoid excess space around the lesion",
@@ -235,7 +235,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
       {/* ── Next Case CTA ── */}
       <div
         className="px-4 pb-6 pt-3 shrink-0"
-        style={{ borderTop: "1px solid #f0e8f0", background: "white" }}
+        style={{ borderTop: "1px solid #D2C1D4", background: "white" }}
       >
         <button
           onClick={() => onNavigate("android-labeling")}

@@ -103,7 +103,7 @@ export default function AndroidPage() {
   }
 
   return (
-    <main className="min-h-screen flex" style={{ background: "#f0f0f0" }}>
+    <main className="android-screen min-h-screen flex" style={{ background: "#f0f0f0" }}>
       {/* Sidebar */}
       <aside
         className="w-56 flex-shrink-0 p-4 flex flex-col gap-1 border-r overflow-y-auto"

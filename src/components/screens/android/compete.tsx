@@ -229,7 +229,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
       {/* Bottom navigation bar */}
       <div
         className="flex items-stretch border-t px-2 shrink-0"
-        style={{ borderColor: "#e0e0e0", background: "white", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)" }}
+        style={{ borderColor: "#D2C1D4", background: "white", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)" }}
       >
         {[
           { label: "Compete", icon: <ChecklistIcon />, active: true },

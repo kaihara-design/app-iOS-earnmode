@@ -136,7 +136,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
     <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
 
       {/* Top App Bar */}
-      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white", borderBottom: "1px solid #f0e8f0" }}>
+      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white", borderBottom: "1px solid #D2C1D4" }}>
         <button
           onClick={() => onNavigate("android-compete")}
           className="w-12 h-12 flex items-center justify-center rounded-full"
@@ -182,14 +182,14 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
         <div className="px-4 pt-4">
           <div
             className="rounded-[20px] overflow-hidden"
-            style={{ border: "1px solid #006A65", background: "rgba(56,220,209,0.06)" }}
+            style={{ border: "1px solid #006A65", background: "var(--earn-teal-10)" }}
           >
             {/* Card header */}
             <div className="px-4 pt-4 pb-3">
               <div className="flex items-center gap-3 mb-3">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: "rgba(0,106,101,0.12)", color: "#006A65" }}
+                  style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
                 >
                   <DollarIcon size={18} />
                 </div>
@@ -219,7 +219,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
               {/* Personal cap bar */}
               <div
                 className="h-[8px] rounded-full overflow-hidden mb-1.5"
-                style={{ background: "rgba(56,220,209,0.15)" }}
+                style={{ background: "var(--earn-teal-10)" }}
               >
                 <div
                   className="h-full rounded-full"
@@ -251,7 +251,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                style={{ background: "rgba(0,106,101,0.10)", color: "#006A65" }}
+                style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
               >
                 <TrophyIcon />
               </div>
@@ -280,7 +280,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
             </button>
 
             {stepsExpanded && (
-              <div className="px-4 pb-4" style={{ borderTop: "1px solid #f0e8f0" }}>
+              <div className="px-4 pb-4" style={{ borderTop: "1px solid #D2C1D4" }}>
                 <div className="pt-3 flex flex-col gap-2">
                   {[
                     { label: "Mode", value: "Accuracy" },
@@ -326,7 +326,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
                       className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[13px] font-medium"
                       style={
                         step.done
-                          ? { background: "rgba(0,106,101,0.10)", color: "#006A65" }
+                          ? { background: "var(--earn-teal-10)", color: "#006A65" }
                           : isNew && i === 1
                           ? { background: "#8D2EBC", color: "white" }
                           : { background: "#F7EAF6", color: "#807383" }
@@ -401,11 +401,11 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
             {/* Earnings summary */}
             <div
               className="rounded-[20px] p-4 flex items-center gap-3 mb-5"
-              style={{ background: "rgba(56,220,209,0.08)", border: "1px solid #006A65" }}
+              style={{ background: "var(--earn-teal-10)", border: "1px solid #006A65" }}
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                style={{ background: "rgba(0,106,101,0.12)", color: "#006A65" }}
+                style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
               >
                 <DollarIcon size={18} />
               </div>
@@ -427,7 +427,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
               style={{ background: "#FAFAFA", border: "1px solid #D2C1D4" }}
             >
               <div className="relative h-3 rounded-full overflow-hidden mb-1.5" style={{ background: "#EEDDF0" }}>
-                <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "rgba(179,38,30,0.15)" }} />
+                <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "rgba(186,26,26,0.15)" }} />
                 <div className="absolute top-0 h-full rounded-r-full" style={{ left: "70%", right: 0, background: "rgba(0,106,101,0.15)" }} />
                 <div className="absolute top-0 h-full w-[2px]" style={{ left: "70%", background: "#006A65" }} />
               </div>
@@ -438,7 +438,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
               </div>
               <div className="flex gap-4">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#B3261E" }} />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#BA1A1A" }} />
                   <span className="text-[12px]" style={{ color: "#4E4352" }}>Below 70 — not earned</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -484,7 +484,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
             <div className="w-8 h-1 rounded-full mx-auto mb-5" style={{ background: "#D2C1D4" }} />
             <div
               className="w-12 h-12 rounded-[16px] flex items-center justify-center mb-4"
-              style={{ background: "rgba(0,106,101,0.10)", color: "#006A65" }}
+              style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
             >
               <CoinsIcon />
             </div>

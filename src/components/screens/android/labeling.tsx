@@ -144,12 +144,12 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
       {/* ── Earn Mode HUD — inline, between progress and image ── */}
       <div
         className="mx-4 mb-2 rounded-[12px] flex items-center justify-between px-3 py-2 shrink-0"
-        style={{ background: "rgba(56,220,209,0.08)", border: "1px solid rgba(0,106,101,0.25)" }}
+        style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.25)" }}
       >
         <div className="flex items-center gap-1.5">
           <div
             className="flex items-center gap-1 px-2 rounded-full"
-            style={{ height: "22px", background: "rgba(0,106,101,0.12)" }}
+            style={{ height: "22px", background: "var(--earn-teal-10)" }}
           >
             <DollarIcon />
             <span className="text-[10px] font-medium tracking-[0.3px]" style={{ color: "#006A65" }}>Earn Mode</span>
@@ -308,7 +308,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
             {/* Icon */}
             <div
               className="w-12 h-12 rounded-[16px] flex items-center justify-center mb-3"
-              style={{ background: "rgba(0,106,101,0.10)", color: "#006A65" }}
+              style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
             >
               <DollarIcon />
             </div>
@@ -321,7 +321,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
             {/* Earnings summary */}
             <div
               className="rounded-[16px] px-4 py-3 mb-5"
-              style={{ background: "rgba(56,220,209,0.08)", border: "1px solid rgba(0,106,101,0.20)" }}
+              style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.20)" }}
             >
               <p className="text-[16px] font-medium" style={{ color: "#006A65" }}>
                 ${sessionEarnings.toFixed(2)} earned · {qualifiedCount} qualified reads

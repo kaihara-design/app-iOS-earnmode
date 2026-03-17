@@ -76,6 +76,52 @@
 
 }
 
+/* ─── Android M3 color tokens — DiagnosUs Android (Figma vivKqmZsusL8rqpQYVHjll) ─── */
+/* Light theme — sourced from Light.tokens.json Figma variable export                  */
+/* Scoped to .android-screen so they don't collide with iOS/web token names            */
+.android-screen {
+  --md-primary: #62008B;
+  --md-on-primary: #FFFFFF;
+  --md-surface-tint: #8D2EBC;
+  --md-primary-container: #8D2EBC;        /* Main CTA fill, active nav pill, selected chips */
+  --md-on-primary-container: #FFFFFF;
+  --md-secondary: #006A65;               /* Earn Mode identity color */
+  --md-on-secondary: #FFFFFF;
+  --md-secondary-container: #38DCD1;     /* Bright teal — dark surfaces / special contexts only */
+  --md-on-secondary-container: #003D3A;
+  --md-tertiary: #000000;
+  --md-on-tertiary: #FFFFFF;
+  --md-tertiary-container: #262626;
+  --md-on-tertiary-container: #B1B1B1;
+  --md-error: #BA1A1A;
+  --md-on-error: #FFFFFF;
+  --md-error-container: #FFDAD6;
+  --md-on-error-container: #410002;
+  --md-background: #FFFFFF;
+  --md-on-background: #201922;           /* Primary body text */
+  --md-surface: #FFF7FC;
+  --md-on-surface: #201922;
+  --md-surface-variant: #EEDDF0;         /* Progress bar tracks, tinted fills */
+  --md-on-surface-variant: #4E4352;      /* Secondary text, supporting copy */
+  --md-outline: #807383;
+  --md-outline-variant: #D2C1D4;         /* Card borders, dividers */
+  --md-shadow: #000000;
+  --md-scrim: #000000;
+  --md-inverse-surface: #352E37;
+  --md-inverse-on-surface: #FAEDF9;
+  --md-inverse-primary: #E9B3FF;
+  --md-surface-dim: #E3D6E2;
+  --md-surface-bright: #FFF7FC;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #FDF0FC;
+  --md-surface-container: #F7EAF6;       /* Active segmented control bg */
+  --md-surface-container-high: #F1E4F1;
+  --md-surface-container-highest: #EBDFEB;
+  /* Additional semantic */
+  --md-grey-outline: #D7D7D7;
+  --md-success: #20C36F;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
