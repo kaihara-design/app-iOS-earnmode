@@ -22,9 +22,7 @@ const SESSION_TOTAL = 680;
 export function ContestDetail({ onNavigate, userState = "new", initialShowRules = false }: ContestDetailProps) {
   const [showOnboarding, setShowOnboarding] = useState(userState === "new" && !initialShowRules);
   const [showRulesSheet, setShowRulesSheet] = useState(initialShowRules);
-  const [stepsCompleted] = useState(
-    userState !== "new" ? [true, true, true, true] : [true, false, false, false]
-  );
+  const [stepsCompleted] = useState([true, true, true, true]);
 
   const isNew = userState === "new";
 
