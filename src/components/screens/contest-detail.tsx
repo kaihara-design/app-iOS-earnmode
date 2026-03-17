@@ -232,17 +232,17 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
           </div>
         )}
 
-      </div>
+        {/* CTA */}
+        <div className="px-4 pt-4 pb-8">
+          <button
+            onClick={() => onNavigate(userState === "post-compete" ? "contest-browse" : "labeling-option-b")}
+            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
+            style={{ background: "var(--earn-indigo)" }}
+          >
+            {userState === "post-compete" ? "Browse contests" : "Compete"}
+          </button>
+        </div>
 
-      {/* CTA */}
-      <div className="shrink-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
-        <button
-          onClick={() => onNavigate(userState === "post-compete" ? "contest-browse" : "labeling-option-b")}
-          className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-          style={{ background: "var(--earn-indigo)" }}
-        >
-          {userState === "post-compete" ? "Browse contests" : "Compete"}
-        </button>
       </div>
 
       {/* Rules & Prizes / Score Explained sheet */}

@@ -358,30 +358,27 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
           </div>
         )}
 
-      </div>
+        {/* ── CTA ── */}
+        <div className="px-4 pt-2 pb-8">
+          {userState === "post-compete" ? (
+            <button
+              onClick={() => onNavigate("android-compete")}
+              className="w-full flex items-center justify-center"
+              style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+            >
+              <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => onNavigate("android-labeling")}
+              className="w-full flex items-center justify-center"
+              style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+            >
+              <span className="text-[14px] font-medium tracking-[0.1px]">Compete</span>
+            </button>
+          )}
+        </div>
 
-      {/* ── Sticky CTA ── */}
-      <div
-        className="shrink-0 px-4 pb-6 pt-3"
-        style={{ background: "white", borderTop: "1px solid #f0e8f0", boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}
-      >
-        {userState === "post-compete" ? (
-          <button
-            onClick={() => onNavigate("android-compete")}
-            className="w-full flex items-center justify-center"
-            style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
-          >
-            <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
-          </button>
-        ) : (
-          <button
-            onClick={() => onNavigate("android-labeling")}
-            className="w-full flex items-center justify-center"
-            style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
-          >
-            <span className="text-[14px] font-medium tracking-[0.1px]">Compete</span>
-          </button>
-        )}
       </div>
 
       {/* ── Rules & Prizes bottom sheet ── */}
