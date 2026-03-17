@@ -2,11 +2,12 @@
 
 // Android Earn Mode — Case Result screen (full screen, not sheet)
 // A1 decision (2026-03-17): extend existing Case Result with Earn Mode score card variants
-// Variant: "earned" (teal), "not-earned" (error red), "no-score" (contribution)
+// Every Earn Mode case has an inherited score — no contribution/no-score variant
+// Variant: "earned" (teal card, score ≥ 70), "not-earned" (error red card, score < 70)
 
 interface CaseResultProps {
   onNavigate: (screen: string) => void;
-  variant?: "earned" | "not-earned" | "no-score";
+  variant?: "earned" | "not-earned";
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -35,13 +36,6 @@ function XCircleIcon() {
   );
 }
 
-function BrainIcon() {
-  return (
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
-    </svg>
-  );
-}
 
 function SearchIcon() {
   return (
@@ -67,13 +61,6 @@ function ArrowRightIcon() {
   );
 }
 
-function HelpIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
-    </svg>
-  );
-}
 
 // ─── Variant config ───────────────────────────────────────────────────────────
 
@@ -88,7 +75,6 @@ const SESSION_QUALIFIED = 4;
 export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResultProps) {
   const isEarned = variant === "earned";
   const isNotEarned = variant === "not-earned";
-  const isNoScore = variant === "no-score";
 
   return (
     <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
@@ -125,14 +111,13 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
       {/* ── Scrollable content ── */}
       <div className="flex-1 overflow-y-auto px-4 pb-6">
 
-        {/* ── Score card (Earn Mode variants) ── */}
-        {!isNoScore && (
-          <div
-            className="rounded-[24px] px-5 py-5 mb-5"
-            style={{
-              background: isEarned ? "#006A65" : "#B3261E",
-            }}
-          >
+        {/* ── Score card ── */}
+        <div
+          className="rounded-[24px] px-5 py-5 mb-5"
+          style={{
+            background: isEarned ? "#006A65" : "#B3261E",
+          }}
+        >
             <div className="flex items-start gap-3">
               {/* Icon */}
               <div style={{ color: "rgba(255,255,255,0.9)", marginTop: "2px" }}>
@@ -191,33 +176,13 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
               </div>
             )}
           </div>
-        )}
-
-        {/* No-score illustration */}
-        {isNoScore && (
-          <div className="flex flex-col items-center py-4 mb-4">
-            <div style={{ color: "#EEDDF0" }}>
-              <BrainIcon />
-            </div>
-          </div>
-        )}
 
         {/* ── Standard result copy ── */}
         <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "#201922" }}>
-          {isNoScore ? "Your response is submitted!" : "Thanks! Your response is submitted!"}
+          Thanks! Your response is submitted!
         </p>
 
-        {isNoScore ? (
-          <div className="mb-5">
-            <div className="flex items-center gap-1.5 mb-1">
-              <HelpIcon />
-              <p className="text-[14px] font-medium" style={{ color: "#4E4352" }}>Why wasn&apos;t I scored?</p>
-            </div>
-            <p className="text-[14px] leading-relaxed" style={{ color: "#4E4352" }}>
-              This was a Contribution Case — your response helps train our models but isn&apos;t scored for quality. These cases don&apos;t affect your earnings.
-            </p>
-          </div>
-        ) : isEarned ? (
+        {isEarned ? (
           <p className="text-[14px] leading-relaxed mb-5" style={{ color: "#4E4352" }}>
             Your annotation hit the quality threshold. Visit the case again to see the expert reference response.
           </p>

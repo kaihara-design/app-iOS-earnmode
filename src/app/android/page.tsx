@@ -14,7 +14,6 @@ type AndroidScreen =
   | "android-labeling"
   | "android-case-result-earned"
   | "android-case-result-not-earned"
-  | "android-case-result-no-score"
   | "android-contest-ended"
   | "android-session-complete"
   | "android-max-earned";
@@ -25,7 +24,6 @@ const SCREEN_LABELS: Record<AndroidScreen, string> = {
   "android-labeling": "Labeling — Box Seg",
   "android-case-result-earned": "Case Result — Earned",
   "android-case-result-not-earned": "Case Result — Not Earned",
-  "android-case-result-no-score": "Case Result — Contribution",
   "android-contest-ended": "Contest Ended (mid-session)",
   "android-session-complete": "Session Complete",
   "android-max-earned": "Max Earned",
@@ -37,23 +35,12 @@ const ALL_SCREENS: AndroidScreen[] = [
   "android-labeling",
   "android-case-result-earned",
   "android-case-result-not-earned",
-  "android-case-result-no-score",
   "android-contest-ended",
   "android-session-complete",
   "android-max-earned",
 ];
 
-const BUILT_SCREENS: AndroidScreen[] = [
-  "android-compete",
-  "android-contest-detail",
-  "android-labeling",
-  "android-case-result-earned",
-  "android-case-result-not-earned",
-  "android-case-result-no-score",
-  "android-contest-ended",
-  "android-session-complete",
-  "android-max-earned",
-];
+const BUILT_SCREENS: AndroidScreen[] = ALL_SCREENS;
 
 function PlaceholderScreen({ label }: { label: string }) {
   return (
@@ -106,8 +93,6 @@ export default function AndroidPage() {
         return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="earned" />;
       case "android-case-result-not-earned":
         return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="not-earned" />;
-      case "android-case-result-no-score":
-        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="no-score" />;
       case "android-session-complete":
         return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="session" />;
       case "android-max-earned":
