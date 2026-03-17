@@ -6,6 +6,7 @@ import { AndroidCompete } from "@/components/screens/android/compete";
 import { AndroidContestDetail } from "@/components/screens/android/contest-detail";
 import { AndroidLabeling } from "@/components/screens/android/labeling";
 import { AndroidCaseResult } from "@/components/screens/android/case-result";
+import { AndroidSessionComplete } from "@/components/screens/android/session-complete";
 
 type AndroidScreen =
   | "android-compete"
@@ -50,6 +51,8 @@ const BUILT_SCREENS: AndroidScreen[] = [
   "android-case-result-not-earned",
   "android-case-result-no-score",
   "android-contest-ended",
+  "android-session-complete",
+  "android-max-earned",
 ];
 
 function PlaceholderScreen({ label }: { label: string }) {
@@ -105,6 +108,10 @@ export default function AndroidPage() {
         return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="not-earned" />;
       case "android-case-result-no-score":
         return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="no-score" />;
+      case "android-session-complete":
+        return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="session" />;
+      case "android-max-earned":
+        return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="max" />;
       default:
         return <PlaceholderScreen label={SCREEN_LABELS[screen]} />;
     }
