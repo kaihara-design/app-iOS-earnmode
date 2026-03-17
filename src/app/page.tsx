@@ -12,30 +12,33 @@ import { ContestCompleteConfetti } from "@/components/screens/contest-complete-c
 type Screen =
   | "contest-browse"
   | "contest-detail-new"
-  | "contest-detail-post-compete"
   | "labeling-option-a"
   | "labeling-option-b"
+  | "labeling-contest-ended"
   | "contest-complete"
-  | "contest-complete-confetti";
+  | "contest-complete-confetti"
+  | "contest-detail-post-compete";
 
 const SCREEN_LABELS: Record<Screen, string> = {
   "contest-browse": "Contest Browse",
-  "contest-detail-new": "Contest Detail — New User",
-  "contest-detail-post-compete": "Contest Detail — Post-Compete",
-  "labeling-option-a": "Labeling — Option A (score visible)",
+  "contest-detail-new": "Contest Detail — New",
+  "labeling-option-a": "Labeling — Option A (score)",
   "labeling-option-b": "Labeling — Option B (pass/fail)",
-  "contest-complete": "Contest Complete",
-  "contest-complete-confetti": "Contest Complete — Max Earned",
+  "labeling-contest-ended": "Contest Ended (mid-session)",
+  "contest-complete": "Session Complete",
+  "contest-complete-confetti": "Max Earned — Celebration",
+  "contest-detail-post-compete": "Contest Detail — Post-Compete",
 };
 
 const ALL_SCREENS: Screen[] = [
   "contest-browse",
   "contest-detail-new",
-  "contest-detail-post-compete",
   "labeling-option-a",
   "labeling-option-b",
+  "labeling-contest-ended",
   "contest-complete",
   "contest-complete-confetti",
+  "contest-detail-post-compete",
 ];
 
 function getInitialScreen(): Screen {
@@ -78,6 +81,8 @@ export default function Home() {
         return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
       case "labeling-option-b":
         return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
+      case "labeling-contest-ended":
+        return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} initialShowContestEnded={true} />;
       case "contest-complete":
         return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
       case "contest-complete-confetti":
@@ -111,15 +116,6 @@ export default function Home() {
             {SCREEN_LABELS[s]}
           </button>
         ))}
-
-        <div className="mt-4 pt-4 border-t" style={{ borderColor: "#eee" }}>
-          <p className="text-[10px] mb-2" style={{ color: "#bbb" }}>PROBLEM</p>
-          <div className="space-y-1 text-[11px]" style={{ color: "#888" }}>
-            <p>1 → Browse / Detail / Onboarding</p>
-            <p>2 → Labeling A/B / Back to contest detail</p>
-            <p>3 → Contest ended (tap Next in labeling)</p>
-          </div>
-        </div>
 
         <div className="mt-4 pt-4 border-t" style={{ borderColor: "#eee" }}>
           <a

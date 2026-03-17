@@ -229,7 +229,7 @@ export function LabelingOptionB({ onNavigate, initialFeedback }: LabelingOptionB
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => onNavigate("post-compete")}
+                onClick={() => onNavigate("contest-detail-post-compete")}
                 className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
                 style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
               >

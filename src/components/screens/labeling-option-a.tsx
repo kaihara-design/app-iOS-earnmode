@@ -6,6 +6,7 @@ import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check } from "lucide-re
 interface LabelingOptionAProps {
   onNavigate: (screen: string) => void;
   initialFeedback?: "earned" | "not-earned";
+  initialShowContestEnded?: boolean;
 }
 
 type FeedbackState = "none" | "earned" | "not-earned";
@@ -14,12 +15,12 @@ const notEarnedScore = 64;
 const earnedScore = 74;
 const qualityBar = 70;
 
-export function LabelingOptionA({ onNavigate, initialFeedback }: LabelingOptionAProps) {
+export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContestEnded }: LabelingOptionAProps) {
   const [feedback, setFeedback] = useState<FeedbackState>(initialFeedback ?? "none");
   const [sessionEarnings, setSessionEarnings] = useState(0.09);
   const [qualifiedCount, setQualifiedCount] = useState(3);
   const [readCount, setReadCount] = useState(3);
-  const [showContestEnded, setShowContestEnded] = useState(false);
+  const [showContestEnded, setShowContestEnded] = useState(initialShowContestEnded ?? false);
 
   function handleEarned() {
     setFeedback("earned");
@@ -243,7 +244,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback }: LabelingOptionA
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => onNavigate("post-compete")}
+                onClick={() => onNavigate("contest-detail-post-compete")}
                 className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
                 style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
               >
