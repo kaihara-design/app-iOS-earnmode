@@ -4,6 +4,8 @@ import { useState } from "react";
 import { AndroidPhoneFrame } from "@/components/android-phone-frame";
 import { AndroidCompete } from "@/components/screens/android/compete";
 import { AndroidContestDetail } from "@/components/screens/android/contest-detail";
+import { AndroidLabeling } from "@/components/screens/android/labeling";
+import { AndroidCaseResult } from "@/components/screens/android/case-result";
 
 type AndroidScreen =
   | "android-compete"
@@ -40,7 +42,15 @@ const ALL_SCREENS: AndroidScreen[] = [
   "android-max-earned",
 ];
 
-const BUILT_SCREENS: AndroidScreen[] = ["android-compete", "android-contest-detail"];
+const BUILT_SCREENS: AndroidScreen[] = [
+  "android-compete",
+  "android-contest-detail",
+  "android-labeling",
+  "android-case-result-earned",
+  "android-case-result-not-earned",
+  "android-case-result-no-score",
+  "android-contest-ended",
+];
 
 function PlaceholderScreen({ label }: { label: string }) {
   return (
@@ -85,6 +95,16 @@ export default function AndroidPage() {
         return <AndroidCompete onNavigate={(s) => setScreen(s as AndroidScreen)} />;
       case "android-contest-detail":
         return <AndroidContestDetail onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+      case "android-labeling":
+        return <AndroidLabeling onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+      case "android-contest-ended":
+        return <AndroidLabeling onNavigate={(s) => setScreen(s as AndroidScreen)} initialShowContestEnded={true} />;
+      case "android-case-result-earned":
+        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="earned" />;
+      case "android-case-result-not-earned":
+        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="not-earned" />;
+      case "android-case-result-no-score":
+        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="no-score" />;
       default:
         return <PlaceholderScreen label={SCREEN_LABELS[screen]} />;
     }
