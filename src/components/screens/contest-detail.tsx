@@ -41,7 +41,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
   const userEarnedPct = (userEarned / personalCap) * 100;
 
   return (
-    <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
+    <div className="h-full flex flex-col" style={{ background: "#fff" }}>
       {/* Hero image */}
       <div className="relative h-[200px] flex-shrink-0" style={{ background: "linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)" }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -61,7 +61,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       </div>
 
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="flex-1 overflow-y-auto">
 
         {/* ── Earnings status card ── */}
         <div className="px-4 pt-4">
@@ -235,7 +235,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       </div>
 
       {/* CTA */}
-      <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
+      <div className="shrink-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
         <button
           onClick={() => onNavigate(userState === "post-compete" ? "contest-browse" : "labeling-option-b")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"

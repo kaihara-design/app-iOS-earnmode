@@ -133,7 +133,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
   ];
 
   return (
-    <div className="flex flex-col h-full relative" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
+    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
 
       {/* Top App Bar */}
       <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white", borderBottom: "1px solid #f0e8f0" }}>
@@ -153,7 +153,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
       </div>
 
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto pb-24">
+      <div className="flex-1 overflow-y-auto">
 
         {/* Hero image */}
         <div className="relative shrink-0" style={{ height: "180px", background: "linear-gradient(135deg, #0d4a55 0%, #1a6b7a 100%)" }}>
@@ -362,7 +362,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
 
       {/* ── Sticky CTA ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 px-4 pb-6 pt-3"
+        className="shrink-0 px-4 pb-6 pt-3"
         style={{ background: "white", borderTop: "1px solid #f0e8f0", boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}
       >
         {userState === "post-compete" ? (
