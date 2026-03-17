@@ -134,7 +134,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
         </p>
 
         {/* Contest cards */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-6">
           {CONTESTS.map((contest) => (
             <button
               key={contest.id}
@@ -229,7 +229,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
       {/* Bottom navigation bar */}
       <div
         className="flex items-stretch border-t px-2 shrink-0"
-        style={{ borderColor: "#D2C1D4", background: "white", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)" }}
+        style={{ borderColor: "#D2C1D4", background: "white", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)", height: "80px" }}
       >
         {[
           { label: "Compete", icon: <ChecklistIcon />, active: true },
@@ -237,7 +237,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
           { label: "Learn", icon: <BookIcon />, active: false },
           { label: "Profile", icon: <PersonIcon />, active: false },
         ].map(({ label, icon, active }) => (
-          <div key={label} className="flex-1 flex flex-col items-center justify-center gap-1 py-3">
+          <div key={label} className="flex-1 flex flex-col items-center justify-center gap-1 py-4">
             <div
               className="flex items-center justify-center"
               style={{

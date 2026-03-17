@@ -82,7 +82,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
       {/* ── Top App Bar ── */}
       <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white" }}>
         <div className="w-12 h-12" />
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-1" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
           Case Result
         </p>
         <button

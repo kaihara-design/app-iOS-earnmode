@@ -144,7 +144,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
         >
           <BackIcon />
         </button>
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-1" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
           Contest Detail
         </p>
         <button className="w-12 h-12 flex items-center justify-center" style={{ color: "#201922" }}>

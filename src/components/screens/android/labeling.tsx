@@ -115,7 +115,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
       {/* ── Top App Bar ── */}
       <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white" }}>
         <div className="w-12 h-12" /> {/* spacer — no back nav on immersive screen */}
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-1" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
           Labeling
         </p>
         <button
@@ -200,7 +200,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
 
         {/* Instruction text */}
         <p
-          className="text-center mt-3 mb-2 text-[14px] leading-snug"
+          className="text-center mt-3 mb-2 text-[16px] leading-snug"
           style={{ color: "#201922", fontWeight: 500 }}
         >
           Draw a bounding box around all lesions visible in this pathology slide.
