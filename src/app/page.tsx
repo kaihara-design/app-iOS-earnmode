@@ -99,9 +99,14 @@ export default function Home() {
         className="w-56 flex-shrink-0 p-4 flex flex-col gap-1 border-r"
         style={{ background: "white", borderColor: "#e0e0e0" }}
       >
-        <p className="text-[11px] font-bold uppercase tracking-widest mb-3 mt-1" style={{ color: "#999" }}>
-          Earn Mode Mockup
-        </p>
+        <div className="mb-3 mt-1">
+          <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#999" }}>
+            Earn Mode — iOS
+          </p>
+          <p className="text-[10px] mt-1" style={{ color: "#bbb" }}>
+            Apple HIG · SF Pro
+          </p>
+        </div>
         {ALL_SCREENS.map((s) => (
           <button
             key={s}
@@ -117,7 +122,14 @@ export default function Home() {
           </button>
         ))}
 
-        <div className="mt-4 pt-4 border-t" style={{ borderColor: "#eee" }}>
+        <div className="mt-4 pt-4 border-t flex flex-col gap-1" style={{ borderColor: "#eee" }}>
+          <a
+            href="/android"
+            className="block px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
+            style={{ color: "#555", textDecoration: "none" }}
+          >
+            → Android Mockup
+          </a>
           <a
             href="/design-system"
             className="block px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
