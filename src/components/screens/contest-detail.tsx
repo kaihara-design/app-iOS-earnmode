@@ -236,7 +236,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
         <div className="px-4 pt-4 pb-8">
           <button
             onClick={() => onNavigate(userState === "post-compete" ? "contest-browse" : "labeling-option-b")}
-            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
+            disabled={userState === "new" && !stepsCompleted.every(Boolean)}
+            className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ background: "var(--earn-indigo)" }}
           >
             {userState === "post-compete" ? "Browse contests" : "Compete"}
