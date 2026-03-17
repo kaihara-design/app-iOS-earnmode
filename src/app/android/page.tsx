@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AndroidPhoneFrame } from "@/components/android-phone-frame";
 import { AndroidCompete } from "@/components/screens/android/compete";
+import { AndroidContestDetail } from "@/components/screens/android/contest-detail";
 
 type AndroidScreen =
   | "android-compete"
@@ -39,7 +40,7 @@ const ALL_SCREENS: AndroidScreen[] = [
   "android-max-earned",
 ];
 
-const BUILT_SCREENS: AndroidScreen[] = ["android-compete"];
+const BUILT_SCREENS: AndroidScreen[] = ["android-compete", "android-contest-detail"];
 
 function PlaceholderScreen({ label }: { label: string }) {
   return (
@@ -82,6 +83,8 @@ export default function AndroidPage() {
     switch (screen) {
       case "android-compete":
         return <AndroidCompete onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+      case "android-contest-detail":
+        return <AndroidContestDetail onNavigate={(s) => setScreen(s as AndroidScreen)} />;
       default:
         return <PlaceholderScreen label={SCREEN_LABELS[screen]} />;
     }
