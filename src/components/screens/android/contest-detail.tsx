@@ -115,8 +115,6 @@ function EyeIcon() {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const PERSONAL_CAP = 20.0;
-const POOL_TOTAL = 2000;
-const POOL_REMAINING = 1850;
 
 export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestDetailProps) {
   const [showRulesSheet, setShowRulesSheet] = useState(false);
@@ -236,16 +234,6 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
                   ${PERSONAL_CAP.toFixed(0)} cap
                 </span>
               </div>
-            </div>
-
-            {/* Divider */}
-            <div style={{ height: "1px", background: "rgba(0,106,101,0.15)" }} />
-
-            {/* Pool remaining footer */}
-            <div className="px-4 py-2.5">
-              <p className="text-[12px]" style={{ color: "#4E4352" }}>
-                ${POOL_REMAINING.toLocaleString()} of ${POOL_TOTAL.toLocaleString()} prize pool remaining
-              </p>
             </div>
           </div>
         </div>
@@ -377,20 +365,23 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
         className="absolute bottom-0 left-0 right-0 px-4 pb-6 pt-3"
         style={{ background: "white", borderTop: "1px solid #f0e8f0", boxShadow: "0 -4px 12px rgba(0,0,0,0.06)" }}
       >
-        <button
-          onClick={() => onNavigate("android-labeling")}
-          className="w-full flex items-center justify-center"
-          style={{
-            height: "48px",
-            borderRadius: "100px",
-            background: "#8D2EBC",
-            color: "white",
-          }}
-        >
-          <span className="text-[14px] font-medium tracking-[0.1px]">
-            {userState === "post-compete" ? "Compete again" : "Compete"}
-          </span>
-        </button>
+        {userState === "post-compete" ? (
+          <button
+            onClick={() => onNavigate("android-compete")}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+          >
+            <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => onNavigate("android-labeling")}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+          >
+            <span className="text-[14px] font-medium tracking-[0.1px]">Compete</span>
+          </button>
+        )}
       </div>
 
       {/* ── Rules & Prizes bottom sheet ── */}

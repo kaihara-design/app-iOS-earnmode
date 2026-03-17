@@ -39,8 +39,6 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
   const personalCap = 20.0;
   const userEarned = userState === "new" ? 0 : SESSION_EARNED;
   const userEarnedPct = (userEarned / personalCap) * 100;
-  const poolTotal = 2000.0;
-  const poolRemaining = 1850.0;
 
   return (
     <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
@@ -126,10 +124,6 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
               </span>
             </div>
 
-            {/* Pool remaining — text only, no bar */}
-            <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
-              ${poolRemaining.toLocaleString()} of ${poolTotal.toLocaleString()} prize pool remaining
-            </p>
           </div>
         </div>
 
@@ -243,11 +237,11 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       {/* CTA */}
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
         <button
-          onClick={() => onNavigate("labeling-option-b")}
+          onClick={() => onNavigate(userState === "post-compete" ? "contest-browse" : "labeling-option-b")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--earn-indigo)" }}
         >
-          {userState === "post-compete" ? "Compete again" : "Compete"}
+          {userState === "post-compete" ? "Browse contests" : "Compete"}
         </button>
       </div>
 
