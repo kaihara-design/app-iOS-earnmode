@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import { PhoneFrame } from "@/components/phone-frame";
 import { ContestBrowse } from "@/components/screens/contest-browse";
 import { ContestDetail } from "@/components/screens/contest-detail";
@@ -66,6 +67,7 @@ function getFeedbackParam(): string | null {
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>(getInitialScreen);
+  const [darkMode, setDarkMode] = useState(false);
   const sheet = getSheetParam();
   const feedback = getFeedbackParam() as "earned" | "not-earned" | null;
 
@@ -100,9 +102,19 @@ export default function Home() {
         style={{ background: "white", borderColor: "#e0e0e0" }}
       >
         <div className="mb-3 mt-1">
-          <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#999" }}>
-            Earn Mode — iOS
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#999" }}>
+              Earn Mode — iOS
+            </p>
+            <button
+              onClick={() => setDarkMode((d) => !d)}
+              className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+              style={{ background: darkMode ? "#1c1c1e" : "#f2f2f7", color: darkMode ? "#4dc3d0" : "#555" }}
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {darkMode ? <Sun size={13} /> : <Moon size={13} />}
+            </button>
+          </div>
           <p className="text-[10px] mt-1" style={{ color: "#bbb" }}>
             Apple HIG · SF Pro
           </p>
@@ -149,7 +161,7 @@ export default function Home() {
         </div>
 
         <PhoneFrame>
-          <div key={screen} className="animate-screen-in h-full">
+          <div key={screen} className={`animate-screen-in h-full${darkMode ? " ios-dark" : ""}`}>
             {renderScreen()}
           </div>
         </PhoneFrame>

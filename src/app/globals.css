@@ -47,33 +47,99 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Earn Mode design tokens — from DiagnosUs iOS Figma (BvtitRNTy7kUjbkLrXsB2h) */
+/* ─── iOS Design Tokens — DiagnosUs (Figma BvtitRNTy7kUjbkLrXsB2h) ─── */
+/* 3-tier token skeleton. Values marked TODO pending color review session.   */
+/* See: src/lib/tokens.ts for full typed token object.                       */
+
 :root {
-  /* Brand */
-  /* Teal: Earn Mode identity color — Android Material 3 secondary role */
-  /* Light mode values (dark mode variants in comments) */
-  --earn-teal: #006A65;                     /* Text/icon on white or tinted backgrounds */
-  --earn-teal-deep: #006A65;               /* alias */
-  --earn-teal-container: #38DCD1;          /* Reserved — bright teal for dark mode / special contexts */
-  --earn-teal-on-container: #003D3A;       /* Reserved — text on #38DCD1 fills */
-  --earn-teal-10: rgba(56, 220, 209, 0.10); /* Background fill — chips, icon bubbles, hero circles, cards */
-  /* Indigo: app primary — used for all universal action CTAs */
+  /* ── Legacy aliases (backward compat — use semantic --ios-* tokens in new code) ── */
+  --earn-teal: #006A65;
+  --earn-teal-deep: #006A65;
+  --earn-teal-container: #38DCD1;
+  --earn-teal-on-container: #003D3A;
+  --earn-teal-10: rgba(56, 220, 209, 0.10);
   --earn-indigo: #6155f5;
   --earn-indigo-10: #f3f3ff;
   --earn-indigo-30: #cdc9ff;
-  /* Feedback states */
   --earn-red: #FF3B30;
   --earn-red-10: rgba(255, 59, 48, 0.08);
-  /* Labels */
   --label-primary: #000000;
   --label-secondary: rgba(60, 60, 67, 0.60);
   --label-tertiary: rgba(60, 60, 67, 0.30);
-  /* Fills */
   --fill-quaternary: rgba(116, 116, 128, 0.08);
-  /* Grays */
   --gray-5: #e5e5ea;
   --gray-6: #f2f2f7;
 
+  /* ── Semantic tokens — light mode ── */
+  --ios-text-primary: #000000;
+  --ios-text-secondary: rgba(60, 60, 67, 0.60);
+  --ios-text-tertiary: rgba(60, 60, 67, 0.30);
+  --ios-text-vibrant: #333333;
+  --ios-text-vibrant-control: #404040;
+  --ios-text-on-color: #ffffff;
+  --ios-text-page-title: #3e4546;            /* TODO — pending color review */
+
+  --ios-surface-default: #ffffff;
+  --ios-surface-grouped: #f2f2f7;
+  --ios-surface-elevated: #ffffff;
+  --ios-surface-card: #ffffff;
+  --ios-surface-overlay: rgba(0, 0, 0, 0.50);
+
+  --ios-border-default: #e5e5ea;
+  --ios-border-separator: #e5e5ea;
+
+  --ios-tint-default: #4dc3d0;               /* TODO — Core/primary */
+  --ios-accent-teal: #00c3d0;                /* TODO — UI teal (non-Earn contexts) */
+  --ios-accent-earn-teal: #006A65;
+  --ios-accent-earn-teal-bg: rgba(56, 220, 209, 0.10);
+
+  --ios-interactive-primary: #6155f5;        /* TODO — all primary CTAs */
+  --ios-interactive-indigo-bg: #f3f3ff;
+  --ios-interactive-indigo-border: #cdc9ff;
+
+  --ios-fill-quaternary: rgba(116, 116, 128, 0.08);
+  --ios-fill-vibrant-tertiary: #ededed;
+
+  --ios-status-success: #34c759;
+  --ios-status-success-bg: #ebf9ee;
+  --ios-status-error: #FF3B30;
+  --ios-status-error-bg: rgba(255, 59, 48, 0.08);
+
+  --ios-contest-prize: #ff9500;
+  --ios-contest-prize-bg: rgba(253, 210, 80, 0.15);
+  --ios-contest-consensus: #0f6771;
+  --ios-contest-consensus-bg: rgba(42, 152, 164, 0.15);
+  --ios-contest-division: #5856d6;
+  --ios-contest-division-bg: rgba(88, 86, 214, 0.15);
+}
+
+/* ── Semantic tokens — dark mode ── */
+/* Apply .ios-dark to the phone screen container to activate dark mode tokens */
+.ios-dark {
+  --ios-text-primary: #ffffff;
+  --ios-text-secondary: rgba(235, 235, 245, 0.60);
+  --ios-text-tertiary: rgba(235, 235, 245, 0.30);
+  --ios-text-vibrant: #ffffff;
+  --ios-text-vibrant-control: #bfbfbf;
+
+  --ios-surface-default: #000000;
+  --ios-surface-grouped: #000000;
+  --ios-surface-elevated: #1c1c1e;
+  --ios-surface-card: #1c1c1e;
+
+  --ios-border-default: #2c2c2e;
+  --ios-border-separator: #2c2c2e;
+
+  --ios-tint-default: #4dc3d0;               /* TODO */
+  --ios-accent-teal: #00d2e0;                /* TODO */
+  --ios-interactive-primary: #6d7cff;        /* TODO */
+  --ios-interactive-indigo-bg: #282652;
+  --ios-interactive-indigo-border: #282652;
+
+  --ios-fill-quaternary: rgba(118, 118, 128, 0.18);
+  --ios-fill-vibrant-tertiary: #2c2c2e;      /* TODO */
+
+  --ios-status-success-bg: #193920;
 }
 
 /* ─── Android M3 color tokens — DiagnosUs Android (Figma vivKqmZsusL8rqpQYVHjll) ─── */

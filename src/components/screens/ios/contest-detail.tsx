@@ -43,7 +43,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
   const poolRemaining = 1850.0;
 
   return (
-    <div className="h-full flex flex-col relative" style={{ background: "#fff" }}>
+    <div className="h-full flex flex-col relative" style={{ background: "var(--ios-surface-default)" }}>
       {/* Hero image */}
       <div className="relative h-[200px] flex-shrink-0" style={{ background: "linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)" }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -69,7 +69,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
         <div className="px-4 pt-4">
           <div
             className="rounded-xl p-3"
-            style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}
+            style={{ background: "var(--ios-surface-grouped)", border: "1px solid var(--ios-border-default)" }}
           >
             <div className="flex items-start gap-3 mb-3">
               <div
@@ -81,28 +81,28 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
               <div className="flex-1 min-w-0">
                 {userState === "post-compete" ? (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
                       ${SESSION_EARNED.toFixed(2)} earned this session
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                       {SESSION_QUALIFIED} qualified reads · {SESSION_TOTAL} total
                     </p>
                   </>
                 ) : userState === "returning" ? (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
                       ${userEarned.toFixed(2)} earned in this contest
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                       ${(personalCap - userEarned).toFixed(2)} still available for you
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
                       Earn $0.03 per qualified read
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                       Up to ${personalCap.toFixed(2)} for you in this contest
                     </p>
                   </>
@@ -111,23 +111,23 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             </div>
 
             {/* Progress bar — personal cap */}
-            <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
+            <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: "var(--ios-border-default)" }}>
               <div
                 className="h-full rounded-full transition-all duration-[700ms] ease-out"
                 style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
               />
             </div>
             <div className="flex justify-between mb-2.5">
-              <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
+              <span className="text-[10px]" style={{ color: "var(--ios-text-tertiary)" }}>
                 {userState !== "new" ? `$${userEarned.toFixed(2)} earned` : "$0"}
               </span>
-              <span className="text-[10px]" style={{ color: "var(--label-tertiary)" }}>
+              <span className="text-[10px]" style={{ color: "var(--ios-text-tertiary)" }}>
                 ${personalCap.toFixed(0)} cap
               </span>
             </div>
 
             {/* Pool remaining — text only, no bar */}
-            <p className="text-[11px]" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[11px]" style={{ color: "var(--ios-text-secondary)" }}>
               ${poolRemaining.toLocaleString()} of ${poolTotal.toLocaleString()} prize pool remaining
             </p>
           </div>
@@ -136,7 +136,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
         {/* About this contest — R&P + Leaderboard combined */}
         <div className="px-4 pt-4">
           <p className="text-[17px] font-semibold mb-2">About this contest</p>
-          <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--gray-5)" }}>
+          <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--ios-border-default)" }}>
             {/* Rules and Prizes row */}
             <button
               onClick={() => setShowRulesSheet(true)}
@@ -154,25 +154,25 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                   Earn $0.03 per qualified read · up to $20.00
                 </p>
               </div>
-              <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
+              <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
             </button>
             {/* Divider */}
-            <div style={{ height: "1px", background: "var(--gray-5)" }} />
+            <div style={{ height: "1px", background: "var(--ios-border-default)" }} />
             {/* Leaderboard row */}
             <div className="p-3 flex items-center gap-3">
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-indigo-10)", color: "var(--earn-indigo)" }}
+                style={{ background: "var(--ios-interactive-indigo-bg)", color: "var(--ios-interactive-primary)" }}
               >
                 <BarChart2 size={18} />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-semibold">Leaderboard</p>
-                <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                   See how your earnings rank this contest
                 </p>
               </div>
-              <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
+              <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
             </div>
           </div>
         </div>
@@ -182,11 +182,11 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between mb-1">
               <p className="text-[17px] font-semibold">Steps to start earning</p>
-              <span className="text-[12px] font-semibold" style={{ color: "var(--earn-indigo)" }}>
+              <span className="text-[12px] font-semibold" style={{ color: "var(--ios-interactive-primary)" }}>
                 {isNew ? "1/4" : "4/4"} Completed
               </span>
             </div>
-            <p className="text-[12px] mb-3" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[12px] mb-3" style={{ color: "var(--ios-text-secondary)" }}>
               Complete these to unlock your earnings.
             </p>
 
@@ -196,8 +196,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                   key={i}
                   className="rounded-xl border p-3 flex items-center gap-3"
                   style={{
-                    borderColor: isNew && i === 1 ? "var(--earn-indigo)" : "var(--gray-5)",
-                    background: isNew && i === 1 ? "var(--earn-indigo-10)" : "white",
+                    borderColor: isNew && i === 1 ? "var(--ios-interactive-primary)" : "var(--ios-border-default)",
+                    background: isNew && i === 1 ? "var(--ios-interactive-indigo-bg)" : "white",
                   }}
                 >
                   <div
@@ -206,8 +206,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                       stepsCompleted[i]
                         ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)" }
                         : isNew && i === 1
-                        ? { background: "var(--earn-indigo)", color: "white" }
-                        : { background: "var(--gray-6)", color: "var(--label-tertiary)" }
+                        ? { background: "var(--ios-interactive-primary)", color: "white" }
+                        : { background: "var(--ios-surface-grouped)", color: "var(--ios-text-tertiary)" }
                     }
                   >
                     {stepsCompleted[i]
@@ -223,14 +223,14 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                       {step.label}
                     </p>
                     {step.sub && (
-                      <p className="text-[11px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                      <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                         {step.sub}
                       </p>
                     )}
                   </div>
                   {step.locked
-                    ? <Lock size={15} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
-                    : <ChevronRight size={16} style={{ color: "var(--label-tertiary)", flexShrink: 0 }} />
+                    ? <Lock size={15} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
+                    : <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
                   }
                 </div>
               ))}
@@ -241,11 +241,11 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       </div>
 
       {/* CTA */}
-      <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 bg-white border-t" style={{ borderColor: "var(--gray-5)" }}>
+      <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 border-t" style={{ background: "var(--ios-surface-default)", borderColor: "var(--ios-border-default)" }}>
         <button
           onClick={() => onNavigate("labeling-option-b")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-          style={{ background: "var(--earn-indigo)" }}
+          style={{ background: "var(--ios-interactive-primary)" }}
         >
           {userState === "post-compete" ? "Compete again" : "Compete"}
         </button>
@@ -254,8 +254,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       {/* Rules & Prizes / Score Explained sheet */}
       {showRulesSheet && (
         <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in" onClick={() => setShowRulesSheet(false)}>
-          <div className="bg-white rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto animate-sheet-up" onClick={(e) => e.stopPropagation()}>
-            <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
+          <div className="rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto animate-sheet-up" style={{ background: "var(--ios-surface-default)" }} onClick={(e) => e.stopPropagation()}>
+            <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--ios-border-default)" }} />
             <h2 className="text-[18px] font-bold mb-4">Rules &amp; Prizes</h2>
 
             {/* Earnings summary */}
@@ -273,7 +273,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                 <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal)" }}>
                   $0.03 per qualified read
                 </p>
-                <p className="text-[12px] mt-0.5" style={{ color: "var(--label-secondary)" }}>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
                   Up to $20.00 for you · $2,000 prize pool
                 </p>
               </div>
@@ -281,30 +281,30 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
 
             {/* How qualifying works */}
             <p className="text-[14px] font-semibold mb-1">How qualifying works</p>
-            <p className="text-[13px] leading-relaxed mb-4" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[13px] leading-relaxed mb-4" style={{ color: "var(--ios-text-secondary)" }}>
               Every read is scored 0–100 based on annotation quality. Meet the quality bar and you earn. Miss it and you don&apos;t.
             </p>
 
             {/* Score bar visualization */}
-            <div className="rounded-xl p-4 mb-5" style={{ background: "var(--gray-6)", border: "1px solid var(--gray-5)" }}>
-              <div className="relative h-3 rounded-full overflow-hidden mb-1" style={{ background: "var(--gray-5)" }}>
+            <div className="rounded-xl p-4 mb-5" style={{ background: "var(--ios-surface-grouped)", border: "1px solid var(--gray-5)" }}>
+              <div className="relative h-3 rounded-full overflow-hidden mb-1" style={{ background: "var(--ios-border-default)" }}>
                 <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "var(--earn-red-10)" }} />
                 <div className="absolute top-0 h-full rounded-r-full" style={{ left: "70%", right: 0, background: "var(--earn-teal-10)" }} />
                 <div className="absolute top-0 h-full w-0.5" style={{ left: "70%", background: "var(--earn-teal)" }} />
               </div>
               <div className="flex justify-between mb-3">
-                <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>0</span>
+                <span className="text-[11px]" style={{ color: "var(--ios-text-tertiary)" }}>0</span>
                 <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)", marginLeft: "calc(70% - 16px)" }}>70</span>
-                <span className="text-[11px]" style={{ color: "var(--label-tertiary)" }}>100</span>
+                <span className="text-[11px]" style={{ color: "var(--ios-text-tertiary)" }}>100</span>
               </div>
               <div className="flex gap-3">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-red)" }} />
-                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>Below 70 — not earned</span>
+                  <span className="text-[12px]" style={{ color: "var(--ios-text-secondary)" }}>Below 70 — not earned</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-teal)" }} />
-                  <span className="text-[12px]" style={{ color: "var(--label-secondary)" }}>70+ — earned</span>
+                  <span className="text-[12px]" style={{ color: "var(--ios-text-secondary)" }}>70+ — earned</span>
                 </div>
               </div>
             </div>
@@ -318,8 +318,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                 { icon: <Check size={14} />, text: "Avoiding false positives" },
               ].map((item) => (
                 <div key={item.text} className="flex items-center gap-2.5">
-                  <span className="w-5 flex justify-center flex-shrink-0" style={{ color: "var(--label-tertiary)" }}>{item.icon}</span>
-                  <p className="text-[13px]" style={{ color: "var(--label-secondary)" }}>{item.text}</p>
+                  <span className="w-5 flex justify-center flex-shrink-0" style={{ color: "var(--ios-text-tertiary)" }}>{item.icon}</span>
+                  <p className="text-[13px]" style={{ color: "var(--ios-text-secondary)" }}>{item.text}</p>
                 </div>
               ))}
             </div>
@@ -327,7 +327,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             <button
               onClick={() => setShowRulesSheet(false)}
               className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-              style={{ background: "var(--earn-indigo)" }}
+              style={{ background: "var(--ios-interactive-primary)" }}
             >
               Got it
             </button>
@@ -338,8 +338,8 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       {/* First-entry onboarding sheet */}
       {showOnboarding && (
         <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in">
-          <div className="bg-white rounded-t-3xl w-full p-6 pb-10 animate-sheet-up">
-            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
+          <div className="rounded-t-3xl w-full p-6 pb-10 animate-sheet-up" style={{ background: "var(--ios-surface-default)" }}>
+            <div className="w-10 h-1 rounded-full mx-auto mb-5" style={{ background: "var(--ios-border-default)" }} />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
               style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
@@ -347,13 +347,13 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
               <Coins size={24} />
             </div>
             <h2 className="text-[20px] font-bold mb-2">Earn Mode</h2>
-            <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--ios-text-secondary)" }}>
               Earn $0.03 for every qualified read. Your reads are scored — meet the quality bar and you earn. Miss it and you don&apos;t.
             </p>
             <button
               onClick={() => setShowOnboarding(false)}
               className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-              style={{ background: "var(--earn-indigo)" }}
+              style={{ background: "var(--ios-interactive-primary)" }}
             >
               Got it
             </button>

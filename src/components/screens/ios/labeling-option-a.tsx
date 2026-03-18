@@ -163,8 +163,8 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
 
       {/* ── Feedback bottom sheet (partial — image still visible above) ── */}
       {feedback !== "none" && !showContestEnded && (
-        <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl px-5 pt-4 pb-8 animate-sheet-up">
-          <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--gray-5)" }} />
+        <div className="absolute bottom-0 left-0 right-0 rounded-t-3xl px-5 pt-4 pb-8 animate-sheet-up" style={{ background: "var(--ios-surface-default)" }}>
+          <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--ios-border-default)" }} />
 
           {feedback === "earned" ? (
             <>
@@ -179,12 +179,12 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
                   <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>
                     Earned · Score: {earnedScore}
                   </p>
-                  <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-tertiary)" }}>
                     Quality bar: {qualityBar}+ · you cleared it
                   </p>
                 </div>
               </div>
-              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--label-secondary)" }}>
+              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
                 +$0.03 added · ${sessionEarnings.toFixed(2)} earned this session
               </p>
             </>
@@ -198,15 +198,15 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
                   <X size={15} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <p className="text-[15px] font-semibold" style={{ color: "var(--label-primary)" }}>
+                  <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
                     Score: {notEarnedScore} · Earn at {qualityBar}+
                   </p>
-                  <p className="text-[11px] mt-0.5" style={{ color: "var(--label-tertiary)" }}>
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-tertiary)" }}>
                     {qualityBar - notEarnedScore} points below the quality bar
                   </p>
                 </div>
               </div>
-              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--label-secondary)" }}>
+              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
                 More precise boxes = higher quality score = earnings.
               </p>
             </>
@@ -215,7 +215,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
           <button
             onClick={handleNext}
             className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-            style={{ background: "var(--earn-indigo)" }}
+            style={{ background: "var(--ios-interactive-primary)" }}
           >
             Next →
           </button>
@@ -225,20 +225,20 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
       {/* ── Contest ended sheet ── */}
       {showContestEnded && (
         <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in">
-          <div className="bg-white rounded-t-3xl w-full p-6 pb-10 animate-sheet-up">
-            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-5" />
+          <div className="rounded-t-3xl w-full p-6 pb-10 animate-sheet-up" style={{ background: "var(--ios-surface-default)" }}>
+            <div className="w-10 h-1 rounded-full mx-auto mb-5" style={{ background: "var(--ios-border-default)" }} />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3"
-              style={{ background: "var(--earn-indigo-10)", color: "var(--earn-indigo)" }}
+              style={{ background: "var(--ios-interactive-indigo-bg)", color: "var(--ios-interactive-primary)" }}
             >
               <DollarSign size={24} />
             </div>
             <h2 className="text-[18px] font-bold mb-2">This contest has ended</h2>
-            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--label-secondary)" }}>
+            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--ios-text-secondary)" }}>
               The prize pool was claimed while you were reading. Your earnings from this session are safe.
             </p>
-            <div className="rounded-xl px-4 py-3 mb-5" style={{ background: "var(--earn-indigo-10)" }}>
-              <p className="text-[15px] font-bold" style={{ color: "var(--earn-indigo)" }}>
+            <div className="rounded-xl px-4 py-3 mb-5" style={{ background: "var(--ios-interactive-indigo-bg)" }}>
+              <p className="text-[15px] font-bold" style={{ color: "var(--ios-interactive-primary)" }}>
                 ${sessionEarnings.toFixed(2)} earned · {qualifiedCount} qualified reads
               </p>
             </div>
@@ -246,14 +246,14 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
               <button
                 onClick={() => onNavigate("contest-detail-post-compete")}
                 className="flex-1 py-3 rounded-2xl text-[14px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
-                style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
+                style={{ borderColor: "var(--ios-interactive-primary)", color: "var(--ios-interactive-primary)" }}
               >
                 View my earnings
               </button>
               <button
                 onClick={() => onNavigate("contest-browse")}
                 className="flex-1 py-3 rounded-2xl text-[14px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-                style={{ background: "var(--earn-indigo)" }}
+                style={{ background: "var(--ios-interactive-primary)" }}
               >
                 Browse contests
               </button>

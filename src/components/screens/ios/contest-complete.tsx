@@ -9,13 +9,13 @@ interface ContestCompleteProps {
 
 const confettiItems = [
   { tx: "0px",   ty: "-56px", delay: "200ms", color: "var(--earn-teal)" },
-  { tx: "40px",  ty: "-40px", delay: "230ms", color: "var(--earn-indigo)" },
+  { tx: "40px",  ty: "-40px", delay: "230ms", color: "var(--ios-interactive-primary)" },
   { tx: "56px",  ty: "0px",   delay: "200ms", color: "var(--earn-teal)" },
-  { tx: "40px",  ty: "40px",  delay: "250ms", color: "var(--earn-indigo)" },
+  { tx: "40px",  ty: "40px",  delay: "250ms", color: "var(--ios-interactive-primary)" },
   { tx: "0px",   ty: "56px",  delay: "210ms", color: "var(--earn-teal)" },
-  { tx: "-40px", ty: "40px",  delay: "230ms", color: "var(--earn-indigo)" },
+  { tx: "-40px", ty: "40px",  delay: "230ms", color: "var(--ios-interactive-primary)" },
   { tx: "-56px", ty: "0px",   delay: "200ms", color: "var(--earn-teal)" },
-  { tx: "-40px", ty: "-40px", delay: "250ms", color: "var(--earn-indigo)" },
+  { tx: "-40px", ty: "-40px", delay: "250ms", color: "var(--ios-interactive-primary)" },
 ];
 
 export function ContestComplete({ onNavigate }: ContestCompleteProps) {
@@ -43,16 +43,16 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
   }, []);
 
   return (
-    <div className="h-full flex flex-col" style={{ background: "#fff" }}>
+    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)" }}>
 
       {/* Nav header */}
       <div
         className="px-4 pt-2 pb-3 border-b flex items-center gap-3"
-        style={{ borderColor: "var(--gray-5)" }}
+        style={{ borderColor: "var(--ios-border-default)" }}
       >
         <button
           onClick={() => onNavigate("contest-browse")}
-          style={{ color: "var(--earn-indigo)" }}
+          style={{ color: "var(--ios-interactive-primary)" }}
         >
           <X size={20} />
         </button>
@@ -105,7 +105,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
         </p>
         <p
           className="text-[15px] mb-6 animate-fade-up"
-          style={{ color: "var(--label-secondary)", animationDelay: "290ms" }}
+          style={{ color: "var(--ios-text-secondary)", animationDelay: "290ms" }}
         >
           earned this session
         </p>
@@ -119,7 +119,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
           <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal)" }}>
             {qualifiedReads} qualified
           </span>
-          <span className="text-[13px]" style={{ color: "var(--label-tertiary)" }}>
+          <span className="text-[13px]" style={{ color: "var(--ios-text-tertiary)" }}>
             · {totalReads} total reads
           </span>
         </div>
@@ -128,19 +128,19 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
       {/* Sticky CTAs */}
       <div
         className="px-4 pb-8 pt-3 border-t flex flex-col gap-2.5"
-        style={{ borderColor: "var(--gray-5)" }}
+        style={{ borderColor: "var(--ios-border-default)" }}
       >
         <button
           onClick={() => onNavigate("contest-detail-post-compete")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-          style={{ background: "var(--earn-indigo)" }}
+          style={{ background: "var(--ios-interactive-primary)" }}
         >
           View my earnings
         </button>
         <button
           onClick={() => onNavigate("contest-browse")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
-          style={{ borderColor: "var(--earn-indigo)", color: "var(--earn-indigo)" }}
+          style={{ borderColor: "var(--ios-interactive-primary)", color: "var(--ios-interactive-primary)" }}
         >
           Browse contests
         </button>
