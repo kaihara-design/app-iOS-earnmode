@@ -17,7 +17,6 @@ interface ContestDetailProps {
 // Session data (used in post-compete state)
 const SESSION_EARNED = 20.0;
 const SESSION_QUALIFIED = 667;
-const SESSION_TOTAL = 680;
 
 export function ContestDetail({ onNavigate, userState = "new", initialShowRules = false }: ContestDetailProps) {
   const [showOnboarding, setShowOnboarding] = useState(userState === "new" && !initialShowRules);
@@ -78,7 +77,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                       ${SESSION_EARNED.toFixed(2)} earned this session
                     </p>
                     <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
-                      {SESSION_QUALIFIED} qualified reads · {SESSION_TOTAL} total
+                      {SESSION_QUALIFIED} qualified reads
                     </p>
                   </>
                 ) : userState === "returning" ? (
@@ -296,7 +295,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             </div>
             <h2 className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>Earn Mode</h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--ios-text-secondary)" }}>
-              Earn $0.03 for every qualified read. Your reads are scored — meet the quality bar and you earn. Miss it and you don&apos;t.
+              Earn $0.03 for every qualified read. Your accuracy is tracked across recent cases. Meet the threshold and you earn. Keep your accuracy up to keep earning.
             </p>
             <button
               onClick={() => setShowOnboarding(false)}

@@ -153,20 +153,17 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
         </div>
       </div>
 
-      {/* ── Image card (scrollable area wrapper) ── */}
-      <div className="flex-1 flex flex-col px-4 min-h-0">
-
-        {/* Contained dark image card */}
+      {/* ── Image zone — fills all remaining vertical space ── */}
+      <div className="flex-1 min-h-0 px-4">
         <div
-          className="relative overflow-hidden shrink-0"
-          style={{ borderRadius: "24px", background: "#303030", height: "240px" }}
+          className="relative overflow-hidden w-full h-full"
+          style={{ borderRadius: "24px", background: "#303030" }}
         >
           {/* Medical image */}
           <img
             src="https://images.unsplash.com/photo-1576671081837-49000212a370?w=800&q=80"
             alt=""
             className="w-full h-full object-cover opacity-80"
-            style={{ borderRadius: "24px" }}
           />
           {/* Annotation box — primary lesion */}
           <div
@@ -186,10 +183,13 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             </div>
           </div>
         </div>
+      </div>
 
+      {/* ── Bottom controls panel — sticky below image ── */}
+      <div className="shrink-0 px-4 pt-3 pb-5">
         {/* Instruction text */}
         <p
-          className="text-center mt-3 mb-2 text-[16px] leading-snug"
+          className="text-center mb-2 text-[16px] leading-snug"
           style={{ color: "var(--md-on-surface)", fontWeight: 500 }}
         >
           Draw a bounding box around all lesions visible in this pathology slide.
@@ -197,7 +197,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
 
         {/* Draw / Pan segmented toggle */}
         <div
-          className="flex rounded-full mx-auto mb-3 p-1"
+          className="flex rounded-full mx-auto mb-2.5 p-1"
           style={{ border: "1px solid var(--md-outline-variant)", background: "var(--md-background)", width: "fit-content" }}
         >
           {(["draw", "pan"] as const).map((m) => (
@@ -220,7 +220,6 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
 
         {/* Utility row + submit */}
         <div className="flex items-center gap-2">
-          {/* Utility icons */}
           <button
             className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
             style={{ border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface-variant)" }}
@@ -234,7 +233,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             <FlagIcon />
           </button>
 
-          {/* Single Submit button */}
+          {/* Submit button */}
           <button
             onClick={handleSubmitEarned}
             className="flex-1 flex items-center justify-center ml-1 rounded-full"

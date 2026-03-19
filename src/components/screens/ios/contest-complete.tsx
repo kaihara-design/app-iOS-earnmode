@@ -21,7 +21,6 @@ const confettiItems = [
 export function ContestComplete({ onNavigate }: ContestCompleteProps) {
   const earned = 0.12;
   const qualifiedReads = 4;
-  const totalReads = 5;
 
   const [displayEarned, setDisplayEarned] = useState(0);
   useEffect(() => {
@@ -118,9 +117,6 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
           <Check size={13} strokeWidth={2.5} style={{ color: "var(--earn-teal)", flexShrink: 0 }} />
           <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal)" }}>
             {qualifiedReads} qualified
-          </span>
-          <span className="text-[13px]" style={{ color: "var(--ios-text-tertiary)" }}>
-            · {totalReads} total reads
           </span>
         </div>
       </div>

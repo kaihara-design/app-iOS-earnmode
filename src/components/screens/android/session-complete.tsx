@@ -205,9 +205,6 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
           <span className="text-[13px] font-medium" style={{ color: "var(--md-secondary)" }}>
             {isMax ? "667 qualified" : "4 qualified"}
           </span>
-          <span className="text-[13px]" style={{ color: "var(--md-on-surface-variant)" }}>
-            · {isMax ? "680" : "5"} total reads
-          </span>
         </div>
       </div>
 

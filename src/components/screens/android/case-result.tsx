@@ -138,7 +138,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
 
         {/* ── Score card — warmup, threshold, calibration, accuracy-low, or active variant ── */}
         {isCalibration ? (
-          <div className="rounded-[24px] px-5 py-5 mb-5" style={{ background: "var(--md-surface-container)" }}>
+          <div className="rounded-[24px] px-5 py-5 mb-4" style={{ background: "var(--md-surface-container)" }}>
             <div className="flex items-start gap-3">
               <div style={{ color: "var(--md-on-surface-variant)", marginTop: "2px" }}>
                 <InfoIcon />
@@ -154,7 +154,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
             </div>
           </div>
         ) : isAccuracyLow ? (
-          <div className="rounded-[24px] px-5 py-5 mb-5" style={{ background: "var(--md-error)" }}>
+          <div className="rounded-[24px] px-5 py-5 mb-4" style={{ background: "var(--md-error)" }}>
             <div className="flex items-start gap-3">
               <div style={{ color: "rgba(255,255,255,0.9)", marginTop: "2px" }}>
                 <TrendingDownIcon />
@@ -171,7 +171,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           </div>
         ) : (isWarmup || isThreshold) ? (
           <div
-            className="rounded-[24px] px-5 py-5 mb-5"
+            className="rounded-[24px] px-5 py-5 mb-4"
             style={{ background: isThreshold ? "rgba(0,106,101,0.12)" : "var(--md-surface-container)" }}
           >
             <div className="flex items-start gap-3">
@@ -205,7 +205,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           </div>
         ) : (
           <div
-            className="rounded-[24px] px-5 py-5 mb-5"
+            className="rounded-[24px] px-5 py-5 mb-4"
             style={{ background: isEarned ? "var(--md-secondary)" : "var(--md-error)" }}
           >
             <div className="flex items-start gap-3">
@@ -267,45 +267,45 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
         {/* ── Result copy ── */}
         {isThreshold ? (
           <>
-            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+            <p className="text-[22px] font-normal mb-1.5 leading-7" style={{ color: "var(--md-on-surface)" }}>
               Your qualifying round is complete.
             </p>
-            <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
               Every read from here earns $0.03 — keep going.
             </p>
           </>
         ) : isWarmup ? (
           <>
-            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+            <p className="text-[22px] font-normal mb-1.5 leading-7" style={{ color: "var(--md-on-surface)" }}>
               Thanks! Your response is submitted.
             </p>
-            <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
               You&apos;re still in your qualifying round. Complete a few more cases to start earning.
             </p>
           </>
         ) : (
           <>
-            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+            <p className="text-[22px] font-normal mb-1.5 leading-7" style={{ color: "var(--md-on-surface)" }}>
               Thanks! Your response is submitted!
             </p>
             {isEarned ? (
-              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
                 {isOptionB
                   ? "Your accuracy across recent reads qualifies. Keep going."
                   : `Your accuracy across recent reads is ${EARNED_SCORE}%. Threshold is ${QUALITY_BAR}%.`}
               </p>
             ) : isCalibration ? (
-              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
                 This case calibrates your accuracy score. It doesn&apos;t count toward earnings.
               </p>
             ) : isAccuracyLow ? (
-              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
                 {isOptionB
                   ? "Your recent accuracy is too low to earn. Keep labeling to improve."
                   : `Your accuracy average is ${NOT_EARNED_SCORE}%. You need ${QUALITY_BAR}% to earn. Keep labeling to improve.`}
               </p>
             ) : (
-              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
                 Your score of {NOT_EARNED_SCORE} was {QUALITY_BAR - NOT_EARNED_SCORE} points below the earn threshold. Visit the case to see where you can improve.
               </p>
             )}
@@ -333,24 +333,31 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
 
         {/* Action buttons (active earned/not-earned only) */}
         {!isWarmup && !isThreshold && !isCalibration && !isAccuracyLow && (
-          <div className="flex flex-col gap-2">
+          <>
+            <div className="mb-3" style={{ height: "1px", background: "var(--md-outline-variant)" }} />
+            <div className="flex flex-col gap-2">
             <button
-              className="flex items-center justify-center gap-2 rounded-full"
+              className="flex items-center justify-between px-4 rounded-full"
               style={{ height: "40px", border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface)" }}
             >
-              <SearchIcon />
-              <span className="text-[14px] font-medium tracking-[0.1px]">Check your answer</span>
+              <div className="flex items-center gap-2">
+                <SearchIcon />
+                <span className="text-[14px] font-medium tracking-[0.1px]">Check your answer</span>
+              </div>
               <ArrowRightIcon />
             </button>
             <button
-              className="flex items-center justify-center gap-2 rounded-full"
+              className="flex items-center justify-between px-4 rounded-full"
               style={{ height: "40px", border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface)" }}
             >
-              <FlagIcon />
-              <span className="text-[14px] font-medium tracking-[0.1px]">Flag this case</span>
+              <div className="flex items-center gap-2">
+                <FlagIcon />
+                <span className="text-[14px] font-medium tracking-[0.1px]">Flag this case</span>
+              </div>
               <ArrowRightIcon />
             </button>
           </div>
+          </>
         )}
       </div>
 

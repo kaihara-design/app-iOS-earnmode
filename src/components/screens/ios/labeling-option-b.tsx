@@ -87,7 +87,7 @@ export function LabelingOptionB({ onNavigate, initialFeedback, earnState, warmup
             Earn
           </span>
           {earnState === "warmup" ? (
-            <span className="text-[12px] font-medium" style={{ color: "rgba(255,255,255,0.45)" }}>Qualifying · {warmupRemaining} to go</span>
+            <span className="text-[14px] font-bold text-white">Qualifying · {warmupRemaining} to go</span>
           ) : (
             <span key={sessionEarnings} className="text-[14px] font-bold text-white animate-earn-tick">${sessionEarnings.toFixed(2)} · {activeCount} qualified</span>
           )}

@@ -89,9 +89,6 @@ export function ContestCompleteConfetti({ onNavigate }: ContestCompleteConfettiP
           <span className="text-[13px] font-semibold" style={{ color: "var(--earn-teal)" }}>
             667 qualified
           </span>
-          <span className="text-[13px]" style={{ color: "var(--ios-text-tertiary)" }}>
-            · 680 total reads
-          </span>
         </div>
       </div>
 
