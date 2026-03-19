@@ -227,7 +227,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
                 ) : (
                   <>
                     <p className="text-white font-medium text-[22px] leading-7">
-                      Not earned this read
+                      Not earned this opinion
                     </p>
                     {!isOptionB && (
                       <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -271,7 +271,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
               Your qualifying round is complete.
             </p>
             <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
-              Every read from here earns $0.03 — keep going.
+              Every opinion from here earns $0.03. Keep going.
             </p>
           </>
         ) : isWarmup ? (
@@ -291,8 +291,8 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
             {isEarned ? (
               <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
                 {isOptionB
-                  ? "Your accuracy across recent reads qualifies. Keep going."
-                  : `Your accuracy across recent reads is ${EARNED_SCORE}%. Threshold is ${QUALITY_BAR}%.`}
+                  ? "Your accuracy across recent opinions qualifies. Keep going."
+                  : `Your accuracy across recent opinions is ${EARNED_SCORE}%. Threshold is ${QUALITY_BAR}%.`}
               </p>
             ) : isCalibration ? (
               <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>

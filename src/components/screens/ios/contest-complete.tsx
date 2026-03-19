@@ -106,7 +106,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
           className="text-[15px] mb-6 animate-fade-up"
           style={{ color: "var(--ios-text-secondary)", animationDelay: "290ms" }}
         >
-          earned this session
+          earned in this contest
         </p>
 
         {/* Stats row */}

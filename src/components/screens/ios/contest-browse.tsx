@@ -133,7 +133,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
                 style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
               >
                 <Coins size={10} />
-                $0.03/read
+                $0.03/opinion
               </span>
             }
             modeChip={

@@ -37,11 +37,11 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
               <p className="text-[32px] font-bold" style={{ color: "var(--earn-teal)" }}>
                 ${earned.toFixed(2)}
               </p>
-              <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>earned this session</p>
+              <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>earned in this contest</p>
             </div>
             <div className="mb-1">
               <p className="text-[15px] font-semibold" style={{ color: "var(--label-primary)" }}>
-                {qualifiedReads} qualified reads
+                {qualifiedReads} qualified opinions
               </p>
               <p className="text-[12px]" style={{ color: "var(--label-secondary)" }}>out of {totalReads} total</p>
             </div>
@@ -68,7 +68,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
 
         {/* Read quality breakdown */}
         <div>
-          <p className="text-[15px] font-semibold mb-2">Recent reads</p>
+          <p className="text-[15px] font-semibold mb-2">Recent opinions</p>
           <div className="space-y-2">
             {[
               { read: 1, earned: true, amount: 0.03 },
@@ -94,7 +94,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
                     {didEarn ? <Check size={13} strokeWidth={2.5} /> : <X size={13} strokeWidth={2.5} />}
                   </div>
                   <span className="text-[13px]" style={{ color: "var(--label-secondary)" }}>
-                    Read {read}
+                    Opinion {read}
                   </span>
                 </div>
                 <span

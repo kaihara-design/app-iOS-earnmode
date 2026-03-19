@@ -74,10 +74,10 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                 {userState === "post-compete" ? (
                   <>
                     <p className="text-[15px] font-medium" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>
-                      ${SESSION_EARNED.toFixed(2)} earned this session
+                      ${SESSION_EARNED.toFixed(2)} earned in this contest
                     </p>
                     <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
-                      {SESSION_QUALIFIED} qualified reads
+                      {SESSION_QUALIFIED} qualified opinions
                     </p>
                   </>
                 ) : userState === "returning" ? (
@@ -92,7 +92,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                 ) : (
                   <>
                     <p className="text-[15px] font-medium" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>
-                      Earn $0.03 per qualified read
+                      Earn $0.03 per qualified opinion
                     </p>
                     <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
                       Up to $20 for you in this contest
@@ -295,7 +295,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             </div>
             <h2 className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>Earn Mode</h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--ios-text-secondary)" }}>
-              Earn $0.03 for every qualified read. Your accuracy is tracked across recent cases. Meet the threshold and you earn. Keep your accuracy up to keep earning.
+              Earn $0.03 for every qualified opinion. Your accuracy is tracked across recent opinions. Meet the threshold and you earn. Keep your accuracy up to keep earning.
             </p>
             <button
               onClick={() => setShowOnboarding(false)}

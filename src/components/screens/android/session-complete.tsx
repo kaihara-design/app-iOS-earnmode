@@ -193,7 +193,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
           className="text-[15px] mb-5 animate-fade-up"
           style={{ color: "var(--md-on-surface-variant)", animationDelay: "300ms" }}
         >
-          {isMax ? "You hit the cap — maximum earned!" : "earned this session"}
+          {isMax ? "You hit the cap — maximum earned!" : "earned in this contest"}
         </p>
 
         {/* Stats pill */}

@@ -276,7 +276,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
           >
             <p className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>
-              ${sessionEarnings.toFixed(2)} earned this session
+              ${sessionEarnings.toFixed(2)} earned in this contest
             </p>
           </div>
 

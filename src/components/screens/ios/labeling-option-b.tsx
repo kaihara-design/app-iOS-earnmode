@@ -167,7 +167,7 @@ export function LabelingOptionB({ onNavigate, initialFeedback, earnState, warmup
               </div>
               <p className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>You qualified!</p>
               <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--ios-text-secondary)" }}>
-                Your qualifying round is complete. Every read from here earns $0.03 — keep going.
+                Your qualifying round is complete. Every opinion from here earns $0.03. Keep going.
               </p>
             </>
           )}
@@ -186,7 +186,7 @@ export function LabelingOptionB({ onNavigate, initialFeedback, earnState, warmup
                 </p>
               </div>
               <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
-                Your accuracy across recent reads qualifies. Keep going.
+                Your accuracy across recent opinions qualifies. Keep going.
               </p>
             </>
           )}
@@ -201,7 +201,7 @@ export function LabelingOptionB({ onNavigate, initialFeedback, earnState, warmup
                   <X size={15} strokeWidth={2.5} />
                 </div>
                 <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
-                  This read didn&apos;t earn
+                  This opinion didn&apos;t earn
                 </p>
               </div>
               <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>

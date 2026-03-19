@@ -173,7 +173,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
               </div>
               <p className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>You qualified!</p>
               <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--ios-text-secondary)" }}>
-                Your qualifying round is complete. Every read from here earns $0.03 — keep going.
+                Your qualifying round is complete. Every opinion from here earns $0.03. Keep going.
               </p>
             </>
           )}
@@ -192,7 +192,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
                 </p>
               </div>
               <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
-                Your accuracy across recent reads is {earnedScore}%. Threshold is {qualityBar}%.
+                Your accuracy across recent opinions is {earnedScore}%. Threshold is {qualityBar}%.
               </p>
             </>
           )}
@@ -254,7 +254,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
                 </p>
               </div>
               <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
-                Your accuracy across recent reads is {notEarnedScore}%. You need {qualityBar}% to earn. Keep labeling to improve.
+                Your accuracy across recent opinions is {notEarnedScore}%. You need {qualityBar}% to earn. Keep labeling to improve.
               </p>
             </>
           )}
@@ -280,11 +280,11 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
           </div>
           <h2 className="text-[24px] font-bold mb-3" style={{ color: "var(--ios-text-primary)" }}>This contest has ended</h2>
           <p className="text-[15px] leading-relaxed mb-5" style={{ color: "var(--ios-text-secondary)" }}>
-            The prize pool was claimed while you were reading. Your earnings from this session are safe.
+            The prize pool was claimed while you were labeling. Your earnings in this contest are safe.
           </p>
           <div className="rounded-2xl px-4 py-4 mb-auto" style={{ background: "var(--earn-teal-10)" }}>
             <p className="text-[15px] font-bold" style={{ color: "var(--earn-teal)" }}>
-              ${sessionEarnings.toFixed(2)} earned this session
+              ${sessionEarnings.toFixed(2)} earned in this contest
             </p>
           </div>
           <div className="flex flex-col gap-2.5 mt-6">

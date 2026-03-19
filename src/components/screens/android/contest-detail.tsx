@@ -229,7 +229,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
                   {isNew ? (
                     <>
                       <p className="text-[16px] font-medium leading-snug" style={{ color: "var(--md-on-surface)" }}>
-                        Earn $0.03 per qualified read
+                        Earn $0.03 per qualified opinion
                       </p>
                       <p className="text-[12px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
                         Up to ${PERSONAL_CAP.toFixed(2)} for you in this contest
@@ -238,7 +238,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
                   ) : (
                     <>
                       <p className="text-[16px] font-medium leading-snug" style={{ color: "var(--md-on-surface)" }}>
-                        ${userEarned.toFixed(2)} earned this session
+                        ${userEarned.toFixed(2)} earned in this contest
                       </p>
                       <p className="text-[12px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
                         You&apos;ve reached your $20.00 cap
@@ -498,7 +498,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
             </div>
             <h2 className="text-[22px] font-normal mb-2" style={{ color: "var(--md-on-surface)" }}>Earn Mode</h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--md-on-surface-variant)" }}>
-              Earn $0.03 for every qualified read. Your reads are scored — meet the quality bar and you earn. Miss it and you don&apos;t.
+              Earn $0.03 for every qualified opinion. Your accuracy is tracked across recent opinions. Meet the threshold and you earn. Keep your accuracy up to keep earning.
             </p>
             <button
               onClick={() => setShowOnboarding(false)}
