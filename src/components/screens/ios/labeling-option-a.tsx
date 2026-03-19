@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check } from "lucide-react";
+import { X, Coins, DollarSign, MessageCircle, Flag, Eye, Check, Info, TrendingDown } from "lucide-react";
 
 interface LabelingOptionAProps {
   onNavigate: (screen: string) => void;
-  initialFeedback?: "earned" | "not-earned";
+  initialFeedback?: "earned" | "not-earned" | "calibration" | "accuracy-low";
   initialShowContestEnded?: boolean;
   earnState: "warmup" | "active";
   warmupRemaining: number;
@@ -13,7 +13,7 @@ interface LabelingOptionAProps {
   onThresholdComplete: () => void;
 }
 
-type FeedbackState = "none" | "warmup" | "threshold" | "earned" | "not-earned";
+type FeedbackState = "none" | "warmup" | "threshold" | "earned" | "not-earned" | "calibration" | "accuracy-low";
 
 const notEarnedScore = 64;
 const earnedScore = 74;
@@ -180,24 +180,19 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
 
           {feedback === "earned" && (
             <>
-              <div className="flex items-start gap-2.5 mb-1">
+              <div className="flex items-center gap-2.5 mb-1">
                 <div
-                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5 animate-pop-in animate-earned-glow"
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center animate-pop-in animate-earned-glow"
                   style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)", animationDelay: "120ms" }}
                 >
                   <Check size={15} strokeWidth={2.5} />
                 </div>
-                <div>
-                  <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>
-                    Earned · Score: {earnedScore}
-                  </p>
-                  <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-tertiary)" }}>
-                    Quality bar: {qualityBar}+ · you cleared it
-                  </p>
-                </div>
+                <p className="text-[15px] font-semibold" style={{ color: "var(--earn-teal)" }}>
+                  Earned · +$0.03
+                </p>
               </div>
-              <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
-                +$0.03 added · ${sessionEarnings.toFixed(2)} earned this session
+              <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
+                Your accuracy across recent reads is {earnedScore}%. Threshold is {qualityBar}%.
               </p>
             </>
           )}
@@ -222,6 +217,44 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
               </div>
               <p className="text-[12px] mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
                 More precise boxes = higher quality score = earnings.
+              </p>
+            </>
+          )}
+
+          {feedback === "calibration" && (
+            <>
+              <div className="flex items-center gap-2.5 mb-1">
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center animate-pop-in"
+                  style={{ background: "var(--ios-fill-secondary)", color: "var(--ios-text-secondary)", animationDelay: "120ms" }}
+                >
+                  <Info size={15} strokeWidth={2} />
+                </div>
+                <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
+                  Calibration case
+                </p>
+              </div>
+              <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
+                This case calibrates your accuracy score. It doesn&apos;t count toward earnings.
+              </p>
+            </>
+          )}
+
+          {feedback === "accuracy-low" && (
+            <>
+              <div className="flex items-center gap-2.5 mb-1">
+                <div
+                  className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center animate-pop-in"
+                  style={{ background: "var(--earn-red-10)", color: "var(--earn-red)", animationDelay: "120ms" }}
+                >
+                  <TrendingDown size={15} strokeWidth={2.5} />
+                </div>
+                <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
+                  Accuracy below threshold
+                </p>
+              </div>
+              <p className="text-[13px] leading-relaxed mb-5 ml-[42px]" style={{ color: "var(--ios-text-secondary)" }}>
+                Your accuracy across recent reads is {notEarnedScore}%. You need {qualityBar}% to earn. Keep labeling to improve.
               </p>
             </>
           )}
@@ -267,7 +300,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
               className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
               style={{ borderColor: "var(--ios-interactive-primary)", color: "var(--ios-interactive-primary)" }}
             >
-              Browse contests
+              Browse more contests
             </button>
           </div>
         </div>

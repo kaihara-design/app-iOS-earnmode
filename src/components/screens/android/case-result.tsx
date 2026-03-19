@@ -7,7 +7,7 @@
 
 interface CaseResultProps {
   onNavigate: (screen: string) => void;
-  variant?: "earned" | "not-earned";
+  variant?: "earned" | "not-earned" | "calibration" | "accuracy-low";
   earnState?: "warmup" | "threshold" | "active";
   warmupRemaining?: number;
   onThresholdComplete?: () => void;
@@ -66,13 +66,28 @@ function ArrowRightIcon() {
   );
 }
 
+function InfoIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+    </svg>
+  );
+}
+
+function TrendingDownIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/>
+    </svg>
+  );
+}
+
 
 // ─── Variant config ───────────────────────────────────────────────────────────
 
 const EARNED_SCORE = 74;
 const NOT_EARNED_SCORE = 58;
 const QUALITY_BAR = 70;
-const SESSION_EARNINGS = 0.12;
 const SESSION_QUALIFIED = 4;
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -80,6 +95,8 @@ const SESSION_QUALIFIED = 4;
 export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = "active", warmupRemaining = 0, onThresholdComplete, option = "A", nextCaseScreen = "android-labeling" }: CaseResultProps) {
   const isEarned = variant === "earned";
   const isNotEarned = variant === "not-earned";
+  const isCalibration = variant === "calibration";
+  const isAccuracyLow = variant === "accuracy-low";
   const isWarmup = earnState === "warmup";
   const isThreshold = earnState === "threshold";
   const isOptionB = option === "B";
@@ -119,8 +136,40 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
       {/* ── Scrollable content ── */}
       <div className="flex-1 overflow-y-auto px-4 pb-6">
 
-        {/* ── Score card — warmup, threshold, or active variant ── */}
-        {(isWarmup || isThreshold) ? (
+        {/* ── Score card — warmup, threshold, calibration, accuracy-low, or active variant ── */}
+        {isCalibration ? (
+          <div className="rounded-[24px] px-5 py-5 mb-5" style={{ background: "var(--md-surface-container)" }}>
+            <div className="flex items-start gap-3">
+              <div style={{ color: "var(--md-on-surface-variant)", marginTop: "2px" }}>
+                <InfoIcon />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-[22px] leading-7" style={{ color: "var(--md-on-surface)" }}>
+                  Calibration case
+                </p>
+                <p className="text-[14px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
+                  Doesn&apos;t count toward earnings
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : isAccuracyLow ? (
+          <div className="rounded-[24px] px-5 py-5 mb-5" style={{ background: "var(--md-error)" }}>
+            <div className="flex items-start gap-3">
+              <div style={{ color: "rgba(255,255,255,0.9)", marginTop: "2px" }}>
+                <TrendingDownIcon />
+              </div>
+              <div className="flex-1">
+                <p className="text-white font-medium text-[22px] leading-7">Accuracy below threshold</p>
+                {!isOptionB && (
+                  <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+                    {NOT_EARNED_SCORE}% · Earn at {QUALITY_BAR}%
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (isWarmup || isThreshold) ? (
           <div
             className="rounded-[24px] px-5 py-5 mb-5"
             style={{ background: isThreshold ? "rgba(0,106,101,0.12)" : "var(--md-surface-container)" }}
@@ -171,12 +220,9 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
                     </p>
                     {!isOptionB && (
                       <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
-                        Score: {EARNED_SCORE} · Qualified read
+                        {EARNED_SCORE}% · Threshold {QUALITY_BAR}%
                       </p>
                     )}
-                    <p className="text-[12px] mt-1.5" style={{ color: "rgba(255,255,255,0.70)" }}>
-                      Session total: ${SESSION_EARNINGS.toFixed(2)} earned · {SESSION_QUALIFIED} qualified
-                    </p>
                   </>
                 ) : (
                   <>
@@ -244,7 +290,19 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
             </p>
             {isEarned ? (
               <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
-                Your annotation hit the quality threshold. Visit the case again to see the expert reference response.
+                {isOptionB
+                  ? "Your accuracy across recent reads qualifies. Keep going."
+                  : `Your accuracy across recent reads is ${EARNED_SCORE}%. Threshold is ${QUALITY_BAR}%.`}
+              </p>
+            ) : isCalibration ? (
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+                This case calibrates your accuracy score. It doesn&apos;t count toward earnings.
+              </p>
+            ) : isAccuracyLow ? (
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+                {isOptionB
+                  ? "Your recent accuracy is too low to earn. Keep labeling to improve."
+                  : `Your accuracy average is ${NOT_EARNED_SCORE}%. You need ${QUALITY_BAR}% to earn. Keep labeling to improve.`}
               </p>
             ) : (
               <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
@@ -255,7 +313,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
         )}
 
         {/* Earn Mode tip (Option A, not earned + active only) */}
-        {isNotEarned && !isWarmup && !isThreshold && !isOptionB && (
+        {isNotEarned && !isWarmup && !isThreshold && !isCalibration && !isAccuracyLow && !isOptionB && (
           <div
             className="rounded-[16px] px-4 py-3 mb-5"
             style={{ background: "var(--md-error-container)", border: "1px solid var(--md-outline-variant)" }}
@@ -273,8 +331,8 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           </div>
         )}
 
-        {/* Action buttons (active state only) */}
-        {!isWarmup && !isThreshold && (
+        {/* Action buttons (active earned/not-earned only) */}
+        {!isWarmup && !isThreshold && !isCalibration && !isAccuracyLow && (
           <div className="flex flex-col gap-2">
             <button
               className="flex items-center justify-center gap-2 rounded-full"

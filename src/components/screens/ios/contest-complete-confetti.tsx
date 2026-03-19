@@ -101,18 +101,18 @@ export function ContestCompleteConfetti({ onNavigate }: ContestCompleteConfettiP
         style={{ borderColor: "var(--ios-border-default)" }}
       >
         <button
-          onClick={() => onNavigate("contest-browse")}
+          onClick={() => onNavigate("contest-detail-post-compete")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--ios-interactive-primary)" }}
         >
-          Browse contests
+          View my earnings
         </button>
         <button
-          onClick={() => onNavigate("contest-detail-post-compete")}
+          onClick={() => onNavigate("contest-browse")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ borderColor: "var(--ios-interactive-primary)", color: "var(--ios-interactive-primary)" }}
         >
-          Back to contest
+          Browse more contests
         </button>
       </div>
     </div>

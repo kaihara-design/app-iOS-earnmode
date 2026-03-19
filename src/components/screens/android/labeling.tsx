@@ -251,59 +251,52 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
         </div>
       </div>
 
-      {/* ── Contest ended bottom sheet ── */}
+      {/* ── Contest ended full screen ── */}
       {showContestEnded && (
         <div
-          className="absolute inset-0 flex items-end z-50"
-          style={{ background: "rgba(0,0,0,0.50)" }}
+          className="absolute inset-0 flex flex-col px-6 pt-16 pb-10 z-50"
+          style={{ background: "var(--md-background)", fontFamily: "'Roboto', system-ui, sans-serif" }}
         >
           <div
-            className="w-full px-5 pt-4 pb-10"
-            style={{ background: "var(--md-surface-container-low)", borderRadius: "28px 28px 0 0" }}
+            className="w-12 h-12 rounded-[16px] flex items-center justify-center mb-5"
+            style={{ background: "var(--color-secondary-bg)", color: "var(--md-secondary)" }}
           >
-            {/* Handle */}
-            <div className="w-8 h-1 rounded-full mx-auto mb-5" style={{ background: "var(--md-outline-variant)" }} />
+            <DollarIcon />
+          </div>
 
-            {/* Icon */}
-            <div
-              className="w-12 h-12 rounded-[16px] flex items-center justify-center mb-3"
-              style={{ background: "var(--color-secondary-bg)", color: "var(--md-secondary)" }}
-            >
-              <DollarIcon />
-            </div>
+          <h2 className="text-[28px] font-normal mb-3 leading-9" style={{ color: "var(--md-on-surface)" }}>
+            This contest has ended
+          </h2>
+          <p className="text-[15px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+            The prize pool was claimed while you were reading. Your earnings from this session are safe.
+          </p>
 
-            <h2 className="text-[22px] font-normal mb-2" style={{ color: "var(--md-on-surface)" }}>This contest has ended</h2>
-            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
-              The prize pool was claimed while you were reading. Your earnings from this session are safe.
+          {/* Earnings summary */}
+          <div
+            className="rounded-[16px] px-4 py-3 mb-auto"
+            style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
+          >
+            <p className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>
+              ${sessionEarnings.toFixed(2)} earned this session
             </p>
+          </div>
 
-            {/* Earnings summary */}
-            <div
-              className="rounded-[16px] px-4 py-3 mb-5"
-              style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
+          {/* Actions */}
+          <div className="flex flex-col gap-2 mt-6">
+            <button
+              onClick={() => onNavigate("android-contest-detail")}
+              className="w-full flex items-center justify-center rounded-full"
+              style={{ height: "48px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)", fontSize: "14px", fontWeight: 500 }}
             >
-              <p className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>
-                ${sessionEarnings.toFixed(2)} earned this session
-              </p>
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => onNavigate("android-contest-detail")}
-                className="flex-1 flex items-center justify-center rounded-full"
-                style={{ height: "48px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)", fontSize: "14px", fontWeight: 500 }}
-              >
-                My earnings
-              </button>
-              <button
-                onClick={() => onNavigate("android-compete")}
-                className="flex-1 flex items-center justify-center rounded-full"
-                style={{ height: "48px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)", fontSize: "14px", fontWeight: 500 }}
-              >
-                Browse contests
-              </button>
-            </div>
+              View my earnings
+            </button>
+            <button
+              onClick={() => onNavigate("android-compete")}
+              className="w-full flex items-center justify-center rounded-full"
+              style={{ height: "48px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)", fontSize: "14px", fontWeight: 500 }}
+            >
+              Browse more contests
+            </button>
           </div>
         </div>
       )}

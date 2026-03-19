@@ -15,10 +15,11 @@ type AndroidScreen =
   | "android-labeling"
   | "android-case-result-earned"
   | "android-case-result-not-earned"
-  | "android-feedback-a-pass"
-  | "android-feedback-a-fail"
-  | "android-feedback-b-pass"
-  | "android-feedback-b-fail"
+  | "android-feedback-a-earned"
+  | "android-feedback-b-earned"
+  | "android-feedback-calibration"
+  | "android-feedback-a-accuracy-low"
+  | "android-feedback-b-accuracy-low"
   | "android-contest-ended"
   | "android-session-complete"
   | "android-max-earned";
@@ -29,10 +30,11 @@ const SCREEN_LABELS: Record<AndroidScreen, string> = {
   "android-labeling": "Labeling",
   "android-case-result-earned": "Case Result — Earned",
   "android-case-result-not-earned": "Case Result — Not Earned",
-  "android-feedback-a-pass": "Score Feedback — A · Passed",
-  "android-feedback-a-fail": "Score Feedback — A · Failed",
-  "android-feedback-b-pass": "Score Feedback — B · Passed",
-  "android-feedback-b-fail": "Score Feedback — B · Failed",
+  "android-feedback-a-earned": "Earned — A",
+  "android-feedback-b-earned": "Earned — B",
+  "android-feedback-calibration": "Calibration Case",
+  "android-feedback-a-accuracy-low": "Accuracy Too Low — A",
+  "android-feedback-b-accuracy-low": "Accuracy Too Low — B",
   "android-contest-ended": "Contest Ended — mid-session",
   "android-session-complete": "Session Complete",
   "android-max-earned": "Max Earned",
@@ -43,10 +45,11 @@ const SIDEBAR_HAPPY: AndroidScreen[] = [
   "android-compete",
   "android-contest-detail",
   "android-labeling",
-  "android-feedback-a-pass",
-  "android-feedback-a-fail",
-  "android-feedback-b-pass",
-  "android-feedback-b-fail",
+  "android-feedback-a-earned",
+  "android-feedback-b-earned",
+  "android-feedback-calibration",
+  "android-feedback-a-accuracy-low",
+  "android-feedback-b-accuracy-low",
   "android-session-complete",
 ];
 
@@ -166,6 +169,38 @@ export default function AndroidPage() {
             qualifiedCount={activeCount}
           />
         );
+      case "android-feedback-calibration":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="calibration"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "android-feedback-a-accuracy-low":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="accuracy-low"
+            option="A"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "android-feedback-b-accuracy-low":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="accuracy-low"
+            option="B"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
       case "android-contest-ended":
         return (
           <AndroidLabeling
@@ -201,7 +236,7 @@ export default function AndroidPage() {
             nextCaseScreen={activeCount >= 5 ? "android-session-complete" : "android-labeling"}
           />
         );
-      case "android-feedback-a-pass":
+      case "android-feedback-a-earned":
         return (
           <AndroidCaseResult
             onNavigate={nav}
@@ -212,33 +247,11 @@ export default function AndroidPage() {
             onThresholdComplete={() => {}}
           />
         );
-      case "android-feedback-a-fail":
-        return (
-          <AndroidCaseResult
-            onNavigate={nav}
-            variant="not-earned"
-            option="A"
-            earnState="active"
-            warmupRemaining={0}
-            onThresholdComplete={() => {}}
-          />
-        );
-      case "android-feedback-b-pass":
+      case "android-feedback-b-earned":
         return (
           <AndroidCaseResult
             onNavigate={nav}
             variant="earned"
-            option="B"
-            earnState="active"
-            warmupRemaining={0}
-            onThresholdComplete={() => {}}
-          />
-        );
-      case "android-feedback-b-fail":
-        return (
-          <AndroidCaseResult
-            onNavigate={nav}
-            variant="not-earned"
             option="B"
             earnState="active"
             warmupRemaining={0}

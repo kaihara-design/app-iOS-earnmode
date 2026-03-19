@@ -216,41 +216,22 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
         className="relative z-10 px-4 pb-8 pt-3 flex flex-col gap-2 shrink-0"
         style={{ borderTop: "1px solid var(--md-outline-variant)", background: "var(--md-background)" }}
       >
-        {isMax ? (
-          <>
-            <button
-              onClick={() => onNavigate("android-compete")}
-              className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
-            >
-              <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
-            </button>
-            <button
-              onClick={() => onNavigate("android-contest-detail")}
-              className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)" }}
-            >
-              <span className="text-[14px] font-medium tracking-[0.1px]">Back to contest</span>
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => onNavigate("android-contest-detail")}
-              className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
-            >
-              <span className="text-[14px] font-medium tracking-[0.1px]">View my earnings</span>
-            </button>
-            <button
-              onClick={() => onNavigate("android-compete")}
-              className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)" }}
-            >
-              <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
-            </button>
-          </>
-        )}
+        <>
+          <button
+            onClick={() => onNavigate("android-contest-detail")}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
+          >
+            <span className="text-[14px] font-medium tracking-[0.1px]">View my earnings</span>
+          </button>
+          <button
+            onClick={() => onNavigate("android-compete")}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)" }}
+          >
+            <span className="text-[14px] font-medium tracking-[0.1px]">Browse more contests</span>
+          </button>
+        </>
       </div>
     </div>
   );

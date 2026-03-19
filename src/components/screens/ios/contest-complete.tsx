@@ -142,7 +142,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold border transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ borderColor: "var(--ios-interactive-primary)", color: "var(--ios-interactive-primary)" }}
         >
-          Browse contests
+          Browse more contests
         </button>
       </div>
     </div>

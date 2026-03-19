@@ -14,10 +14,11 @@ type Screen =
   | "contest-browse"
   | "contest-detail-new"
   | "labeling"
-  | "feedback-a-pass"
-  | "feedback-a-fail"
-  | "feedback-b-pass"
-  | "feedback-b-fail"
+  | "feedback-a-earned"
+  | "feedback-b-earned"
+  | "feedback-calibration"
+  | "feedback-a-accuracy-low"
+  | "feedback-b-accuracy-low"
   | "session-complete"
   | "max-earned"
   | "contest-ended"
@@ -27,10 +28,11 @@ const SCREEN_LABELS: Record<Screen, string> = {
   "contest-browse": "Contest Browse",
   "contest-detail-new": "Contest Detail — New",
   "labeling": "Labeling",
-  "feedback-a-pass": "Score Feedback — A · Passed",
-  "feedback-a-fail": "Score Feedback — A · Failed",
-  "feedback-b-pass": "Score Feedback — B · Passed",
-  "feedback-b-fail": "Score Feedback — B · Failed",
+  "feedback-a-earned": "Earned — A",
+  "feedback-b-earned": "Earned — B",
+  "feedback-calibration": "Calibration Case",
+  "feedback-a-accuracy-low": "Accuracy Too Low — A",
+  "feedback-b-accuracy-low": "Accuracy Too Low — B",
   "session-complete": "Session Complete",
   "max-earned": "Max Earned",
   "contest-ended": "Contest Ended — mid-session",
@@ -41,10 +43,11 @@ const ALL_SCREENS: Screen[] = [
   "contest-browse",
   "contest-detail-new",
   "labeling",
-  "feedback-a-pass",
-  "feedback-a-fail",
-  "feedback-b-pass",
-  "feedback-b-fail",
+  "feedback-a-earned",
+  "feedback-b-earned",
+  "feedback-calibration",
+  "feedback-a-accuracy-low",
+  "feedback-b-accuracy-low",
   "session-complete",
   "max-earned",
   "contest-ended",
@@ -137,7 +140,7 @@ export default function Home() {
             onThresholdComplete={() => setEarnState("active")}
           />
         );
-      case "feedback-a-pass":
+      case "feedback-a-earned":
         return (
           <LabelingOptionA
             onNavigate={nav}
@@ -148,18 +151,7 @@ export default function Home() {
             onThresholdComplete={() => {}}
           />
         );
-      case "feedback-a-fail":
-        return (
-          <LabelingOptionA
-            onNavigate={nav}
-            initialFeedback="not-earned"
-            earnState="active"
-            warmupRemaining={0}
-            onWarmupProgress={() => {}}
-            onThresholdComplete={() => {}}
-          />
-        );
-      case "feedback-b-pass":
+      case "feedback-b-earned":
         return (
           <LabelingOptionB
             onNavigate={nav}
@@ -170,11 +162,33 @@ export default function Home() {
             onThresholdComplete={() => {}}
           />
         );
-      case "feedback-b-fail":
+      case "feedback-calibration":
         return (
           <LabelingOptionB
             onNavigate={nav}
-            initialFeedback="not-earned"
+            initialFeedback="calibration"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "feedback-a-accuracy-low":
+        return (
+          <LabelingOptionA
+            onNavigate={nav}
+            initialFeedback="accuracy-low"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "feedback-b-accuracy-low":
+        return (
+          <LabelingOptionB
+            onNavigate={nav}
+            initialFeedback="accuracy-low"
             earnState="active"
             warmupRemaining={0}
             onWarmupProgress={() => {}}
@@ -232,10 +246,11 @@ export default function Home() {
         <NavBtn s="contest-browse" label="Contest Browse" current={screen} onClick={nav} />
         <NavBtn s="contest-detail-new" label="Contest Detail — New" current={screen} onClick={nav} />
         <NavBtn s="labeling" label="Labeling" current={screen} onClick={nav} />
-        <NavBtn s="feedback-a-pass" label="Score Feedback — A · Passed" current={screen} onClick={nav} />
-        <NavBtn s="feedback-a-fail" label="Score Feedback — A · Failed" current={screen} onClick={nav} />
-        <NavBtn s="feedback-b-pass" label="Score Feedback — B · Passed" current={screen} onClick={nav} />
-        <NavBtn s="feedback-b-fail" label="Score Feedback — B · Failed" current={screen} onClick={nav} />
+        <NavBtn s="feedback-a-earned" label="Earned — A" current={screen} onClick={nav} />
+        <NavBtn s="feedback-b-earned" label="Earned — B" current={screen} onClick={nav} />
+        <NavBtn s="feedback-calibration" label="Calibration Case" current={screen} onClick={nav} />
+        <NavBtn s="feedback-a-accuracy-low" label="Accuracy Too Low — A" current={screen} onClick={nav} />
+        <NavBtn s="feedback-b-accuracy-low" label="Accuracy Too Low — B" current={screen} onClick={nav} />
         <NavBtn s="session-complete" label="Session Complete" current={screen} onClick={nav} />
 
         {/* ── Other Endings ── */}
