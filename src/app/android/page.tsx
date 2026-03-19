@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import { AndroidPhoneFrame } from "@/components/android-phone-frame";
 import { AndroidCompete } from "@/components/screens/android/compete";
 import { AndroidContestDetail } from "@/components/screens/android/contest-detail";
@@ -75,8 +76,13 @@ function getInitialScreen(): AndroidScreen {
   return "android-compete";
 }
 
+const WARMUP_TOTAL = 3; // prototype; real app = 10–25 from topic config
+
 export default function AndroidPage() {
   const [screen, setScreen] = useState<AndroidScreen>(getInitialScreen);
+  const [darkMode, setDarkMode] = useState(false);
+  const [earnState, setEarnState] = useState<"warmup" | "threshold" | "active">("warmup");
+  const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
   const currentIndex = ALL_SCREENS.indexOf(screen);
 
   function renderScreen() {
@@ -86,13 +92,50 @@ export default function AndroidPage() {
       case "android-contest-detail":
         return <AndroidContestDetail onNavigate={(s) => setScreen(s as AndroidScreen)} />;
       case "android-labeling":
-        return <AndroidLabeling onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+        return (
+          <AndroidLabeling
+            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            earnState={earnState}
+            warmupRemaining={warmupRemaining}
+            onWarmupProgress={(remaining) => {
+              setWarmupRemaining(remaining);
+              if (remaining === 0) setEarnState("threshold");
+            }}
+          />
+        );
       case "android-contest-ended":
-        return <AndroidLabeling onNavigate={(s) => setScreen(s as AndroidScreen)} initialShowContestEnded={true} />;
+        return (
+          <AndroidLabeling
+            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            initialShowContestEnded={true}
+            earnState={earnState}
+            warmupRemaining={warmupRemaining}
+            onWarmupProgress={(remaining) => {
+              setWarmupRemaining(remaining);
+              if (remaining === 0) setEarnState("threshold");
+            }}
+          />
+        );
       case "android-case-result-earned":
-        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="earned" />;
+        return (
+          <AndroidCaseResult
+            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            variant="earned"
+            earnState={earnState}
+            warmupRemaining={warmupRemaining}
+            onThresholdComplete={() => setEarnState("active")}
+          />
+        );
       case "android-case-result-not-earned":
-        return <AndroidCaseResult onNavigate={(s) => setScreen(s as AndroidScreen)} variant="not-earned" />;
+        return (
+          <AndroidCaseResult
+            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            variant="not-earned"
+            earnState={earnState}
+            warmupRemaining={warmupRemaining}
+            onThresholdComplete={() => setEarnState("active")}
+          />
+        );
       case "android-session-complete":
         return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="session" />;
       case "android-max-earned":
@@ -103,7 +146,7 @@ export default function AndroidPage() {
   }
 
   return (
-    <main className="android-screen min-h-screen flex" style={{ background: "#f0f0f0" }}>
+    <main className={`android-screen${darkMode ? " android-dark" : ""} min-h-screen flex`} style={{ background: "#f0f0f0" }}>
       {/* Sidebar */}
       <aside
         className="w-56 flex-shrink-0 p-4 flex flex-col gap-1 border-r overflow-y-auto"
@@ -111,9 +154,19 @@ export default function AndroidPage() {
       >
         {/* Header */}
         <div className="mb-3 mt-1">
-          <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#999" }}>
-            Earn Mode — Android
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: "#999" }}>
+              Earn Mode — Android
+            </p>
+            <button
+              onClick={() => setDarkMode((d) => !d)}
+              className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+              style={{ background: darkMode ? "#1c1c1e" : "#f2f2f7", color: darkMode ? "#5DF6EB" : "#555" }}
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {darkMode ? <Sun size={13} /> : <Moon size={13} />}
+            </button>
+          </div>
           <p className="text-[10px] mt-1" style={{ color: "#bbb" }}>
             Material Design 3 · Roboto
           </p>
@@ -150,13 +203,6 @@ export default function AndroidPage() {
             style={{ color: "#555", textDecoration: "none" }}
           >
             ← iOS Mockup
-          </a>
-          <a
-            href="/design-system"
-            className="block px-3 py-2 rounded-lg text-[12px] font-medium"
-            style={{ color: "var(--earn-teal)", background: "var(--earn-teal-10)", textDecoration: "none" }}
-          >
-            → Design System
           </a>
         </div>
       </aside>

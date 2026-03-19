@@ -8,6 +8,9 @@
 interface CaseResultProps {
   onNavigate: (screen: string) => void;
   variant?: "earned" | "not-earned";
+  earnState?: "warmup" | "threshold" | "active";
+  warmupRemaining?: number;
+  onThresholdComplete?: () => void;
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -72,23 +75,25 @@ const SESSION_QUALIFIED = 4;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResultProps) {
+export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = "active", warmupRemaining = 0, onThresholdComplete }: CaseResultProps) {
   const isEarned = variant === "earned";
   const isNotEarned = variant === "not-earned";
+  const isWarmup = earnState === "warmup";
+  const isThreshold = earnState === "threshold";
 
   return (
-    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
+    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "var(--md-background)" }}>
 
       {/* ── Top App Bar ── */}
-      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white" }}>
+      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "var(--md-background)" }}>
         <div className="w-12 h-12" />
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "var(--md-on-surface)" }}>
           Case Result
         </p>
         <button
           onClick={() => onNavigate("android-labeling")}
           className="w-12 h-12 flex items-center justify-center"
-          style={{ color: "#201922" }}
+          style={{ color: "var(--md-on-surface)" }}
         >
           <CloseIcon />
         </button>
@@ -97,13 +102,13 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
       {/* ── Progress bar ── */}
       <div className="px-4 pb-3 shrink-0">
         <div className="flex justify-between mb-1">
-          <span className="text-[12px]" style={{ color: "#201922" }}>Question 4/5</span>
-          <span className="text-[12px]" style={{ color: "#4E4352" }}>{SESSION_QUALIFIED} qualified</span>
+          <span className="text-[12px]" style={{ color: "var(--md-on-surface)" }}>Question 4/5</span>
+          <span className="text-[12px]" style={{ color: "var(--md-on-surface-variant)" }}>{SESSION_QUALIFIED} qualified</span>
         </div>
-        <div className="h-[11px] rounded-[15px] overflow-hidden" style={{ background: "#EEDDF0" }}>
+        <div className="h-[11px] rounded-[15px] overflow-hidden" style={{ background: "var(--md-surface-variant)" }}>
           <div
             className="h-[9px] rounded-[15px] mt-px ml-px"
-            style={{ width: "calc(80% - 2px)", background: "#4E4352" }}
+            style={{ width: "calc(80% - 2px)", background: "var(--md-on-surface-variant)" }}
           />
         </div>
       </div>
@@ -111,15 +116,47 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
       {/* ── Scrollable content ── */}
       <div className="flex-1 overflow-y-auto px-4 pb-6">
 
-        {/* ── Score card ── */}
-        <div
-          className="rounded-[24px] px-5 py-5 mb-5"
-          style={{
-            background: isEarned ? "#006A65" : "#BA1A1A",
-          }}
-        >
+        {/* ── Score card — warmup, threshold, or active variant ── */}
+        {(isWarmup || isThreshold) ? (
+          <div
+            className="rounded-[24px] px-5 py-5 mb-5"
+            style={{ background: isThreshold ? "rgba(0,106,101,0.12)" : "var(--md-surface-container)" }}
+          >
             <div className="flex items-start gap-3">
-              {/* Icon */}
+              <div style={{ color: isThreshold ? "var(--earn-teal)" : "var(--md-on-surface-variant)", marginTop: "2px" }}>
+                {isThreshold ? <CheckCircleIcon /> : <XCircleIcon />}
+              </div>
+              <div className="flex-1">
+                {isThreshold ? (
+                  <>
+                    <p className="font-medium text-[22px] leading-7" style={{ color: "var(--md-on-surface)" }}>
+                      You qualified!
+                    </p>
+                    <p className="text-[14px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
+                      Qualifying round complete
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-medium text-[22px] leading-7" style={{ color: "var(--md-on-surface)" }}>
+                      Not earning yet
+                    </p>
+                    <p className="text-[14px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
+                      {warmupRemaining > 5
+                        ? `${warmupRemaining} more cases to complete your qualifying round.`
+                        : "Just a few more cases to complete your qualifying round."}
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="rounded-[24px] px-5 py-5 mb-5"
+            style={{ background: isEarned ? "var(--md-secondary)" : "var(--md-error)" }}
+          >
+            <div className="flex items-start gap-3">
               <div style={{ color: "rgba(255,255,255,0.9)", marginTop: "2px" }}>
                 {isEarned ? <CheckCircleIcon /> : <XCircleIcon />}
               </div>
@@ -152,20 +189,16 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
               </div>
             </div>
 
-            {/* Score bar (not-earned only — shows where you landed) */}
+            {/* Score bar (not-earned only) */}
             {isNotEarned && (
               <div className="mt-4">
                 <div className="relative h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.20)" }}>
-                  {/* Not-earned zone */}
                   <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "rgba(255,255,255,0.15)" }} />
-                  {/* Earned zone */}
                   <div className="absolute top-0 h-full rounded-r-full" style={{ left: "70%", right: 0, background: "rgba(255,255,255,0.35)" }} />
-                  {/* Threshold line */}
                   <div className="absolute top-0 h-full w-[2px]" style={{ left: "70%", background: "white" }} />
-                  {/* Score marker */}
                   <div
                     className="absolute top-1/2 w-3 h-3 rounded-full border-2 border-white -translate-y-1/2 -translate-x-1/2"
-                    style={{ left: `${NOT_EARNED_SCORE}%`, background: "#BA1A1A" }}
+                    style={{ left: `${NOT_EARNED_SCORE}%`, background: "var(--md-error)" }}
                   />
                 </div>
                 <div className="flex justify-between mt-1">
@@ -176,74 +209,110 @@ export function AndroidCaseResult({ onNavigate, variant = "earned" }: CaseResult
               </div>
             )}
           </div>
-
-        {/* ── Standard result copy ── */}
-        <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "#201922" }}>
-          Thanks! Your response is submitted!
-        </p>
-
-        {isEarned ? (
-          <p className="text-[14px] leading-relaxed mb-5" style={{ color: "#4E4352" }}>
-            Your annotation hit the quality threshold. Visit the case again to see the expert reference response.
-          </p>
-        ) : (
-          <p className="text-[14px] leading-relaxed mb-5" style={{ color: "#4E4352" }}>
-            Your score of {NOT_EARNED_SCORE} was {QUALITY_BAR - NOT_EARNED_SCORE} points below the earn threshold. Visit the case to see where you can improve.
-          </p>
         )}
 
-        {/* Earn Mode tip (not earned only) */}
-        {isNotEarned && (
+        {/* ── Result copy ── */}
+        {isThreshold ? (
+          <>
+            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+              Your qualifying round is complete.
+            </p>
+            <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              Every read from here earns $0.03 — keep going.
+            </p>
+          </>
+        ) : isWarmup ? (
+          <>
+            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+              Thanks! Your response is submitted.
+            </p>
+            <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+              You&apos;re still in your qualifying round. Complete a few more cases to start earning.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-[22px] font-normal mb-2 leading-7" style={{ color: "var(--md-on-surface)" }}>
+              Thanks! Your response is submitted!
+            </p>
+            {isEarned ? (
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+                Your annotation hit the quality threshold. Visit the case again to see the expert reference response.
+              </p>
+            ) : (
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
+                Your score of {NOT_EARNED_SCORE} was {QUALITY_BAR - NOT_EARNED_SCORE} points below the earn threshold. Visit the case to see where you can improve.
+              </p>
+            )}
+          </>
+        )}
+
+        {/* Earn Mode tip (not earned + active only) */}
+        {isNotEarned && !isWarmup && !isThreshold && (
           <div
             className="rounded-[16px] px-4 py-3 mb-5"
-            style={{ background: "#FFF8F7", border: "1px solid #F2B8B5" }}
+            style={{ background: "var(--md-error-container)", border: "1px solid var(--md-outline-variant)" }}
           >
-            <p className="text-[13px] font-medium mb-1" style={{ color: "#BA1A1A" }}>Tips to improve your score</p>
+            <p className="text-[13px] font-medium mb-1" style={{ color: "var(--md-error)" }}>Tips to improve your score</p>
             <div className="flex flex-col gap-1">
               {[
                 "Tight boxes — avoid excess space around the lesion",
                 "Catch all visible lesions, even small ones",
                 "Avoid marking healthy tissue as lesions",
               ].map((tip) => (
-                <p key={tip} className="text-[12px] leading-relaxed" style={{ color: "#4E4352" }}>• {tip}</p>
+                <p key={tip} className="text-[12px] leading-relaxed" style={{ color: "var(--md-on-surface-variant)" }}>• {tip}</p>
               ))}
             </div>
           </div>
         )}
 
-        {/* Action buttons */}
-        <div className="flex flex-col gap-2">
-          <button
-            className="flex items-center justify-center gap-2 rounded-full"
-            style={{ height: "40px", border: "1px solid #D2C1D4", color: "#201922" }}
-          >
-            <SearchIcon />
-            <span className="text-[14px] font-medium tracking-[0.1px]">Check your answer</span>
-            <ArrowRightIcon />
-          </button>
-          <button
-            className="flex items-center justify-center gap-2 rounded-full"
-            style={{ height: "40px", border: "1px solid #D2C1D4", color: "#201922" }}
-          >
-            <FlagIcon />
-            <span className="text-[14px] font-medium tracking-[0.1px]">Flag this case</span>
-            <ArrowRightIcon />
-          </button>
-        </div>
+        {/* Action buttons (active state only) */}
+        {!isWarmup && !isThreshold && (
+          <div className="flex flex-col gap-2">
+            <button
+              className="flex items-center justify-center gap-2 rounded-full"
+              style={{ height: "40px", border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface)" }}
+            >
+              <SearchIcon />
+              <span className="text-[14px] font-medium tracking-[0.1px]">Check your answer</span>
+              <ArrowRightIcon />
+            </button>
+            <button
+              className="flex items-center justify-center gap-2 rounded-full"
+              style={{ height: "40px", border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface)" }}
+            >
+              <FlagIcon />
+              <span className="text-[14px] font-medium tracking-[0.1px]">Flag this case</span>
+              <ArrowRightIcon />
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* ── Next Case CTA ── */}
+      {/* ── CTA ── */}
       <div
         className="px-4 pb-6 pt-3 shrink-0"
-        style={{ borderTop: "1px solid #D2C1D4", background: "white" }}
+        style={{ borderTop: "1px solid var(--md-outline-variant)", background: "var(--md-background)" }}
       >
-        <button
-          onClick={() => onNavigate("android-labeling")}
-          className="w-full flex items-center justify-center"
-          style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
-        >
-          <span className="text-[16px] font-medium tracking-[0.15px]">Next Case</span>
-        </button>
+        {isThreshold ? (
+          <button
+            onClick={() => { onThresholdComplete?.(); onNavigate("android-labeling"); }}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
+          >
+            <span className="text-[16px] font-medium tracking-[0.15px]">Keep going</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => onNavigate("android-labeling")}
+            className="w-full flex items-center justify-center"
+            style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
+          >
+            <span className="text-[16px] font-medium tracking-[0.15px]">
+              {isWarmup ? "Next case" : "Next Case"}
+            </span>
+          </button>
+        )}
       </div>
     </div>
   );

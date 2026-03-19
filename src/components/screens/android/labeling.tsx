@@ -10,6 +10,9 @@ import { useState } from "react";
 interface LabelingProps {
   onNavigate: (screen: string) => void;
   initialShowContestEnded?: boolean;
+  earnState: "warmup" | "threshold" | "active";
+  warmupRemaining: number;
+  onWarmupProgress: (remaining: number) => void;
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -82,27 +85,44 @@ function SparkleIcon() {
 
 const EARNED_SCORE = 74;
 const NOT_EARNED_SCORE = 58;
-const QUALITY_BAR = 70;
 
-export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }: LabelingProps) {
+export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, earnState, warmupRemaining, onWarmupProgress }: LabelingProps) {
   const [mode, setMode] = useState<"draw" | "pan">("draw");
-  const [sessionEarnings, setSessionEarnings] = useState(0.09);
-  const [qualifiedCount, setQualifiedCount] = useState(3);
-  const [readCount, setReadCount] = useState(3);
+  const [sessionEarnings, setSessionEarnings] = useState(0);
+  const [qualifiedCount, setQualifiedCount] = useState(0);
+  const [readCount, setReadCount] = useState(0);
   const [showContestEnded, setShowContestEnded] = useState(initialShowContestEnded);
 
   const progressPct = (readCount / 5) * 100;
 
   function handleSubmitEarned() {
+    const newReadCount = readCount + 1;
+    setReadCount(newReadCount);
+
+    if (earnState === "warmup") {
+      const next = warmupRemaining - 1;
+      onWarmupProgress(next);
+      onNavigate("android-case-result-earned");
+      return;
+    }
+
     setSessionEarnings((e) => Math.round((e + 0.03) * 100) / 100);
     setQualifiedCount((c) => c + 1);
-    setReadCount((c) => c + 1);
     onNavigate("android-case-result-earned");
   }
 
   function handleSubmitNotEarned() {
-    setReadCount((c) => c + 1);
-    if (readCount >= 4) {
+    const newReadCount = readCount + 1;
+    setReadCount(newReadCount);
+
+    if (earnState === "warmup") {
+      const next = warmupRemaining - 1;
+      onWarmupProgress(next);
+      onNavigate("android-case-result-not-earned");
+      return;
+    }
+
+    if (newReadCount >= 5) {
       setShowContestEnded(true);
     } else {
       onNavigate("android-case-result-not-earned");
@@ -110,18 +130,18 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
   }
 
   return (
-    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
+    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "var(--md-background)" }}>
 
       {/* ── Top App Bar ── */}
-      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "white" }}>
+      <div className="flex items-center px-1 shrink-0" style={{ height: "64px", background: "var(--md-background)" }}>
         <div className="w-12 h-12" /> {/* spacer — no back nav on immersive screen */}
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "var(--md-on-surface)" }}>
           Labeling
         </p>
         <button
           onClick={() => onNavigate("android-contest-detail")}
           className="w-12 h-12 flex items-center justify-center"
-          style={{ color: "#201922" }}
+          style={{ color: "var(--md-on-surface)" }}
         >
           <CloseIcon />
         </button>
@@ -129,38 +149,52 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
 
       {/* ── Progress bar ── */}
       <div className="px-4 pb-2 shrink-0">
-        <div className="flex justify-between mb-1">
-          <span className="text-[12px]" style={{ color: "#201922" }}>Question {readCount}/5</span>
-          <span className="text-[12px]" style={{ color: "#4E4352" }}>{qualifiedCount} qualified</span>
+        <div className="mb-1">
+          <span className="text-[12px]" style={{ color: "var(--md-on-surface)" }}>Question {readCount}/5</span>
         </div>
-        <div className="h-[11px] rounded-[15px] overflow-hidden" style={{ background: "#EEDDF0" }}>
+        <div className="h-[11px] rounded-[15px] overflow-hidden" style={{ background: "var(--md-surface-variant)" }}>
           <div
             className="h-[9px] rounded-[15px] mt-px ml-px transition-all duration-300"
-            style={{ width: `calc(${progressPct}% - 2px)`, background: "#4E4352" }}
+            style={{ width: `calc(${progressPct}% - 2px)`, background: "var(--md-on-surface-variant)" }}
           />
         </div>
       </div>
 
-      {/* ── Earn Mode HUD — inline, between progress and image ── */}
+      {/* ── Earn Mode HUD — qualified count + earnings ── */}
       <div
-        className="mx-4 mb-2 rounded-[12px] flex items-center justify-between px-3 py-2 shrink-0"
-        style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.25)" }}
+        className="mx-4 mb-2 rounded-[12px] flex items-center justify-between px-3 py-2.5 shrink-0"
+        style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
       >
-        <div className="flex items-center gap-1.5">
+        {/* Left: countdown (warmup) or qualified count (active) */}
+        {earnState === "warmup" ? (
+          <div className="flex flex-col leading-none">
+            <span className="text-[18px] font-medium" style={{ color: "var(--md-secondary)" }}>
+              {warmupRemaining}
+            </span>
+            <span className="text-[10px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
+              case{warmupRemaining === 1 ? "" : "s"} to go
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col leading-none">
+            <span className="text-[18px] font-medium" style={{ color: "var(--md-secondary)" }}>{qualifiedCount}</span>
+            <span className="text-[10px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>qualified</span>
+          </div>
+        )}
+        {/* Earn chip + earnings/qualifying */}
+        <div className="flex items-center gap-2">
           <div
             className="flex items-center gap-1 px-2 rounded-full"
-            style={{ height: "22px", background: "var(--earn-teal-10)" }}
+            style={{ height: "22px", border: "1px solid var(--md-secondary)", color: "var(--md-secondary)" }}
           >
             <DollarIcon />
-            <span className="text-[10px] font-medium tracking-[0.3px]" style={{ color: "#006A65" }}>Earn Mode</span>
+            <span className="text-[10px] font-medium tracking-[0.3px]">Earn Mode</span>
           </div>
-          <span className="text-[11px]" style={{ color: "#4E4352" }}>active</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <span className="text-[16px] font-medium" style={{ color: "#006A65" }}>${sessionEarnings.toFixed(2)}</span>
-            <span className="text-[11px] ml-1" style={{ color: "#4E4352" }}>earned</span>
-          </div>
+          {earnState === "warmup" ? (
+            <span className="text-[13px] font-medium" style={{ color: "var(--md-on-surface-variant)" }}>Qualifying</span>
+          ) : (
+            <span className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>${sessionEarnings.toFixed(2)}</span>
+          )}
         </div>
       </div>
 
@@ -201,7 +235,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
         {/* Instruction text */}
         <p
           className="text-center mt-3 mb-2 text-[16px] leading-snug"
-          style={{ color: "#201922", fontWeight: 500 }}
+          style={{ color: "var(--md-on-surface)", fontWeight: 500 }}
         >
           Draw a bounding box around all lesions visible in this pathology slide.
         </p>
@@ -209,7 +243,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
         {/* Draw / Pan segmented toggle */}
         <div
           className="flex rounded-full mx-auto mb-3 p-1"
-          style={{ border: "1px solid #D2C1D4", background: "white", width: "fit-content" }}
+          style={{ border: "1px solid var(--md-outline-variant)", background: "var(--md-background)", width: "fit-content" }}
         >
           {(["draw", "pan"] as const).map((m) => (
             <button
@@ -218,8 +252,8 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
               className="flex items-center gap-1.5 px-4 rounded-full"
               style={{
                 height: "36px",
-                background: mode === m ? "#F7EAF6" : "transparent",
-                color: "#201922",
+                background: mode === m ? "var(--md-surface-container)" : "transparent",
+                color: "var(--md-on-surface)",
                 transition: "background 0.15s",
               }}
             >
@@ -234,13 +268,13 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
           {/* Utility icons */}
           <button
             className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-            style={{ border: "1px solid #D2C1D4", color: "#4E4352" }}
+            style={{ border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface-variant)" }}
           >
             <CommentIcon />
           </button>
           <button
             className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-            style={{ border: "1px solid #D2C1D4", color: "#4E4352" }}
+            style={{ border: "1px solid var(--md-outline-variant)", color: "var(--md-on-surface-variant)" }}
           >
             <FlagIcon />
           </button>
@@ -252,8 +286,8 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
               className="flex-1 flex items-center justify-center rounded-full"
               style={{
                 height: "40px",
-                border: "1px solid #D2C1D4",
-                color: "#201922",
+                border: "1px solid var(--md-outline-variant)",
+                color: "var(--md-on-surface)",
                 fontSize: "12px",
                 fontWeight: 500,
               }}
@@ -265,8 +299,8 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
               className="flex-1 flex items-center justify-center gap-1.5 rounded-full"
               style={{
                 height: "40px",
-                background: "#8D2EBC",
-                color: "white",
+                background: "var(--md-primary-container)",
+                color: "var(--md-on-primary-container)",
                 fontSize: "12px",
                 fontWeight: 500,
               }}
@@ -283,7 +317,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
           style={{
             height: "48px",
             borderRadius: "100px",
-            background: "#8D2EBC",
+            background: "var(--md-primary-container)",
             color: "white",
           }}
         >
@@ -299,31 +333,31 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
           style={{ background: "rgba(0,0,0,0.50)" }}
         >
           <div
-            className="w-full bg-white px-5 pt-4 pb-10"
-            style={{ borderRadius: "28px 28px 0 0" }}
+            className="w-full px-5 pt-4 pb-10"
+            style={{ background: "var(--md-surface-container-low)", borderRadius: "28px 28px 0 0" }}
           >
             {/* Handle */}
-            <div className="w-8 h-1 rounded-full mx-auto mb-5" style={{ background: "#D2C1D4" }} />
+            <div className="w-8 h-1 rounded-full mx-auto mb-5" style={{ background: "var(--md-outline-variant)" }} />
 
             {/* Icon */}
             <div
               className="w-12 h-12 rounded-[16px] flex items-center justify-center mb-3"
-              style={{ background: "var(--earn-teal-10)", color: "#006A65" }}
+              style={{ background: "var(--color-secondary-bg)", color: "var(--md-secondary)" }}
             >
               <DollarIcon />
             </div>
 
-            <h2 className="text-[22px] font-normal mb-2" style={{ color: "#201922" }}>This contest has ended</h2>
-            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "#4E4352" }}>
+            <h2 className="text-[22px] font-normal mb-2" style={{ color: "var(--md-on-surface)" }}>This contest has ended</h2>
+            <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--md-on-surface-variant)" }}>
               The prize pool was claimed while you were reading. Your earnings from this session are safe.
             </p>
 
             {/* Earnings summary */}
             <div
               className="rounded-[16px] px-4 py-3 mb-5"
-              style={{ background: "var(--earn-teal-10)", border: "1px solid rgba(0,106,101,0.20)" }}
+              style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
             >
-              <p className="text-[16px] font-medium" style={{ color: "#006A65" }}>
+              <p className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>
                 ${sessionEarnings.toFixed(2)} earned · {qualifiedCount} qualified reads
               </p>
             </div>
@@ -333,14 +367,14 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false }:
               <button
                 onClick={() => onNavigate("android-contest-detail")}
                 className="flex-1 flex items-center justify-center rounded-full"
-                style={{ height: "48px", border: "1px solid #8D2EBC", color: "#8D2EBC", fontSize: "14px", fontWeight: 500 }}
+                style={{ height: "48px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)", fontSize: "14px", fontWeight: 500 }}
               >
                 My earnings
               </button>
               <button
                 onClick={() => onNavigate("android-compete")}
                 className="flex-1 flex items-center justify-center rounded-full"
-                style={{ height: "48px", background: "#8D2EBC", color: "white", fontSize: "14px", fontWeight: 500 }}
+                style={{ height: "48px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)", fontSize: "14px", fontWeight: 500 }}
               >
                 Browse contests
               </button>

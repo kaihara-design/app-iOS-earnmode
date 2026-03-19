@@ -9,7 +9,10 @@ interface LabelingOptionAProps {
   initialShowContestEnded?: boolean;
 }
 
-type FeedbackState = "none" | "earned" | "not-earned";
+type EarnState = "warmup" | "active";
+type FeedbackState = "none" | "warmup" | "threshold" | "earned" | "not-earned";
+
+const WARMUP_TOTAL = 3; // prototype; real app = 10–25 from topic config
 
 const notEarnedScore = 64;
 const earnedScore = 74;
@@ -17,30 +20,49 @@ const qualityBar = 70;
 
 export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContestEnded }: LabelingOptionAProps) {
   const [feedback, setFeedback] = useState<FeedbackState>(initialFeedback ?? "none");
-  const [sessionEarnings, setSessionEarnings] = useState(0.09);
-  const [qualifiedCount, setQualifiedCount] = useState(3);
-  const [readCount, setReadCount] = useState(3);
+  const [earnState, setEarnState] = useState<EarnState>("warmup");
+  const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
+  const [sessionEarnings, setSessionEarnings] = useState(0);
+  const [qualifiedCount, setQualifiedCount] = useState(0);
+  const [readCount, setReadCount] = useState(0);
   const [showContestEnded, setShowContestEnded] = useState(initialShowContestEnded ?? false);
 
   function handleEarned() {
+    setReadCount((c) => c + 1);
+
+    if (earnState === "warmup") {
+      const next = warmupRemaining - 1;
+      setWarmupRemaining(next);
+      setFeedback(next === 0 ? "threshold" : "warmup");
+      return;
+    }
+
     setFeedback("earned");
     setSessionEarnings((e) => Math.round((e + 0.03) * 100) / 100);
     setQualifiedCount((c) => c + 1);
-    setReadCount((c) => c + 1);
   }
 
   function handleNotEarned() {
-    setFeedback("not-earned");
     setReadCount((c) => c + 1);
+
+    if (earnState === "warmup") {
+      const next = warmupRemaining - 1;
+      setWarmupRemaining(next);
+      setFeedback(next === 0 ? "threshold" : "warmup");
+      return;
+    }
+
+    setFeedback("not-earned");
   }
 
   function handleNext() {
+    if (feedback === "threshold") setEarnState("active");
     setFeedback("none");
     if (readCount >= 5) setShowContestEnded(true);
   }
 
   return (
-    <div className="h-full relative overflow-hidden" style={{ background: "#0a0a0a" }}>
+    <div className="h-full relative overflow-hidden" style={{ background: "#0a0a0a", fontFamily: "var(--ios-font)" }}>
 
       {/* ── Full-screen medical image ── */}
       <div className="absolute inset-0 flex items-center justify-center">
@@ -51,7 +73,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
         {/* Primary annotation box */}
         <div
           className="absolute border-2 rounded"
-          style={{ borderColor: "var(--earn-teal)", top: "28%", left: "22%", width: "48%", height: "32%" }}
+          style={{ borderColor: "#5DF6EB", top: "28%", left: "22%", width: "48%", height: "32%" }}
         />
         {/* Secondary lesion */}
         <div
@@ -74,36 +96,37 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
           <X size={14} color="white" />
         </button>
 
-        {/* Progress */}
-        <div className="flex flex-col items-center gap-0.5">
-          <div className="flex gap-1">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-5 h-1.5 rounded-full transition-all duration-[300ms]"
-                style={{
-                  background: i < readCount
-                    ? "var(--earn-teal)"
-                    : "rgba(255,255,255,0.22)",
-                }}
-              />
-            ))}
+        {/* Center: countdown (warmup) or qualified count (active) */}
+        {earnState === "warmup" ? (
+          <div
+            className="px-2.5 py-1 rounded-full"
+            style={{ background: "rgba(93,246,235,0.12)", border: "1px solid rgba(93,246,235,0.30)" }}
+          >
+            <span className="text-[11px] font-semibold" style={{ color: "#5DF6EB" }}>
+              {warmupRemaining} case{warmupRemaining === 1 ? "" : "s"} to go
+            </span>
           </div>
-          <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.55)" }}>
-            {qualifiedCount} qualified
-          </span>
-        </div>
+        ) : (
+          <div className="flex flex-col items-center leading-none">
+            <span className="text-[16px] font-bold text-white">{qualifiedCount}</span>
+            <span className="text-[9px] mt-0.5" style={{ color: "rgba(255,255,255,0.50)" }}>qualified</span>
+          </div>
+        )}
 
         {/* Earn Mode HUD */}
         <div className="flex items-center gap-1.5">
           <span
             className="px-2 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1"
-            style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
+            style={{ background: "rgba(93, 246, 235, 0.12)", color: "#5DF6EB", border: "1px solid rgba(93, 246, 235, 0.35)" }}
           >
             <Coins size={10} />
             Earn
           </span>
-          <span key={sessionEarnings} className="text-[14px] font-bold text-white animate-earn-tick">${sessionEarnings.toFixed(2)}</span>
+          {earnState === "warmup" ? (
+            <span className="text-[12px] font-medium" style={{ color: "rgba(255,255,255,0.45)" }}>Qualifying</span>
+          ) : (
+            <span key={sessionEarnings} className="text-[14px] font-bold text-white animate-earn-tick">${sessionEarnings.toFixed(2)}</span>
+          )}
         </div>
       </div>
 
@@ -166,7 +189,33 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
         <div className="absolute bottom-0 left-0 right-0 rounded-t-3xl px-5 pt-4 pb-8 animate-sheet-up" style={{ background: "var(--ios-surface-default)" }}>
           <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--ios-border-default)" }} />
 
-          {feedback === "earned" ? (
+          {feedback === "warmup" && (
+            <>
+              <p className="text-[17px] font-bold mb-1" style={{ color: "var(--ios-text-primary)" }}>Not earning yet</p>
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--ios-text-secondary)" }}>
+                {warmupRemaining > 5
+                  ? `${warmupRemaining} more cases to complete your qualifying round.`
+                  : "Just a few more cases to complete your qualifying round."}
+              </p>
+            </>
+          )}
+
+          {feedback === "threshold" && (
+            <>
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
+                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
+              >
+                <Check size={22} strokeWidth={2.5} />
+              </div>
+              <p className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>You qualified!</p>
+              <p className="text-[14px] leading-relaxed mb-5" style={{ color: "var(--ios-text-secondary)" }}>
+                Your qualifying round is complete. Every read from here earns $0.03 — keep going.
+              </p>
+            </>
+          )}
+
+          {feedback === "earned" && (
             <>
               <div className="flex items-start gap-2.5 mb-1">
                 <div
@@ -188,7 +237,9 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
                 +$0.03 added · ${sessionEarnings.toFixed(2)} earned this session
               </p>
             </>
-          ) : (
+          )}
+
+          {feedback === "not-earned" && (
             <>
               <div className="flex items-start gap-2.5 mb-1">
                 <div
@@ -217,7 +268,7 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
             className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
             style={{ background: "var(--ios-interactive-primary)" }}
           >
-            Next →
+            {feedback === "threshold" ? "Keep going" : feedback === "warmup" ? "Next case" : "Next →"}
           </button>
         </div>
       )}
@@ -229,16 +280,16 @@ export function LabelingOptionA({ onNavigate, initialFeedback, initialShowContes
             <div className="w-10 h-1 rounded-full mx-auto mb-5" style={{ background: "var(--ios-border-default)" }} />
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3"
-              style={{ background: "var(--ios-interactive-indigo-bg)", color: "var(--ios-interactive-primary)" }}
+              style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
             >
               <DollarSign size={24} />
             </div>
-            <h2 className="text-[18px] font-bold mb-2">This contest has ended</h2>
+            <h2 className="text-[18px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>This contest has ended</h2>
             <p className="text-[14px] leading-relaxed mb-4" style={{ color: "var(--ios-text-secondary)" }}>
               The prize pool was claimed while you were reading. Your earnings from this session are safe.
             </p>
-            <div className="rounded-xl px-4 py-3 mb-5" style={{ background: "var(--ios-interactive-indigo-bg)" }}>
-              <p className="text-[15px] font-bold" style={{ color: "var(--ios-interactive-primary)" }}>
+            <div className="rounded-xl px-4 py-3 mb-5" style={{ background: "var(--earn-teal-10)" }}>
+              <p className="text-[15px] font-bold" style={{ color: "var(--earn-teal)" }}>
                 ${sessionEarnings.toFixed(2)} earned · {qualifiedCount} qualified reads
               </p>
             </div>
