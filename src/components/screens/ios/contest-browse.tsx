@@ -78,7 +78,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
   const filters = ["Recommended", "All Contests", "Upcoming", "Just Ended"];
 
   return (
-    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)" }}>
+    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)", fontFamily: "var(--ios-font)" }}>
       {/* Nav header */}
       <div className="px-4 pt-2 pb-1">
         <div className="flex items-center justify-between mb-3">
@@ -100,8 +100,8 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
               className="flex-shrink-0 px-[10px] py-[10px] rounded-[5px] text-[14px] font-semibold transition-all duration-[200ms] active:scale-[0.94]"
               style={
                 activeFilter === f
-                  ? { background: "#2a98a4", color: "#ffffff", border: "none" }
-                  : { background: "#e0e0e0", color: "var(--ios-text-vibrant)", border: "none" }
+                  ? { background: "var(--ios-primary-container)", color: "var(--ios-on-primary-container)", border: "none" }
+                  : { background: "var(--ios-fill-quaternary)", color: "var(--ios-text-vibrant)", border: "none" }
               }
             >
               {f}
@@ -139,7 +139,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             modeChip={
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                style={{ background: "var(--earn-teal)", color: "white" }}
+                style={{ background: "var(--earn-chip-bg)", color: "var(--earn-chip-fg)", border: "1px solid var(--earn-chip-border)" }}
               >
                 <Coins size={10} />
                 Earn Mode
@@ -195,7 +195,7 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
             modeChip={
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                style={{ background: "var(--earn-teal)", color: "white" }}
+                style={{ background: "var(--earn-chip-bg)", color: "var(--earn-chip-fg)", border: "1px solid var(--earn-chip-border)" }}
               >
                 <Coins size={10} />
                 Earn Mode
@@ -218,10 +218,10 @@ export function ContestBrowse({ onNavigate }: ContestBrowseProps) {
           { icon: <User size={22} />, label: "Profile", active: false },
         ].map(({ icon, label, active }) => (
           <button key={label} className="flex flex-col items-center gap-1">
-            <span style={{ color: active ? "var(--ios-tint-default)" : "var(--ios-text-vibrant-control)" }}>{icon}</span>
+            <span style={{ color: active ? "var(--ios-interactive-primary)" : "var(--ios-text-vibrant-control)" }}>{icon}</span>
             <span
               className="text-[10px] font-semibold"
-              style={{ color: active ? "var(--ios-tint-default)" : "var(--ios-text-vibrant-control)" }}
+              style={{ color: active ? "var(--ios-interactive-primary)" : "var(--ios-text-vibrant-control)" }}
             >
               {label}
             </span>

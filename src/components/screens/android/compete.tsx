@@ -107,20 +107,20 @@ function BrainIcon() {
 
 export function AndroidCompete({ onNavigate }: CompeteProps) {
   return (
-    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}>
+    <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "var(--md-background)" }}>
       {/* Top app bar */}
-      <div className="flex items-center gap-1 px-1 py-2" style={{ height: "64px", background: "white" }}>
-        <div className="w-12 h-12 flex items-center justify-center rounded-full shrink-0" style={{ color: "#201922" }}>
+      <div className="flex items-center gap-1 px-1 py-2" style={{ height: "64px", background: "var(--md-background)" }}>
+        <div className="w-12 h-12 flex items-center justify-center rounded-full shrink-0" style={{ color: "var(--md-on-surface)" }}>
           {/* no back icon on top-level */}
         </div>
-        <p className="flex-1 text-[22px] font-normal leading-7" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7" style={{ color: "var(--md-on-surface)" }}>
           Compete
         </p>
         <div className="flex">
-          <button className="w-12 h-12 flex items-center justify-center" style={{ color: "#201922" }}>
+          <button className="w-12 h-12 flex items-center justify-center" style={{ color: "var(--md-on-surface)" }}>
             <SearchIcon />
           </button>
-          <button className="w-12 h-12 flex items-center justify-center" style={{ color: "#201922" }}>
+          <button className="w-12 h-12 flex items-center justify-center" style={{ color: "var(--md-on-surface)" }}>
             <BellIcon />
           </button>
         </div>
@@ -129,7 +129,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto px-4 pb-4">
         {/* Section label */}
-        <p className="text-[11px] font-medium tracking-[0.5px] mb-3" style={{ color: "#4e4352" }}>
+        <p className="text-[11px] font-medium tracking-[0.5px] mb-3" style={{ color: "var(--md-on-surface-variant)" }}>
           AVAILABLE CONTESTS
         </p>
 
@@ -142,8 +142,8 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
               className="text-left w-full overflow-hidden border"
               style={{
                 borderRadius: "20px",
-                borderColor: "#d2c1d4",
-                background: contest.exhausted ? "#fafafa" : "white",
+                borderColor: "var(--md-outline-variant)",
+                background: contest.exhausted ? "var(--md-surface-container-low)" : "var(--md-background)",
                 opacity: contest.exhausted ? 0.7 : 1,
               }}
             >
@@ -178,10 +178,10 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
                   {contest.earnMode && (
                     <div
                       className="flex items-center gap-1 px-2 rounded-full"
-                      style={{ height: "24px", border: "1px solid #006A65" }}
+                      style={{ height: "24px", border: "1px solid var(--md-secondary)" }}
                     >
                       <DollarIcon />
-                      <span className="text-[8px] font-medium tracking-[0.5px]" style={{ color: "#006A65" }}>
+                      <span className="text-[8px] font-medium tracking-[0.5px]" style={{ color: "var(--md-secondary)" }}>
                         Earn Mode
                       </span>
                     </div>
@@ -191,9 +191,9 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
                     <div
                       key={chip}
                       className="flex items-center px-2 rounded-full"
-                      style={{ height: "24px", border: "1px solid #d2c1d4" }}
+                      style={{ height: "24px", border: "1px solid var(--md-outline-variant)" }}
                     >
-                      <span className="text-[8px] font-medium tracking-[0.5px]" style={{ color: "#201922" }}>
+                      <span className="text-[8px] font-medium tracking-[0.5px]" style={{ color: "var(--md-on-surface)" }}>
                         {chip}
                       </span>
                     </div>
@@ -203,19 +203,19 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
                 {/* Title */}
                 <p
                   className="text-[22px] font-normal leading-7 line-clamp-2"
-                  style={{ color: "#201922", fontFamily: "'Roboto', system-ui, sans-serif" }}
+                  style={{ color: "var(--md-on-surface)", fontFamily: "'Roboto', system-ui, sans-serif" }}
                 >
                   {contest.title}
                 </p>
 
                 {/* Meta row */}
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1" style={{ color: "#4e4352" }}>
+                  <div className="flex items-center gap-1" style={{ color: "var(--md-on-surface-variant)" }}>
                     <AlarmIcon />
                     <span className="text-[11px] font-medium tracking-[0.5px]">Ends in {contest.endsIn}</span>
                   </div>
-                  <span className="text-[12px]" style={{ color: "#4e4352" }}>·</span>
-                  <div className="flex items-center gap-1" style={{ color: "#4e4352" }}>
+                  <span className="text-[12px]" style={{ color: "var(--md-on-surface-variant)" }}>·</span>
+                  <div className="flex items-center gap-1" style={{ color: "var(--md-on-surface-variant)" }}>
                     <DollarIcon />
                     <span className="text-[11px] font-medium tracking-[0.5px]">{contest.pool}</span>
                   </div>
@@ -229,7 +229,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
       {/* Bottom navigation bar */}
       <div
         className="flex items-stretch border-t px-2 shrink-0"
-        style={{ borderColor: "#D2C1D4", background: "white", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)", height: "80px" }}
+        style={{ borderColor: "var(--md-outline-variant)", background: "var(--md-background)", boxShadow: "0 -2px 3px rgba(0,0,0,0.08)", height: "80px" }}
       >
         {[
           { label: "Compete", icon: <ChecklistIcon />, active: true },
@@ -244,8 +244,8 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
                 width: active ? "64px" : "32px",
                 height: "32px",
                 borderRadius: "16px",
-                background: active ? "#8D2EBC" : "transparent",
-                color: active ? "white" : "#4e4352",
+                background: active ? "var(--md-primary-container)" : "transparent",
+                color: active ? "var(--md-on-primary-container)" : "var(--md-on-surface-variant)",
                 transition: "all 0.2s",
               }}
             >
@@ -253,7 +253,7 @@ export function AndroidCompete({ onNavigate }: CompeteProps) {
             </div>
             <span
               className="text-[12px] font-medium tracking-[0.5px]"
-              style={{ color: active ? "#201922" : "#4e4352" }}
+              style={{ color: active ? "var(--md-on-surface)" : "var(--md-on-surface-variant)" }}
             >
               {label}
             </span>

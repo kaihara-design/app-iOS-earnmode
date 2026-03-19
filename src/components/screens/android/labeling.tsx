@@ -13,6 +13,8 @@ interface LabelingProps {
   earnState: "warmup" | "threshold" | "active";
   warmupRemaining: number;
   onWarmupProgress: (remaining: number) => void;
+  onActiveSubmit?: () => void;
+  qualifiedCount?: number;
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -57,14 +59,6 @@ function FlagIcon() {
   );
 }
 
-function ArrowRightIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12h14M12 5l7 7-7 7"/>
-    </svg>
-  );
-}
-
 function DollarIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,15 +77,11 @@ function SparkleIcon() {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const EARNED_SCORE = 74;
-const NOT_EARNED_SCORE = 58;
-
-export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, earnState, warmupRemaining, onWarmupProgress }: LabelingProps) {
+export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, earnState, warmupRemaining, onWarmupProgress, onActiveSubmit, qualifiedCount = 0 }: LabelingProps) {
   const [mode, setMode] = useState<"draw" | "pan">("draw");
   const [sessionEarnings, setSessionEarnings] = useState(0);
-  const [qualifiedCount, setQualifiedCount] = useState(0);
   const [readCount, setReadCount] = useState(0);
-  const [showContestEnded, setShowContestEnded] = useState(initialShowContestEnded);
+  const [showContestEnded] = useState(initialShowContestEnded);
 
   const progressPct = (readCount / 5) * 100;
 
@@ -107,26 +97,8 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
     }
 
     setSessionEarnings((e) => Math.round((e + 0.03) * 100) / 100);
-    setQualifiedCount((c) => c + 1);
+    onActiveSubmit?.();
     onNavigate("android-case-result-earned");
-  }
-
-  function handleSubmitNotEarned() {
-    const newReadCount = readCount + 1;
-    setReadCount(newReadCount);
-
-    if (earnState === "warmup") {
-      const next = warmupRemaining - 1;
-      onWarmupProgress(next);
-      onNavigate("android-case-result-not-earned");
-      return;
-    }
-
-    if (newReadCount >= 5) {
-      setShowContestEnded(true);
-    } else {
-      onNavigate("android-case-result-not-earned");
-    }
   }
 
   return (
@@ -160,28 +132,11 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
         </div>
       </div>
 
-      {/* ── Earn Mode HUD — qualified count + earnings ── */}
+      {/* ── Earn Mode HUD ── */}
       <div
-        className="mx-4 mb-2 rounded-[12px] flex items-center justify-between px-3 py-2.5 shrink-0"
+        className="mx-4 mb-2 rounded-[12px] flex items-center justify-end px-3 py-2.5 shrink-0"
         style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
       >
-        {/* Left: countdown (warmup) or qualified count (active) */}
-        {earnState === "warmup" ? (
-          <div className="flex flex-col leading-none">
-            <span className="text-[18px] font-medium" style={{ color: "var(--md-secondary)" }}>
-              {warmupRemaining}
-            </span>
-            <span className="text-[10px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>
-              case{warmupRemaining === 1 ? "" : "s"} to go
-            </span>
-          </div>
-        ) : (
-          <div className="flex flex-col leading-none">
-            <span className="text-[18px] font-medium" style={{ color: "var(--md-secondary)" }}>{qualifiedCount}</span>
-            <span className="text-[10px] mt-0.5" style={{ color: "var(--md-on-surface-variant)" }}>qualified</span>
-          </div>
-        )}
-        {/* Earn chip + earnings/qualifying */}
         <div className="flex items-center gap-2">
           <div
             className="flex items-center gap-1 px-2 rounded-full"
@@ -191,9 +146,9 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             <span className="text-[10px] font-medium tracking-[0.3px]">Earn Mode</span>
           </div>
           {earnState === "warmup" ? (
-            <span className="text-[13px] font-medium" style={{ color: "var(--md-on-surface-variant)" }}>Qualifying</span>
+            <span className="text-[13px] font-medium" style={{ color: "var(--md-on-surface-variant)" }}>Qualifying · {warmupRemaining} to go</span>
           ) : (
-            <span className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>${sessionEarnings.toFixed(2)}</span>
+            <span className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>${sessionEarnings.toFixed(2)} · {qualifiedCount} qualified</span>
           )}
         </div>
       </div>
@@ -263,7 +218,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
           ))}
         </div>
 
-        {/* Utility row + submit buttons */}
+        {/* Utility row + submit */}
         <div className="flex items-center gap-2">
           {/* Utility icons */}
           <button
@@ -279,51 +234,21 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             <FlagIcon />
           </button>
 
-          {/* Submit buttons — two variants for prototype demo */}
-          <div className="flex-1 flex gap-1.5 ml-1">
-            <button
-              onClick={handleSubmitNotEarned}
-              className="flex-1 flex items-center justify-center rounded-full"
-              style={{
-                height: "40px",
-                border: "1px solid var(--md-outline-variant)",
-                color: "var(--md-on-surface)",
-                fontSize: "12px",
-                fontWeight: 500,
-              }}
-            >
-              Score: {NOT_EARNED_SCORE}
-            </button>
-            <button
-              onClick={handleSubmitEarned}
-              className="flex-1 flex items-center justify-center gap-1.5 rounded-full"
-              style={{
-                height: "40px",
-                background: "var(--md-primary-container)",
-                color: "var(--md-on-primary-container)",
-                fontSize: "12px",
-                fontWeight: 500,
-              }}
-            >
-              Score: {EARNED_SCORE} <ArrowRightIcon />
-            </button>
-          </div>
+          {/* Single Submit button */}
+          <button
+            onClick={handleSubmitEarned}
+            className="flex-1 flex items-center justify-center ml-1 rounded-full"
+            style={{
+              height: "40px",
+              background: "var(--md-primary-container)",
+              color: "var(--md-on-primary-container)",
+              fontSize: "14px",
+              fontWeight: 500,
+            }}
+          >
+            Submit
+          </button>
         </div>
-
-        {/* Full-width Submit CTA (canonical) */}
-        <button
-          onClick={handleSubmitEarned}
-          className="w-full flex items-center justify-center gap-2 mt-2"
-          style={{
-            height: "48px",
-            borderRadius: "100px",
-            background: "var(--md-primary-container)",
-            color: "white",
-          }}
-        >
-          <span className="text-[14px] font-medium tracking-[0.1px]">Submit No Findings</span>
-          <ArrowRightIcon />
-        </button>
       </div>
 
       {/* ── Contest ended bottom sheet ── */}
@@ -358,7 +283,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
               style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
             >
               <p className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>
-                ${sessionEarnings.toFixed(2)} earned · {qualifiedCount} qualified reads
+                ${sessionEarnings.toFixed(2)} earned this session
               </p>
             </div>
 

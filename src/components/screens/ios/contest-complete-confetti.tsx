@@ -26,7 +26,7 @@ const FALL_PIECES = Array.from({ length: 40 }, (_, i) => ({
 
 export function ContestCompleteConfetti({ onNavigate }: ContestCompleteConfettiProps) {
   return (
-    <div className="h-full flex flex-col relative overflow-hidden" style={{ background: "var(--ios-surface-default)" }}>
+    <div className="h-full flex flex-col relative overflow-hidden" style={{ background: "var(--ios-surface-default)", fontFamily: "var(--ios-font)" }}>
 
       {/* Confetti layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -3,44 +3,55 @@
 import { useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { PhoneFrame } from "@/components/phone-frame";
-import { ContestBrowse } from "@/components/screens/contest-browse";
-import { ContestDetail } from "@/components/screens/contest-detail";
-import { LabelingOptionA } from "@/components/screens/labeling-option-a";
-import { LabelingOptionB } from "@/components/screens/labeling-option-b";
-import { ContestComplete } from "@/components/screens/contest-complete";
-import { ContestCompleteConfetti } from "@/components/screens/contest-complete-confetti";
+import { ContestBrowse } from "@/components/screens/ios/contest-browse";
+import { ContestDetail } from "@/components/screens/ios/contest-detail";
+import { LabelingOptionA } from "@/components/screens/ios/labeling-option-a";
+import { LabelingOptionB } from "@/components/screens/ios/labeling-option-b";
+import { ContestComplete } from "@/components/screens/ios/contest-complete";
+import { ContestCompleteConfetti } from "@/components/screens/ios/contest-complete-confetti";
 
 type Screen =
   | "contest-browse"
   | "contest-detail-new"
-  | "labeling-option-a"
-  | "labeling-option-b"
-  | "labeling-contest-ended"
-  | "contest-complete"
-  | "contest-complete-confetti"
+  | "labeling"
+  | "feedback-a-pass"
+  | "feedback-a-fail"
+  | "feedback-b-pass"
+  | "feedback-b-fail"
+  | "session-complete"
+  | "max-earned"
+  | "contest-ended"
   | "contest-detail-post-compete";
 
 const SCREEN_LABELS: Record<Screen, string> = {
   "contest-browse": "Contest Browse",
   "contest-detail-new": "Contest Detail — New",
-  "labeling-option-a": "Labeling — Option A (score)",
-  "labeling-option-b": "Labeling — Option B (pass/fail)",
-  "labeling-contest-ended": "Contest Ended (mid-session)",
-  "contest-complete": "Session Complete",
-  "contest-complete-confetti": "Max Earned — Celebration",
+  "labeling": "Labeling",
+  "feedback-a-pass": "Score Feedback — A · Passed",
+  "feedback-a-fail": "Score Feedback — A · Failed",
+  "feedback-b-pass": "Score Feedback — B · Passed",
+  "feedback-b-fail": "Score Feedback — B · Failed",
+  "session-complete": "Session Complete",
+  "max-earned": "Max Earned",
+  "contest-ended": "Contest Ended — mid-session",
   "contest-detail-post-compete": "Contest Detail — Post-Compete",
 };
 
 const ALL_SCREENS: Screen[] = [
   "contest-browse",
   "contest-detail-new",
-  "labeling-option-a",
-  "labeling-option-b",
-  "labeling-contest-ended",
-  "contest-complete",
-  "contest-complete-confetti",
+  "labeling",
+  "feedback-a-pass",
+  "feedback-a-fail",
+  "feedback-b-pass",
+  "feedback-b-fail",
+  "session-complete",
+  "max-earned",
+  "contest-ended",
   "contest-detail-post-compete",
 ];
+
+const WARMUP_TOTAL = 3;
 
 function getInitialScreen(): Screen {
   if (typeof window !== "undefined") {
@@ -58,37 +69,133 @@ function getSheetParam(): string | null {
   return null;
 }
 
-function getFeedbackParam(): string | null {
-  if (typeof window !== "undefined") {
-    return new URLSearchParams(window.location.search).get("feedback");
-  }
-  return null;
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[9px] font-bold uppercase tracking-widest mt-4 mb-1 px-1" style={{ color: "#aaa" }}>
+      {children}
+    </p>
+  );
+}
+
+function NavBtn({
+  s,
+  label,
+  current,
+  onClick,
+}: {
+  s: Screen;
+  label: string;
+  current: Screen;
+  onClick: (s: Screen) => void;
+}) {
+  return (
+    <button
+      onClick={() => onClick(s)}
+      className="text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
+      style={
+        current === s
+          ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)", fontWeight: 700 }
+          : { color: "#555" }
+      }
+    >
+      {label}
+    </button>
+  );
 }
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>(getInitialScreen);
   const [darkMode, setDarkMode] = useState(false);
+  const [earnState, setEarnState] = useState<"warmup" | "threshold" | "active">("warmup");
+  const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
   const sheet = getSheetParam();
-  const feedback = getFeedbackParam() as "earned" | "not-earned" | null;
+
+  function nav(s: string) {
+    const isLabelingRelated = s === "labeling" || s.startsWith("feedback-");
+    if (!isLabelingRelated) {
+      setEarnState("warmup");
+      setWarmupRemaining(WARMUP_TOTAL);
+    }
+    setScreen(s as Screen);
+  }
 
   function renderScreen() {
     switch (screen) {
       case "contest-browse":
-        return <ContestBrowse onNavigate={(s) => setScreen(s as Screen)} />;
+        return <ContestBrowse onNavigate={nav} />;
       case "contest-detail-new":
-        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="new" initialShowRules={sheet === "rules"} />;
+        return <ContestDetail onNavigate={nav} userState="new" initialShowRules={sheet === "rules"} />;
       case "contest-detail-post-compete":
-        return <ContestDetail onNavigate={(s) => setScreen(s as Screen)} userState="post-compete" />;
-      case "labeling-option-a":
-        return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
-      case "labeling-option-b":
-        return <LabelingOptionB onNavigate={(s) => setScreen(s as Screen)} initialFeedback={feedback ?? undefined} />;
-      case "labeling-contest-ended":
-        return <LabelingOptionA onNavigate={(s) => setScreen(s as Screen)} initialShowContestEnded={true} />;
-      case "contest-complete":
-        return <ContestComplete onNavigate={(s) => setScreen(s as Screen)} />;
-      case "contest-complete-confetti":
-        return <ContestCompleteConfetti onNavigate={(s) => setScreen(s as Screen)} />;
+        return <ContestDetail onNavigate={nav} userState="post-compete" />;
+      case "labeling":
+        return (
+          <LabelingOptionA
+            onNavigate={nav}
+            earnState={earnState === "threshold" ? "warmup" : earnState}
+            warmupRemaining={warmupRemaining}
+            onWarmupProgress={(r) => { setWarmupRemaining(r); if (r === 0) setEarnState("threshold"); }}
+            onThresholdComplete={() => setEarnState("active")}
+          />
+        );
+      case "feedback-a-pass":
+        return (
+          <LabelingOptionA
+            onNavigate={nav}
+            initialFeedback="earned"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "feedback-a-fail":
+        return (
+          <LabelingOptionA
+            onNavigate={nav}
+            initialFeedback="not-earned"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "feedback-b-pass":
+        return (
+          <LabelingOptionB
+            onNavigate={nav}
+            initialFeedback="earned"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "feedback-b-fail":
+        return (
+          <LabelingOptionB
+            onNavigate={nav}
+            initialFeedback="not-earned"
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "contest-ended":
+        return (
+          <LabelingOptionA
+            onNavigate={nav}
+            initialShowContestEnded={true}
+            earnState="active"
+            warmupRemaining={0}
+            onWarmupProgress={() => {}}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "session-complete":
+        return <ContestComplete onNavigate={nav} />;
+      case "max-earned":
+        return <ContestCompleteConfetti onNavigate={nav} />;
     }
   }
 
@@ -98,7 +205,7 @@ export default function Home() {
     <main className="min-h-screen flex" style={{ background: "#f0f0f0" }}>
       {/* Sidebar */}
       <aside
-        className="w-56 flex-shrink-0 p-4 flex flex-col gap-1 border-r"
+        className="w-56 flex-shrink-0 p-4 flex flex-col border-r overflow-y-auto"
         style={{ background: "white", borderColor: "#e0e0e0" }}
       >
         <div className="mb-3 mt-1">
@@ -109,7 +216,7 @@ export default function Home() {
             <button
               onClick={() => setDarkMode((d) => !d)}
               className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
-              style={{ background: darkMode ? "#1c1c1e" : "#f2f2f7", color: darkMode ? "#4dc3d0" : "#555" }}
+              style={{ background: darkMode ? "#1c1c1e" : "#f2f2f7", color: darkMode ? "var(--ios-tint-default)" : "#555" }}
               title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {darkMode ? <Sun size={13} /> : <Moon size={13} />}
@@ -119,20 +226,22 @@ export default function Home() {
             Apple HIG · SF Pro
           </p>
         </div>
-        {ALL_SCREENS.map((s) => (
-          <button
-            key={s}
-            onClick={() => setScreen(s)}
-            className="text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
-            style={
-              screen === s
-                ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)", fontWeight: 700 }
-                : { color: "#555" }
-            }
-          >
-            {SCREEN_LABELS[s]}
-          </button>
-        ))}
+
+        {/* ── Happy Path ── */}
+        <SectionLabel>Happy Path</SectionLabel>
+        <NavBtn s="contest-browse" label="Contest Browse" current={screen} onClick={nav} />
+        <NavBtn s="contest-detail-new" label="Contest Detail — New" current={screen} onClick={nav} />
+        <NavBtn s="labeling" label="Labeling" current={screen} onClick={nav} />
+        <NavBtn s="feedback-a-pass" label="Score Feedback — A · Passed" current={screen} onClick={nav} />
+        <NavBtn s="feedback-a-fail" label="Score Feedback — A · Failed" current={screen} onClick={nav} />
+        <NavBtn s="feedback-b-pass" label="Score Feedback — B · Passed" current={screen} onClick={nav} />
+        <NavBtn s="feedback-b-fail" label="Score Feedback — B · Failed" current={screen} onClick={nav} />
+        <NavBtn s="session-complete" label="Session Complete" current={screen} onClick={nav} />
+
+        {/* ── Other Endings ── */}
+        <SectionLabel>Other Endings</SectionLabel>
+        <NavBtn s="max-earned" label="Max Earned" current={screen} onClick={nav} />
+        <NavBtn s="contest-ended" label="Contest Ended — mid-session" current={screen} onClick={nav} />
 
         <div className="mt-4 pt-4 border-t flex flex-col gap-1" style={{ borderColor: "#eee" }}>
           <a
@@ -141,13 +250,6 @@ export default function Home() {
             style={{ color: "#555", textDecoration: "none" }}
           >
             → Android Mockup
-          </a>
-          <a
-            href="/design-system"
-            className="block px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
-            style={{ color: "var(--earn-teal)", background: "var(--earn-teal-10)", textDecoration: "none" }}
-          >
-            → Design System
           </a>
         </div>
       </aside>
@@ -168,7 +270,7 @@ export default function Home() {
 
         <div className="mt-5 flex items-center gap-4">
           <button
-            onClick={() => setScreen(ALL_SCREENS[currentIndex - 1])}
+            onClick={() => nav(ALL_SCREENS[currentIndex - 1])}
             disabled={currentIndex === 0}
             className="px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors disabled:opacity-30"
             style={{ background: "white", borderColor: "#ddd", color: "#333" }}
@@ -179,7 +281,7 @@ export default function Home() {
             {currentIndex + 1} / {ALL_SCREENS.length}
           </span>
           <button
-            onClick={() => setScreen(ALL_SCREENS[currentIndex + 1])}
+            onClick={() => nav(ALL_SCREENS[currentIndex + 1])}
             disabled={currentIndex === ALL_SCREENS.length - 1}
             className="px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors disabled:opacity-30"
             style={{ background: "white", borderColor: "#ddd", color: "#333" }}

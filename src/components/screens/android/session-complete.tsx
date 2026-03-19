@@ -87,7 +87,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
   return (
     <div
       className="h-full flex flex-col relative overflow-hidden"
-      style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "white" }}
+      style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "var(--md-background)" }}
     >
 
       {/* ── Falling confetti (Max Earned only) ── */}
@@ -112,15 +112,15 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
       )}
 
       {/* ── Top App Bar ── */}
-      <div className="flex items-center px-1 shrink-0 relative z-10" style={{ height: "64px", background: "white" }}>
+      <div className="flex items-center px-1 shrink-0 relative z-10" style={{ height: "64px", background: "var(--md-background)" }}>
         <div className="w-12 h-12" />
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "#201922" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "var(--md-on-surface)" }}>
           {isMax ? "Max Earned" : "Session Complete"}
         </p>
         <button
           onClick={() => onNavigate("android-compete")}
           className="w-12 h-12 flex items-center justify-center"
-          style={{ color: "#201922" }}
+          style={{ color: "var(--md-on-surface)" }}
         >
           <CloseIcon />
         </button>
@@ -150,9 +150,9 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
             /* Max Earned: larger icon */
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center animate-pop-in"
-              style={{ background: "var(--earn-teal-10)", animationDelay: "80ms" }}
+              style={{ background: "var(--color-secondary-bg)", color: "var(--md-secondary)", animationDelay: "80ms" }}
             >
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#006A65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2.5-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>
               </svg>
             </div>
@@ -160,9 +160,9 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
             /* Session: standard icon */
             <div
               className="w-16 h-16 rounded-full flex items-center justify-center animate-pop-in"
-              style={{ background: "var(--earn-teal-10)", animationDelay: "60ms" }}
+              style={{ background: "var(--color-secondary-bg)", color: "var(--md-secondary)", animationDelay: "60ms" }}
             >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#006A65" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2.5-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>
               </svg>
             </div>
@@ -172,7 +172,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
         {/* Context label */}
         <p
           className="text-[11px] font-medium tracking-[0.8px] mb-2 animate-fade-up"
-          style={{ color: "#006A65", animationDelay: "200ms" }}
+          style={{ color: "var(--md-secondary)", animationDelay: "200ms" }}
         >
           EARN MODE · PATHOLOGY SLIDES
         </p>
@@ -182,7 +182,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
           className="leading-none tabular-nums mb-1.5 animate-fade-up font-normal"
           style={{
             fontSize: isMax ? "56px" : "52px",
-            color: "#006A65",
+            color: "var(--md-secondary)",
             animationDelay: "240ms",
           }}
         >
@@ -191,7 +191,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
 
         <p
           className="text-[15px] mb-5 animate-fade-up"
-          style={{ color: "#4E4352", animationDelay: "300ms" }}
+          style={{ color: "var(--md-on-surface-variant)", animationDelay: "300ms" }}
         >
           {isMax ? "You hit the cap — maximum earned!" : "earned this session"}
         </p>
@@ -199,13 +199,13 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
         {/* Stats pill */}
         <div
           className="flex items-center gap-1.5 px-4 py-2.5 rounded-full animate-fade-up"
-          style={{ background: "rgba(56,220,209,0.10)", animationDelay: "360ms" }}
+          style={{ background: "var(--color-secondary-bg)", animationDelay: "360ms" }}
         >
           <CheckIcon />
-          <span className="text-[13px] font-medium" style={{ color: "#006A65" }}>
+          <span className="text-[13px] font-medium" style={{ color: "var(--md-secondary)" }}>
             {isMax ? "667 qualified" : "4 qualified"}
           </span>
-          <span className="text-[13px]" style={{ color: "#4E4352" }}>
+          <span className="text-[13px]" style={{ color: "var(--md-on-surface-variant)" }}>
             · {isMax ? "680" : "5"} total reads
           </span>
         </div>
@@ -214,21 +214,21 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
       {/* ── CTAs ── */}
       <div
         className="relative z-10 px-4 pb-8 pt-3 flex flex-col gap-2 shrink-0"
-        style={{ borderTop: "1px solid #D2C1D4", background: "white" }}
+        style={{ borderTop: "1px solid var(--md-outline-variant)", background: "var(--md-background)" }}
       >
         {isMax ? (
           <>
             <button
               onClick={() => onNavigate("android-compete")}
               className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+              style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
             >
               <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
             </button>
             <button
               onClick={() => onNavigate("android-contest-detail")}
               className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", border: "1px solid #8D2EBC", color: "#8D2EBC" }}
+              style={{ height: "48px", borderRadius: "100px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)" }}
             >
               <span className="text-[14px] font-medium tracking-[0.1px]">Back to contest</span>
             </button>
@@ -238,14 +238,14 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
             <button
               onClick={() => onNavigate("android-contest-detail")}
               className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", background: "#8D2EBC", color: "white" }}
+              style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
             >
               <span className="text-[14px] font-medium tracking-[0.1px]">View my earnings</span>
             </button>
             <button
               onClick={() => onNavigate("android-compete")}
               className="w-full flex items-center justify-center"
-              style={{ height: "48px", borderRadius: "100px", border: "1px solid #8D2EBC", color: "#8D2EBC" }}
+              style={{ height: "48px", borderRadius: "100px", border: "1px solid var(--md-primary-container)", color: "var(--md-primary-container)" }}
             >
               <span className="text-[14px] font-medium tracking-[0.1px]">Browse contests</span>
             </button>

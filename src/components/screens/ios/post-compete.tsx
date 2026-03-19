@@ -14,7 +14,7 @@ export function PostCompete({ onNavigate }: PostCompeteProps) {
   const progressPct = (earned / maxEarnings) * 100;
 
   return (
-    <div className="h-full flex flex-col" style={{ background: "#fff" }}>
+    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)", fontFamily: "var(--ios-font)" }}>
       {/* Nav header */}
       <div className="px-4 pt-2 pb-3 border-b flex items-center gap-3" style={{ borderColor: "var(--gray-5)" }}>
         <button onClick={() => onNavigate("contest-browse")} style={{ color: "var(--earn-indigo)" }}>

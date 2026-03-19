@@ -52,15 +52,17 @@
 /* See: src/lib/tokens.ts for full typed token object.                       */
 
 :root {
+  --ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+
   /* ── Legacy aliases (backward compat — use semantic --ios-* tokens in new code) ── */
   --earn-teal: #006A65;
   --earn-teal-deep: #006A65;
   --earn-teal-container: #38DCD1;
   --earn-teal-on-container: #003D3A;
   --earn-teal-10: rgba(56, 220, 209, 0.10);
-  --earn-indigo: #6155f5;
-  --earn-indigo-10: #f3f3ff;
-  --earn-indigo-30: #cdc9ff;
+  --earn-indigo: #7060F5;
+  --earn-indigo-10: #f0eeff;
+  --earn-indigo-30: #c8c1ff;
   --earn-red: #FF3B30;
   --earn-red-10: rgba(255, 59, 48, 0.08);
   --label-primary: #000000;
@@ -69,6 +71,19 @@
   --fill-quaternary: rgba(116, 116, 128, 0.08);
   --gray-5: #e5e5ea;
   --gray-6: #f2f2f7;
+
+  /* ── Earnings status card background ── */
+  --ios-earnings-card-bg: linear-gradient(163.8deg, #f6f6f6 0%, #e9e6e6 100%);
+  --ios-earnings-card-border: transparent;
+
+  /* ── Card icon container gradient — About this contest cards ── */
+  --ios-card-icon-bg: linear-gradient(133deg, #f6f6f6 0%, #e9e6e6 100%);
+
+  /* ── Earn Mode chip — mode badge on contest cards ── */
+  /* Light: solid secondary fill; Dark: tinted with border (set in .ios-dark) */
+  --earn-chip-bg: #006A65;
+  --earn-chip-fg: #ffffff;
+  --earn-chip-border: transparent;
 
   /* ── Semantic tokens — light mode ── */
   --ios-text-primary: #000000;
@@ -88,14 +103,19 @@
   --ios-border-default: #e5e5ea;
   --ios-border-separator: #e5e5ea;
 
-  --ios-tint-default: #4dc3d0;               /* TODO — Core/primary */
-  --ios-accent-teal: #00c3d0;                /* TODO — UI teal (non-Earn contexts) */
+  --ios-tint-default: #4dc3d0;               /* tealUI — tab bar active (legacy) */
+  --ios-accent-teal: #4dc3d0;               /* UI teal (non-Earn contexts) */
   --ios-accent-earn-teal: #006A65;
   --ios-accent-earn-teal-bg: rgba(56, 220, 209, 0.10);
 
-  --ios-interactive-primary: #6155f5;        /* TODO — all primary CTAs */
-  --ios-interactive-indigo-bg: #f3f3ff;
-  --ios-interactive-indigo-border: #cdc9ff;
+  --ios-primary: #7060F5;
+  --ios-primary-container: #5848E0;
+  --ios-on-primary-container: #FFFFFF;
+  --ios-primary-bg: #f0eeff;
+  --ios-primary-border: #c8c1ff;
+  --ios-interactive-primary: #7060F5;
+  --ios-interactive-indigo-bg: #f0eeff;
+  --ios-interactive-indigo-border: #c8c1ff;
 
   --ios-fill-quaternary: rgba(116, 116, 128, 0.08);
   --ios-fill-vibrant-tertiary: #ededed;
@@ -122,24 +142,59 @@
   --ios-text-vibrant: #ffffff;
   --ios-text-vibrant-control: #bfbfbf;
 
-  --ios-surface-default: #000000;
-  --ios-surface-grouped: #000000;
+  --ios-surface-default: #1C1C1E;
+  --ios-surface-grouped: #1C1C1E;
   --ios-surface-elevated: #1c1c1e;
   --ios-surface-card: #1c1c1e;
 
-  --ios-border-default: #2c2c2e;
-  --ios-border-separator: #2c2c2e;
+  --ios-border-default: #2C2C2E;
+  --ios-border-separator: #2C2C2E;
 
-  --ios-tint-default: #4dc3d0;               /* TODO */
-  --ios-accent-teal: #00d2e0;                /* TODO */
-  --ios-interactive-primary: #6d7cff;        /* TODO */
+  --ios-tint-default: #00D2E0;              /* tealUI dark — tab bar active (legacy) */
+  --ios-accent-teal: #00D2E0;              /* UI teal dark */
+  --ios-accent-earn-teal: #5DF6EB;
+  --ios-accent-earn-teal-bg: rgba(93, 246, 235, 0.10);
+  --ios-interactive-primary: #6D7CFF;
+  --ios-primary: #6D7CFF;
+  --ios-primary-container: #6D7CFF;
+  --ios-primary-bg: #282652;
+  --ios-primary-border: #c8c1ff;
   --ios-interactive-indigo-bg: #282652;
-  --ios-interactive-indigo-border: #282652;
+  --ios-interactive-indigo-border: #c8c1ff;
 
   --ios-fill-quaternary: rgba(118, 118, 128, 0.18);
-  --ios-fill-vibrant-tertiary: #2c2c2e;      /* TODO */
+  --ios-fill-vibrant-tertiary: #2c2c2e;
 
+  --ios-status-error: #FF3B30;
   --ios-status-success-bg: #193920;
+
+  --earn-teal: #5DF6EB;
+  --earn-teal-10: rgba(93, 246, 235, 0.10);
+  --earn-indigo: #6D7CFF;
+  --earn-indigo-10: #282652;
+  --earn-indigo-30: #c8c1ff;
+
+  /* Earn Mode chip — dark mode: tinted style (bg + border) instead of solid fill */
+  --earn-chip-bg: rgba(93, 246, 235, 0.12);
+  --earn-chip-fg: #5DF6EB;
+  --earn-chip-border: rgba(93, 246, 235, 0.35);
+
+  /* Legacy label tokens — dark mode overrides */
+  --label-primary: #ffffff;
+  --label-secondary: rgba(235, 235, 245, 0.60);
+  --label-tertiary: rgba(235, 235, 245, 0.30);
+
+  /* Gray utility tokens — dark mode overrides */
+  --ios-text-page-title: rgba(255, 255, 255, 0.85);
+  --gray-5: #3A3A3C;
+  --gray-6: #2C2C2E;
+
+  /* Card icon container gradient — dark mode */
+  --ios-card-icon-bg: linear-gradient(133deg, #4D4D4D 0%, #2B2B2B 100%);
+
+  /* Earnings card — dark mode: same dark gradient as Figma */
+  --ios-earnings-card-bg: linear-gradient(163.8deg, #4D4D4D 0%, #2B2B2B 100%);
+  --ios-earnings-card-border: transparent;
 }
 
 /* ─── Android M3 color tokens — DiagnosUs Android (Figma vivKqmZsusL8rqpQYVHjll) ─── */
@@ -186,6 +241,52 @@
   /* Additional semantic */
   --md-grey-outline: #D7D7D7;
   --md-success: #20C36F;
+  --color-secondary-bg: rgba(56, 220, 209, 0.10);
+}
+
+/* ── Android M3 dark theme ── */
+/* Apply .android-dark to the same element as .android-screen to activate dark mode */
+.android-dark {
+  --md-primary: #E9B3FF;
+  --md-on-primary: #52007A;
+  --md-surface-tint: #E9B3FF;
+  --md-primary-container: #7302A3;
+  --md-on-primary-container: #F6D7FF;
+  --md-secondary: #5DF6EB;
+  --md-on-secondary: #003734;
+  --md-secondary-container: #13CBC1;
+  --md-on-secondary-container: #00302D;
+  --md-tertiary: #FFFFFF;
+  --md-on-tertiary: #000000;
+  --md-tertiary-container: #D8D8D8;
+  --md-on-tertiary-container: #1A1A1A;
+  --md-error: #FFB4AB;
+  --md-on-error: #690005;
+  --md-error-container: #93000A;
+  --md-on-error-container: #FFDAD6;
+  --md-background: #171119;
+  --md-on-background: #EBDFEB;
+  --md-surface: #171119;
+  --md-on-surface: #EBDFEB;
+  --md-surface-variant: #4E4352;
+  --md-on-surface-variant: #D2C1D4;
+  --md-outline: #9A8C9D;
+  --md-outline-variant: #4E4352;
+  --md-shadow: #000000;
+  --md-scrim: #000000;
+  --md-inverse-surface: #EBDFEB;
+  --md-inverse-on-surface: #352E37;
+  --md-inverse-primary: #62008B;
+  --md-surface-dim: #171119;
+  --md-surface-bright: #3D3540;
+  --md-surface-container-lowest: #120D14;
+  --md-surface-container-low: #201922;
+  --md-surface-container: #241E26;
+  --md-surface-container-high: #2F2831;
+  --md-surface-container-highest: #3A333C;
+  --md-grey-outline: #555555;
+  --md-success: #20C36F;
+  --color-secondary-bg: rgba(93, 246, 235, 0.10);
 }
 
 :root {

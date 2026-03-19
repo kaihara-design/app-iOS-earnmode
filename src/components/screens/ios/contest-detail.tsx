@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   ChevronLeft, ChevronRight, Bell, DollarSign, Trophy, BarChart2,
-  Lock, Target, Eye, Check, Coins,
+  Flag, Award, RefreshCw, AlertTriangle, Info, Check, Coins,
 } from "lucide-react";
 
 type UserState = "new" | "post-compete" | "returning";
@@ -22,28 +22,20 @@ const SESSION_TOTAL = 680;
 export function ContestDetail({ onNavigate, userState = "new", initialShowRules = false }: ContestDetailProps) {
   const [showOnboarding, setShowOnboarding] = useState(userState === "new" && !initialShowRules);
   const [showRulesSheet, setShowRulesSheet] = useState(initialShowRules);
-  const [stepsCompleted] = useState(
-    userState !== "new" ? [true, true, true, true] : [true, false, false, false]
-  );
-
-  const isNew = userState === "new";
-
   const steps = [
-    { label: "Location Requirements", sub: "Required for this contest." },
-    { label: "Business Associate Agreement", sub: null, locked: isNew },
-    { label: "Instructions — learn how to qualify", sub: null, locked: isNew },
-    { label: "Practice Round — see qualifying in action", sub: null, locked: isNew },
+    { label: "Location Requirements" },
+    { label: "Business Associate Agreement" },
+    { label: "Instructions — learn how to qualify" },
+    { label: "Practice Round — see qualifying in action" },
   ];
 
   // Pool state
   const personalCap = 20.0;
   const userEarned = userState === "new" ? 0 : SESSION_EARNED;
   const userEarnedPct = (userEarned / personalCap) * 100;
-  const poolTotal = 2000.0;
-  const poolRemaining = 1850.0;
 
   return (
-    <div className="h-full flex flex-col relative" style={{ background: "var(--ios-surface-default)" }}>
+    <div className="h-full flex flex-col relative" style={{ background: "var(--ios-surface-default)", fontFamily: "var(--ios-font)" }}>
       {/* Hero image */}
       <div className="relative h-[200px] flex-shrink-0" style={{ background: "linear-gradient(135deg, #1a6b7a 0%, #0d4a55 100%)" }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -69,9 +61,10 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
         <div className="px-4 pt-4">
           <div
             className="rounded-xl p-3"
-            style={{ background: "var(--ios-surface-grouped)", border: "1px solid var(--ios-border-default)" }}
+            style={{ background: "var(--ios-earnings-card-bg)", border: "1px solid var(--ios-earnings-card-border)" }}
           >
-            <div className="flex items-start gap-3 mb-3">
+            {/* Icon + text row */}
+            <div className="flex items-center gap-2 mb-3">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
                 style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
@@ -81,95 +74,97 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
               <div className="flex-1 min-w-0">
                 {userState === "post-compete" ? (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
+                    <p className="text-[15px] font-medium" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>
                       ${SESSION_EARNED.toFixed(2)} earned this session
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
+                    <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
                       {SESSION_QUALIFIED} qualified reads · {SESSION_TOTAL} total
                     </p>
                   </>
                 ) : userState === "returning" ? (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
+                    <p className="text-[15px] font-medium" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>
                       ${userEarned.toFixed(2)} earned in this contest
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
+                    <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
                       ${(personalCap - userEarned).toFixed(2)} still available for you
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-[14px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>
+                    <p className="text-[15px] font-medium" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>
                       Earn $0.03 per qualified read
                     </p>
-                    <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
-                      Up to ${personalCap.toFixed(2)} for you in this contest
+                    <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
+                      Up to $20 for you in this contest
                     </p>
                   </>
                 )}
               </div>
             </div>
 
-            {/* Progress bar — personal cap */}
-            <div className="h-1.5 rounded-full overflow-hidden mb-1" style={{ background: "var(--ios-border-default)" }}>
+            {/* Progress bar + labels */}
+            <div className="relative h-6">
+              {/* Track */}
               <div
-                className="h-full rounded-full transition-all duration-[700ms] ease-out"
-                style={{ width: `${userEarnedPct}%`, background: "var(--earn-teal)" }}
+                className="absolute top-0 left-0 right-0 rounded-full"
+                style={{ height: "4px", background: "var(--ios-fill-quaternary)" }}
               />
-            </div>
-            <div className="flex justify-between mb-2.5">
-              <span className="text-[10px]" style={{ color: "var(--ios-text-tertiary)" }}>
-                {userState !== "new" ? `$${userEarned.toFixed(2)} earned` : "$0"}
+              {/* Fill */}
+              <div
+                className="absolute top-0 left-0 rounded-full transition-all duration-[700ms] ease-out"
+                style={{ height: "4px", width: `${userEarnedPct}%`, background: "var(--earn-teal)", boxShadow: "0px 2px 6px rgba(77,195,208,0.17)" }}
+              />
+              {/* Labels */}
+              <span className="absolute left-0 text-[11px]" style={{ top: "10px", color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
+                {userState !== "new" ? `$${userEarned.toFixed(2)}` : "$0"}
               </span>
-              <span className="text-[10px]" style={{ color: "var(--ios-text-tertiary)" }}>
-                ${personalCap.toFixed(0)} cap
+              <span className="absolute right-0 text-[11px] text-right" style={{ top: "10px", color: "var(--ios-text-secondary)", letterSpacing: "0.06px" }}>
+                $20
               </span>
             </div>
-
-            {/* Pool remaining — text only, no bar */}
-            <p className="text-[11px]" style={{ color: "var(--ios-text-secondary)" }}>
-              ${poolRemaining.toLocaleString()} of ${poolTotal.toLocaleString()} prize pool remaining
-            </p>
           </div>
         </div>
 
-        {/* About this contest — R&P + Leaderboard combined */}
+        {/* About this contest — two separate cards per Figma */}
         <div className="px-4 pt-4">
-          <p className="text-[17px] font-semibold mb-2">About this contest</p>
-          <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--ios-border-default)" }}>
-            {/* Rules and Prizes row */}
+          <p className="text-[17px] font-semibold mb-2" style={{ color: "var(--ios-text-primary)" }}>About this contest</p>
+          <div className="space-y-2">
+            {/* Rules and Prizes card */}
             <button
               onClick={() => setShowRulesSheet(true)}
-              className="w-full p-3 flex items-center gap-3 text-left"
+              className="w-full p-3 flex items-center gap-2 text-left rounded-xl border"
+              style={{ borderColor: "var(--ios-border-default)", background: "var(--ios-surface-default)" }}
             >
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
+                className="w-10 flex-shrink-0 flex items-center justify-center rounded-[4px]"
+                style={{ height: "38px", background: "var(--ios-card-icon-bg)", color: "var(--earn-teal)" }}
               >
-                <Trophy size={18} />
+                <Trophy size={16} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-semibold">Rules and Prizes</p>
-                <p className="text-[12px] mt-0.5" style={{ color: "var(--earn-teal)", fontWeight: 600 }}>
-                  Earn $0.03 per qualified read · up to $20.00
+                <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>Rules and Prizes</p>
+                <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
+                  See full contest details, rules, and eligibility.
                 </p>
               </div>
               <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
             </button>
-            {/* Divider */}
-            <div style={{ height: "1px", background: "var(--ios-border-default)" }} />
-            {/* Leaderboard row */}
-            <div className="p-3 flex items-center gap-3">
+            {/* Leaderboard card */}
+            <div
+              className="w-full p-3 flex items-center gap-2 rounded-xl border"
+              style={{ borderColor: "var(--ios-border-default)", background: "var(--ios-surface-default)" }}
+            >
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--ios-interactive-indigo-bg)", color: "var(--ios-interactive-primary)" }}
+                className="w-10 flex-shrink-0 flex items-center justify-center rounded-[4px]"
+                style={{ height: "38px", background: "var(--ios-card-icon-bg)", color: "var(--earn-teal)" }}
               >
-                <BarChart2 size={18} />
+                <BarChart2 size={16} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-semibold">Leaderboard</p>
+                <p className="text-[15px] font-semibold" style={{ color: "var(--ios-text-primary)", letterSpacing: "-0.23px" }}>Leaderboard</p>
                 <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
-                  See how your earnings rank this contest
+                  Check how many users are competing.
                 </p>
               </div>
               <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
@@ -181,9 +176,9 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
         {userState !== "post-compete" && (
           <div className="px-4 pt-4">
             <div className="flex items-center justify-between mb-1">
-              <p className="text-[17px] font-semibold">Steps to start earning</p>
+              <p className="text-[17px] font-semibold" style={{ color: "var(--ios-text-primary)" }}>Steps to start earning</p>
               <span className="text-[12px] font-semibold" style={{ color: "var(--ios-interactive-primary)" }}>
-                {isNew ? "1/4" : "4/4"} Completed
+                4/4 Completed
               </span>
             </div>
             <p className="text-[12px] mb-3" style={{ color: "var(--ios-text-secondary)" }}>
@@ -195,43 +190,20 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
                 <div
                   key={i}
                   className="rounded-xl border p-3 flex items-center gap-3"
-                  style={{
-                    borderColor: isNew && i === 1 ? "var(--ios-interactive-primary)" : "var(--ios-border-default)",
-                    background: isNew && i === 1 ? "var(--ios-interactive-indigo-bg)" : "white",
-                  }}
+                  style={{ borderColor: "var(--ios-border-default)", background: "var(--ios-surface-default)" }}
                 >
                   <div
                     className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={
-                      stepsCompleted[i]
-                        ? { background: "var(--earn-teal-10)", color: "var(--earn-teal)" }
-                        : isNew && i === 1
-                        ? { background: "var(--ios-interactive-primary)", color: "white" }
-                        : { background: "var(--ios-surface-grouped)", color: "var(--ios-text-tertiary)" }
-                    }
+                    style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
                   >
-                    {stepsCompleted[i]
-                      ? <Check size={13} strokeWidth={2.5} />
-                      : <span className="text-[12px] font-bold">{i + 1}</span>
-                    }
+                    <Check size={13} strokeWidth={2.5} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p
-                      className="text-[13px] font-medium"
-                      style={{ color: step.locked ? "var(--label-tertiary)" : "var(--label-primary)" }}
-                    >
+                    <p className="text-[13px] font-medium" style={{ color: "var(--ios-text-primary)" }}>
                       {step.label}
                     </p>
-                    {step.sub && (
-                      <p className="text-[11px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
-                        {step.sub}
-                      </p>
-                    )}
                   </div>
-                  {step.locked
-                    ? <Lock size={15} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
-                    : <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
-                  }
+                  <ChevronRight size={16} style={{ color: "var(--ios-text-tertiary)", flexShrink: 0 }} />
                 </div>
               ))}
             </div>
@@ -243,94 +215,70 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
       {/* CTA */}
       <div className="absolute bottom-0 left-0 right-0 px-4 pb-8 pt-3 border-t" style={{ background: "var(--ios-surface-default)", borderColor: "var(--ios-border-default)" }}>
         <button
-          onClick={() => onNavigate("labeling-option-b")}
+          onClick={() => onNavigate("labeling")}
           className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
           style={{ background: "var(--ios-interactive-primary)" }}
         >
-          {userState === "post-compete" ? "Compete again" : "Compete"}
+          Compete
         </button>
       </div>
 
-      {/* Rules & Prizes / Score Explained sheet */}
+      {/* Rules & Prizes sheet — original app copy */}
       {showRulesSheet && (
         <div className="absolute inset-0 bg-black/40 flex items-end animate-backdrop-in" onClick={() => setShowRulesSheet(false)}>
           <div className="rounded-t-3xl w-full px-5 pt-4 pb-10 max-h-[88%] overflow-y-auto animate-sheet-up" style={{ background: "var(--ios-surface-default)" }} onClick={(e) => e.stopPropagation()}>
-            <div className="w-8 h-1 rounded-full mx-auto mb-4" style={{ background: "var(--ios-border-default)" }} />
-            <h2 className="text-[18px] font-bold mb-4">Rules &amp; Prizes</h2>
+            <div className="w-8 h-1 rounded-full mx-auto mb-1" style={{ background: "var(--ios-border-default)" }} />
+            <p className="text-center text-[13px] font-semibold py-3 mb-1" style={{ color: "var(--ios-text-primary)" }}>Rules &amp; Prizes</p>
+            <div style={{ height: "1px", background: "var(--ios-border-default)", marginBottom: "16px" }} />
 
-            {/* Earnings summary */}
-            <div
-              className="rounded-xl p-3 flex items-center gap-3 mb-5"
-              style={{ background: "var(--earn-teal-10)" }}
-            >
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--earn-teal-10)", color: "var(--earn-teal)" }}
-              >
-                <DollarSign size={18} strokeWidth={2.5} />
-              </div>
-              <div>
-                <p className="text-[14px] font-semibold" style={{ color: "var(--earn-teal)" }}>
-                  $0.03 per qualified read
-                </p>
-                <p className="text-[12px] mt-0.5" style={{ color: "var(--ios-text-secondary)" }}>
-                  Up to $20.00 for you · $2,000 prize pool
-                </p>
-              </div>
-            </div>
-
-            {/* How qualifying works */}
-            <p className="text-[14px] font-semibold mb-1">How qualifying works</p>
-            <p className="text-[13px] leading-relaxed mb-4" style={{ color: "var(--ios-text-secondary)" }}>
-              Every read is scored 0–100 based on annotation quality. Meet the quality bar and you earn. Miss it and you don&apos;t.
-            </p>
-
-            {/* Score bar visualization */}
-            <div className="rounded-xl p-4 mb-5" style={{ background: "var(--ios-surface-grouped)", border: "1px solid var(--gray-5)" }}>
-              <div className="relative h-3 rounded-full overflow-hidden mb-1" style={{ background: "var(--ios-border-default)" }}>
-                <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "var(--earn-red-10)" }} />
-                <div className="absolute top-0 h-full rounded-r-full" style={{ left: "70%", right: 0, background: "var(--earn-teal-10)" }} />
-                <div className="absolute top-0 h-full w-0.5" style={{ left: "70%", background: "var(--earn-teal)" }} />
-              </div>
-              <div className="flex justify-between mb-3">
-                <span className="text-[11px]" style={{ color: "var(--ios-text-tertiary)" }}>0</span>
-                <span className="text-[11px] font-semibold" style={{ color: "var(--earn-teal)", marginLeft: "calc(70% - 16px)" }}>70</span>
-                <span className="text-[11px]" style={{ color: "var(--ios-text-tertiary)" }}>100</span>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-red)" }} />
-                  <span className="text-[12px]" style={{ color: "var(--ios-text-secondary)" }}>Below 70 — not earned</span>
+            {[
+              {
+                icon: <DollarSign size={18} />,
+                label: "How to Earn",
+                body: "You will be shown a series of cases with answers followed by a mixture of cases with and without answers. If your score on the cases with answers is above a certain threshold, then you will earn whenever you submit an opinion for a case without answers. These earnings will convert to a withdrawable earning shortly after the contest ends.",
+              },
+              {
+                icon: <Flag size={18} />,
+                label: "Deadline",
+                body: "This contest starts Mar 17 at 1:00 PM GMT-7 and ends Mar 17 at 5:00 PM GMT-7.",
+              },
+              {
+                icon: <Award size={18} />,
+                label: "Prizes",
+                body: "$0.03 per qualifying opinion, up to a maximum of $199.99.",
+              },
+              {
+                icon: <RefreshCw size={18} />,
+                label: "Data Quality",
+                body: "Some cases may be classified incorrectly. Your feedback helps us improve the dataset over time.",
+              },
+              {
+                icon: <AlertTriangle size={18} />,
+                label: "Code of Ethics",
+                body: "This app depends on your integrity and full effort on every case you see. If we suspect that you are anticipating the cases that will not be scored and making less effort on those cases, you may be suspended or banned. It is against our rules to attempt to identify and avoid difficult cases. You cannot copy data from this app (such as by taking screenshots) in an attempt to reproduce any portion of our datasets.",
+              },
+              {
+                icon: <Info size={18} />,
+                label: "Additional Information",
+                body: "Apple Inc. is not a sponsor of this contest and is not involved in any way with this contest or any DiagnosUs contest. Additional information about rules can be found in the Profile tab by tapping the settings icon in the top-right corner and then tapping the Legal section from the Settings menu, or at https://assets.diagnosus.com/pdf/legal/contests.pdf.",
+              },
+              {
+                icon: <Info size={18} />,
+                label: "Medical Information",
+                body: "Consult a physician before making medical decisions. Do not rely on information in this app to make medical decisions. Information in this app is not used to diagnose or treat patients.",
+              },
+            ].map(({ icon, label, body }) => (
+              <div key={label} className="mb-5">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: "var(--ios-text-secondary)" }}>{icon}</span>
+                    <p className="text-[17px] font-bold" style={{ color: "var(--ios-text-primary)" }}>{label}</p>
+                  </div>
+                  <ChevronLeft size={16} className="rotate-90" style={{ color: "var(--ios-text-tertiary)" }} />
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "var(--earn-teal)" }} />
-                  <span className="text-[12px]" style={{ color: "var(--ios-text-secondary)" }}>70+ — earned</span>
-                </div>
+                <p className="text-[15px] leading-relaxed" style={{ color: "var(--ios-text-primary)" }}>{body}</p>
               </div>
-            </div>
-
-            {/* What affects your score */}
-            <p className="text-[14px] font-semibold mb-2">What affects your score</p>
-            <div className="space-y-2 mb-6">
-              {[
-                { icon: <Target size={14} />, text: "Precision of your bounding boxes" },
-                { icon: <Eye size={14} />, text: "Coverage of all visible lesions" },
-                { icon: <Check size={14} />, text: "Avoiding false positives" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-2.5">
-                  <span className="w-5 flex justify-center flex-shrink-0" style={{ color: "var(--ios-text-tertiary)" }}>{item.icon}</span>
-                  <p className="text-[13px]" style={{ color: "var(--ios-text-secondary)" }}>{item.text}</p>
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setShowRulesSheet(false)}
-              className="w-full py-3.5 rounded-2xl text-[15px] font-semibold text-white transition-transform duration-[100ms] active:scale-[0.97]"
-              style={{ background: "var(--ios-interactive-primary)" }}
-            >
-              Got it
-            </button>
+            ))}
           </div>
         </div>
       )}
@@ -346,7 +294,7 @@ export function ContestDetail({ onNavigate, userState = "new", initialShowRules 
             >
               <Coins size={24} />
             </div>
-            <h2 className="text-[20px] font-bold mb-2">Earn Mode</h2>
+            <h2 className="text-[20px] font-bold mb-2" style={{ color: "var(--ios-text-primary)" }}>Earn Mode</h2>
             <p className="text-[15px] leading-relaxed mb-6" style={{ color: "var(--ios-text-secondary)" }}>
               Earn $0.03 for every qualified read. Your reads are scored — meet the quality bar and you earn. Miss it and you don&apos;t.
             </p>

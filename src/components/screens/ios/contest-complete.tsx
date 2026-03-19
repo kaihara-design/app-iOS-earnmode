@@ -43,7 +43,7 @@ export function ContestComplete({ onNavigate }: ContestCompleteProps) {
   }, []);
 
   return (
-    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)" }}>
+    <div className="h-full flex flex-col" style={{ background: "var(--ios-surface-default)", fontFamily: "var(--ios-font)" }}>
 
       {/* Nav header */}
       <div

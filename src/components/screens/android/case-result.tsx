@@ -11,6 +11,8 @@ interface CaseResultProps {
   earnState?: "warmup" | "threshold" | "active";
   warmupRemaining?: number;
   onThresholdComplete?: () => void;
+  option?: "A" | "B";
+  nextCaseScreen?: string;
 }
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -75,11 +77,12 @@ const SESSION_QUALIFIED = 4;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = "active", warmupRemaining = 0, onThresholdComplete }: CaseResultProps) {
+export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = "active", warmupRemaining = 0, onThresholdComplete, option = "A", nextCaseScreen = "android-labeling" }: CaseResultProps) {
   const isEarned = variant === "earned";
   const isNotEarned = variant === "not-earned";
   const isWarmup = earnState === "warmup";
   const isThreshold = earnState === "threshold";
+  const isOptionB = option === "B";
 
   return (
     <div className="flex flex-col h-full" style={{ fontFamily: "'Roboto', system-ui, sans-serif", background: "var(--md-background)" }}>
@@ -91,7 +94,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           Case Result
         </p>
         <button
-          onClick={() => onNavigate("android-labeling")}
+          onClick={() => onNavigate(nextCaseScreen)}
           className="w-12 h-12 flex items-center justify-center"
           style={{ color: "var(--md-on-surface)" }}
         >
@@ -166,9 +169,11 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
                     <p className="text-white font-medium text-[22px] leading-7">
                       Earned · +$0.03
                     </p>
-                    <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
-                      Score: {EARNED_SCORE} · Qualified read
-                    </p>
+                    {!isOptionB && (
+                      <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+                        Score: {EARNED_SCORE} · Qualified read
+                      </p>
+                    )}
                     <p className="text-[12px] mt-1.5" style={{ color: "rgba(255,255,255,0.70)" }}>
                       Session total: ${SESSION_EARNINGS.toFixed(2)} earned · {SESSION_QUALIFIED} qualified
                     </p>
@@ -178,9 +183,11 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
                     <p className="text-white font-medium text-[22px] leading-7">
                       Not earned this read
                     </p>
-                    <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
-                      Score: {NOT_EARNED_SCORE} · Below threshold ({QUALITY_BAR})
-                    </p>
+                    {!isOptionB && (
+                      <p className="text-[14px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+                        Score: {NOT_EARNED_SCORE} · Below threshold ({QUALITY_BAR})
+                      </p>
+                    )}
                     <p className="text-[12px] mt-1.5" style={{ color: "rgba(255,255,255,0.70)" }}>
                       More precise annotations = higher score = earnings.
                     </p>
@@ -189,8 +196,8 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
               </div>
             </div>
 
-            {/* Score bar (not-earned only) */}
-            {isNotEarned && (
+            {/* Score bar (Option A not-earned only) */}
+            {isNotEarned && !isOptionB && (
               <div className="mt-4">
                 <div className="relative h-2 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.20)" }}>
                   <div className="absolute left-0 top-0 h-full rounded-l-full" style={{ width: "70%", background: "rgba(255,255,255,0.15)" }} />
@@ -247,8 +254,8 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           </>
         )}
 
-        {/* Earn Mode tip (not earned + active only) */}
-        {isNotEarned && !isWarmup && !isThreshold && (
+        {/* Earn Mode tip (Option A, not earned + active only) */}
+        {isNotEarned && !isWarmup && !isThreshold && !isOptionB && (
           <div
             className="rounded-[16px] px-4 py-3 mb-5"
             style={{ background: "var(--md-error-container)", border: "1px solid var(--md-outline-variant)" }}
@@ -296,7 +303,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
       >
         {isThreshold ? (
           <button
-            onClick={() => { onThresholdComplete?.(); onNavigate("android-labeling"); }}
+            onClick={() => { onThresholdComplete?.(); onNavigate(nextCaseScreen); }}
             className="w-full flex items-center justify-center"
             style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
           >
@@ -304,7 +311,7 @@ export function AndroidCaseResult({ onNavigate, variant = "earned", earnState = 
           </button>
         ) : (
           <button
-            onClick={() => onNavigate("android-labeling")}
+            onClick={() => onNavigate(nextCaseScreen)}
             className="w-full flex items-center justify-center"
             style={{ height: "48px", borderRadius: "100px", background: "var(--md-primary-container)", color: "var(--md-on-primary-container)" }}
           >

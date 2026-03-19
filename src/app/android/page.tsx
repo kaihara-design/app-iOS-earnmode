@@ -15,33 +15,53 @@ type AndroidScreen =
   | "android-labeling"
   | "android-case-result-earned"
   | "android-case-result-not-earned"
+  | "android-feedback-a-pass"
+  | "android-feedback-a-fail"
+  | "android-feedback-b-pass"
+  | "android-feedback-b-fail"
   | "android-contest-ended"
   | "android-session-complete"
   | "android-max-earned";
 
 const SCREEN_LABELS: Record<AndroidScreen, string> = {
-  "android-compete": "Compete (Browse)",
+  "android-compete": "Contest Browse",
   "android-contest-detail": "Contest Detail",
-  "android-labeling": "Labeling — Box Seg",
+  "android-labeling": "Labeling",
   "android-case-result-earned": "Case Result — Earned",
   "android-case-result-not-earned": "Case Result — Not Earned",
-  "android-contest-ended": "Contest Ended (mid-session)",
+  "android-feedback-a-pass": "Score Feedback — A · Passed",
+  "android-feedback-a-fail": "Score Feedback — A · Failed",
+  "android-feedback-b-pass": "Score Feedback — B · Passed",
+  "android-feedback-b-fail": "Score Feedback — B · Failed",
+  "android-contest-ended": "Contest Ended — mid-session",
   "android-session-complete": "Session Complete",
   "android-max-earned": "Max Earned",
 };
 
-const ALL_SCREENS: AndroidScreen[] = [
+// Sidebar screens only (case-result-earned/not-earned are in-flow only)
+const SIDEBAR_HAPPY: AndroidScreen[] = [
   "android-compete",
   "android-contest-detail",
   "android-labeling",
-  "android-case-result-earned",
-  "android-case-result-not-earned",
-  "android-contest-ended",
+  "android-feedback-a-pass",
+  "android-feedback-a-fail",
+  "android-feedback-b-pass",
+  "android-feedback-b-fail",
   "android-session-complete",
-  "android-max-earned",
 ];
 
-const BUILT_SCREENS: AndroidScreen[] = ALL_SCREENS;
+const SIDEBAR_ENDINGS: AndroidScreen[] = [
+  "android-max-earned",
+  "android-contest-ended",
+];
+
+const ALL_SCREENS: AndroidScreen[] = [
+  ...SIDEBAR_HAPPY,
+  ...SIDEBAR_ENDINGS,
+  // in-flow only (URL param support)
+  "android-case-result-earned",
+  "android-case-result-not-earned",
+];
 
 function PlaceholderScreen({ label }: { label: string }) {
   return (
@@ -76,6 +96,40 @@ function getInitialScreen(): AndroidScreen {
   return "android-compete";
 }
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[9px] font-bold uppercase tracking-widest mt-4 mb-1 px-1" style={{ color: "#aaa" }}>
+      {children}
+    </p>
+  );
+}
+
+function NavBtn({
+  s,
+  label,
+  current,
+  onClick,
+}: {
+  s: AndroidScreen;
+  label: string;
+  current: AndroidScreen;
+  onClick: (s: AndroidScreen) => void;
+}) {
+  return (
+    <button
+      onClick={() => onClick(s)}
+      className="text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors"
+      style={
+        current === s
+          ? { background: "rgba(56,220,209,0.10)", color: "#006A65", fontWeight: 700 }
+          : { color: "#555" }
+      }
+    >
+      {label}
+    </button>
+  );
+}
+
 const WARMUP_TOTAL = 3; // prototype; real app = 10–25 from topic config
 
 export default function AndroidPage() {
@@ -83,30 +137,39 @@ export default function AndroidPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [earnState, setEarnState] = useState<"warmup" | "threshold" | "active">("warmup");
   const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
-  const currentIndex = ALL_SCREENS.indexOf(screen);
+  const [activeCount, setActiveCount] = useState(0);
+
+  const sidebarScreens = [...SIDEBAR_HAPPY, ...SIDEBAR_ENDINGS];
+  const currentIndex = sidebarScreens.indexOf(screen);
+
+  function nav(s: string) {
+    setScreen(s as AndroidScreen);
+  }
 
   function renderScreen() {
     switch (screen) {
       case "android-compete":
-        return <AndroidCompete onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+        return <AndroidCompete onNavigate={nav} />;
       case "android-contest-detail":
-        return <AndroidContestDetail onNavigate={(s) => setScreen(s as AndroidScreen)} />;
+        return <AndroidContestDetail onNavigate={nav} />;
       case "android-labeling":
         return (
           <AndroidLabeling
-            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            onNavigate={nav}
             earnState={earnState}
             warmupRemaining={warmupRemaining}
             onWarmupProgress={(remaining) => {
               setWarmupRemaining(remaining);
               if (remaining === 0) setEarnState("threshold");
             }}
+            onActiveSubmit={() => setActiveCount((c) => c + 1)}
+            qualifiedCount={activeCount}
           />
         );
       case "android-contest-ended":
         return (
           <AndroidLabeling
-            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            onNavigate={nav}
             initialShowContestEnded={true}
             earnState={earnState}
             warmupRemaining={warmupRemaining}
@@ -119,27 +182,73 @@ export default function AndroidPage() {
       case "android-case-result-earned":
         return (
           <AndroidCaseResult
-            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            onNavigate={nav}
             variant="earned"
             earnState={earnState}
             warmupRemaining={warmupRemaining}
             onThresholdComplete={() => setEarnState("active")}
+            nextCaseScreen={activeCount >= 5 ? "android-session-complete" : "android-labeling"}
           />
         );
       case "android-case-result-not-earned":
         return (
           <AndroidCaseResult
-            onNavigate={(s) => setScreen(s as AndroidScreen)}
+            onNavigate={nav}
             variant="not-earned"
             earnState={earnState}
             warmupRemaining={warmupRemaining}
             onThresholdComplete={() => setEarnState("active")}
+            nextCaseScreen={activeCount >= 5 ? "android-session-complete" : "android-labeling"}
+          />
+        );
+      case "android-feedback-a-pass":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="earned"
+            option="A"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "android-feedback-a-fail":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="not-earned"
+            option="A"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "android-feedback-b-pass":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="earned"
+            option="B"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
+          />
+        );
+      case "android-feedback-b-fail":
+        return (
+          <AndroidCaseResult
+            onNavigate={nav}
+            variant="not-earned"
+            option="B"
+            earnState="active"
+            warmupRemaining={0}
+            onThresholdComplete={() => {}}
           />
         );
       case "android-session-complete":
-        return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="session" />;
+        return <AndroidSessionComplete onNavigate={nav} variant="session" />;
       case "android-max-earned":
-        return <AndroidSessionComplete onNavigate={(s) => setScreen(s as AndroidScreen)} variant="max" />;
+        return <AndroidSessionComplete onNavigate={nav} variant="max" />;
       default:
         return <PlaceholderScreen label={SCREEN_LABELS[screen]} />;
     }
@@ -149,7 +258,7 @@ export default function AndroidPage() {
     <main className={`android-screen${darkMode ? " android-dark" : ""} min-h-screen flex`} style={{ background: "#f0f0f0" }}>
       {/* Sidebar */}
       <aside
-        className="w-56 flex-shrink-0 p-4 flex flex-col gap-1 border-r overflow-y-auto"
+        className="w-56 flex-shrink-0 p-4 flex flex-col border-r overflow-y-auto"
         style={{ background: "white", borderColor: "#e0e0e0" }}
       >
         {/* Header */}
@@ -172,28 +281,17 @@ export default function AndroidPage() {
           </p>
         </div>
 
-        {ALL_SCREENS.map((s) => {
-          const isBuilt = BUILT_SCREENS.includes(s);
-          return (
-            <button
-              key={s}
-              onClick={() => setScreen(s)}
-              className="text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors flex items-center gap-2"
-              style={
-                screen === s
-                  ? { background: "rgba(56,220,209,0.10)", color: "#006A65", fontWeight: 700 }
-                  : { color: isBuilt ? "#555" : "#aaa" }
-              }
-            >
-              <span className="flex-1">{SCREEN_LABELS[s]}</span>
-              {!isBuilt && (
-                <span className="text-[9px] font-medium px-1 py-0.5 rounded" style={{ background: "#f5f5f5", color: "#aaa" }}>
-                  soon
-                </span>
-              )}
-            </button>
-          );
-        })}
+        {/* ── Happy Path ── */}
+        <SectionLabel>Happy Path</SectionLabel>
+        {SIDEBAR_HAPPY.map((s) => (
+          <NavBtn key={s} s={s} label={SCREEN_LABELS[s]} current={screen} onClick={nav} />
+        ))}
+
+        {/* ── Other Endings ── */}
+        <SectionLabel>Other Endings</SectionLabel>
+        {SIDEBAR_ENDINGS.map((s) => (
+          <NavBtn key={s} s={s} label={SCREEN_LABELS[s]} current={screen} onClick={nav} />
+        ))}
 
         {/* Nav links */}
         <div className="mt-4 pt-4 border-t flex flex-col gap-1" style={{ borderColor: "#eee" }}>
@@ -226,19 +324,19 @@ export default function AndroidPage() {
 
         <div className="mt-5 flex items-center gap-4">
           <button
-            onClick={() => setScreen(ALL_SCREENS[currentIndex - 1])}
-            disabled={currentIndex === 0}
+            onClick={() => nav(sidebarScreens[currentIndex - 1])}
+            disabled={currentIndex <= 0}
             className="px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors disabled:opacity-30"
             style={{ background: "white", borderColor: "#ddd", color: "#333" }}
           >
             ← Prev
           </button>
           <span className="text-[12px]" style={{ color: "#aaa" }}>
-            {currentIndex + 1} / {ALL_SCREENS.length}
+            {Math.max(currentIndex + 1, 1)} / {sidebarScreens.length}
           </span>
           <button
-            onClick={() => setScreen(ALL_SCREENS[currentIndex + 1])}
-            disabled={currentIndex === ALL_SCREENS.length - 1}
+            onClick={() => nav(sidebarScreens[currentIndex + 1])}
+            disabled={currentIndex >= sidebarScreens.length - 1}
             className="px-4 py-2 rounded-lg text-[13px] font-medium border transition-colors disabled:opacity-30"
             style={{ background: "white", borderColor: "#ddd", color: "#333" }}
           >
