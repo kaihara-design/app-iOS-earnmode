@@ -18,15 +18,15 @@ export function AndroidPhoneFrame({ children }: AndroidPhoneFrameProps) {
         className="absolute bg-white overflow-hidden"
         style={{ inset: "10px", borderRadius: "36px" }}
       >
-        {/* Android status bar */}
+        {/* Android status bar — transparent overlay */}
         <div
-          className="flex items-center justify-between px-6"
-          style={{ height: "52px", paddingTop: "12px", paddingBottom: "10px", fontFamily: "'Roboto', sans-serif" }}
+          className="absolute left-0 right-0 flex items-center justify-between px-6"
+          style={{ top: 0, height: "28px", paddingTop: "6px", paddingBottom: "6px", fontFamily: "'Roboto', sans-serif", zIndex: 10 }}
         >
           <span className="text-[14px] font-medium tracking-[0.14px]" style={{ color: "#201922" }}>9:30</span>
 
           {/* Pill hole-punch camera */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "14px" }}>
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "8px" }}>
             <div className="w-[12px] h-[12px] rounded-full bg-[#1a1a1a]" />
           </div>
 
@@ -59,17 +59,17 @@ export function AndroidPhoneFrame({ children }: AndroidPhoneFrameProps) {
         <div
           className="overflow-y-auto"
           style={{
-            height: "calc(100% - 52px - 24px)",
+            height: "100%",
             fontFamily: "'Roboto', 'Roboto Flex', system-ui, sans-serif",
           }}
         >
           {children}
         </div>
 
-        {/* Gesture bar */}
+        {/* Gesture bar — transparent overlay */}
         <div
           className="absolute bottom-0 left-0 right-0 flex items-center justify-center"
-          style={{ height: "24px", background: "white" }}
+          style={{ height: "24px", background: "transparent" }}
         >
           <div className="w-[108px] h-[4px] rounded-full bg-[#201922]" />
         </div>

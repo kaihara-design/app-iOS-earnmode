@@ -6,7 +6,6 @@ import { AndroidPhoneFrame } from "@/components/android-phone-frame";
 import { AndroidCompete } from "@/components/screens/android/compete";
 import { AndroidContestDetail } from "@/components/screens/android/contest-detail";
 import { AndroidLabeling } from "@/components/screens/android/labeling";
-import { AndroidCaseResult } from "@/components/screens/android/case-result";
 import { AndroidSessionComplete } from "@/components/screens/android/session-complete";
 
 type AndroidScreen =
@@ -158,7 +157,6 @@ export default function AndroidPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [earnState, setEarnState] = useState<"warmup" | "threshold" | "active">("warmup");
   const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
-  const [activeCount, setActiveCount] = useState(0);
 
   const sidebarScreens = [...SIDEBAR_HAPPY, ...SIDEBAR_ENDINGS];
   const currentIndex = sidebarScreens.indexOf(screen);
@@ -186,40 +184,39 @@ export default function AndroidPage() {
               setWarmupRemaining(remaining);
               if (remaining === 0) setEarnState("threshold");
             }}
-            onActiveSubmit={() => setActiveCount((c) => c + 1)}
-            qualifiedCount={activeCount}
+            onThresholdComplete={() => setEarnState("active")}
           />
         );
       case "android-feedback-calibration":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="calibration"
+            initialFeedback="calibration"
             earnState="active"
             warmupRemaining={0}
-            onThresholdComplete={() => {}}
+            onWarmupProgress={() => {}}
           />
         );
       case "android-feedback-a-accuracy-low":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="not-earned"
-            option="A"
+            initialFeedback="not-earned"
+            initialOption="A"
             earnState="active"
             warmupRemaining={0}
-            onThresholdComplete={() => {}}
+            onWarmupProgress={() => {}}
           />
         );
       case "android-feedback-b-accuracy-low":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="not-earned"
-            option="B"
+            initialFeedback="not-earned"
+            initialOption="B"
             earnState="active"
             warmupRemaining={0}
-            onThresholdComplete={() => {}}
+            onWarmupProgress={() => {}}
           />
         );
       case "android-contest-ended":
@@ -237,46 +234,52 @@ export default function AndroidPage() {
         );
       case "android-case-result-earned":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="earned"
+            initialFeedback="earned"
             earnState={earnState}
             warmupRemaining={warmupRemaining}
+            onWarmupProgress={(remaining) => {
+              setWarmupRemaining(remaining);
+              if (remaining === 0) setEarnState("threshold");
+            }}
             onThresholdComplete={() => setEarnState("active")}
-            nextCaseScreen={activeCount >= 5 ? "android-session-complete" : "android-labeling"}
           />
         );
       case "android-case-result-not-earned":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="not-earned"
+            initialFeedback="not-earned"
             earnState={earnState}
             warmupRemaining={warmupRemaining}
+            onWarmupProgress={(remaining) => {
+              setWarmupRemaining(remaining);
+              if (remaining === 0) setEarnState("threshold");
+            }}
             onThresholdComplete={() => setEarnState("active")}
-            nextCaseScreen={activeCount >= 5 ? "android-session-complete" : "android-labeling"}
           />
         );
       case "android-feedback-a-earned":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="earned"
-            option="A"
+            initialFeedback="earned"
+            initialOption="A"
             earnState="active"
             warmupRemaining={0}
-            onThresholdComplete={() => {}}
+            onWarmupProgress={() => {}}
           />
         );
       case "android-feedback-b-earned":
         return (
-          <AndroidCaseResult
+          <AndroidLabeling
             onNavigate={nav}
-            variant="earned"
-            option="B"
+            initialFeedback="earned"
+            initialOption="B"
             earnState="active"
             warmupRemaining={0}
-            onThresholdComplete={() => {}}
+            onWarmupProgress={() => {}}
           />
         );
       case "android-session-complete":

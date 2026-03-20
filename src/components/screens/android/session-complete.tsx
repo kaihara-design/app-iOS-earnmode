@@ -112,9 +112,8 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
       )}
 
       {/* ── Top App Bar ── */}
-      <div className="flex items-center px-1 shrink-0 relative z-10" style={{ height: "64px", background: "var(--md-background)" }}>
-        <div className="w-12 h-12" />
-        <p className="flex-1 text-[22px] font-normal leading-7 ml-4" style={{ color: "var(--md-on-surface)" }}>
+      <div className="flex items-center px-4 shrink-0 relative z-10" style={{ height: "64px", background: "var(--md-background)" }}>
+        <p className="flex-1 text-[22px] font-normal leading-7" style={{ color: "var(--md-on-surface)" }}>
           {isMax ? "Max Earned" : "Session Complete"}
         </p>
         <button

@@ -18,8 +18,8 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
         className="absolute bg-white overflow-hidden"
         style={{ inset: "12px", borderRadius: "44px" }}
       >
-        {/* Status bar */}
-        <div className="flex items-center justify-between px-6 pt-4 pb-1 text-[12px] font-semibold" style={{ color: "#000" }}>
+        {/* Status bar — transparent overlay */}
+        <div className="absolute left-0 right-0 flex items-center justify-between px-6 pt-4 pb-1 text-[12px] font-semibold" style={{ top: 0, zIndex: 10, pointerEvents: "none", color: "#000" }}>
           <span>9:41</span>
           <div className="absolute left-1/2 -translate-x-1/2 w-[120px] h-[34px] bg-[#1a1a1a] rounded-full" />
           <div className="flex items-center gap-1">
@@ -45,7 +45,7 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
         {/* Screen content — SF Pro via system font stack */}
         <div
           className="h-full overflow-y-auto pb-8"
-          style={{ paddingTop: "8px", fontFamily: "-apple-system, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif" }}
+          style={{ fontFamily: "-apple-system, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif" }}
         >
           {children}
         </div>
@@ -53,7 +53,7 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
 
       {/* Home indicator */}
       <div
-        className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-white/60 rounded-full"
+        className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-black/20 rounded-full"
       />
     </div>
   );
