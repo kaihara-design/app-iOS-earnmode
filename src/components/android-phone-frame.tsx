@@ -15,8 +15,8 @@ export function AndroidPhoneFrame({ children }: AndroidPhoneFrameProps) {
 
       {/* Screen area */}
       <div
-        className="absolute bg-white overflow-hidden"
-        style={{ inset: "10px", borderRadius: "36px" }}
+        className="absolute overflow-hidden"
+        style={{ inset: "10px", borderRadius: "36px", background: "var(--md-background)" }}
       >
         {/* Android status bar */}
         <div
@@ -26,7 +26,7 @@ export function AndroidPhoneFrame({ children }: AndroidPhoneFrameProps) {
           <span className="text-[14px] font-medium tracking-[0.14px]" style={{ color: "#201922" }}>9:30</span>
 
           {/* Pill hole-punch camera */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "10px" }}>
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "14px" }}>
             <div className="w-[12px] h-[12px] rounded-full bg-[#1a1a1a]" />
           </div>
 
