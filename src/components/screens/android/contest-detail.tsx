@@ -213,7 +213,7 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
         {/* ── Earnings card ── */}
         <div className="px-4 pt-4">
           <div
-            className="rounded-[20px] overflow-hidden"
+            className="rounded-[16px] overflow-hidden"
             style={{ border: "1px solid var(--md-secondary)", background: "var(--color-secondary-bg)" }}
           >
             {/* Card header */}
@@ -272,9 +272,9 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
 
         {/* ── About section ── */}
         <div className="px-4 pt-5">
-          <p className="text-[14px] font-medium mb-3" style={{ color: "var(--md-on-surface-variant)", letterSpacing: "0.1px" }}>ABOUT THIS CONTEST</p>
+          <p className="text-[11px] font-medium mb-3" style={{ color: "var(--md-on-surface-variant)", letterSpacing: "0.5px" }}>ABOUT THIS CONTEST</p>
 
-          <div className="rounded-[20px] overflow-hidden" style={{ border: "1px solid #D2C1D4" }}>
+          <div className="rounded-[16px] overflow-hidden" style={{ border: "1px solid #D2C1D4" }}>
             {/* Rules & Prizes */}
             <button
               onClick={() => setShowRulesSheet(true)}
@@ -335,14 +335,14 @@ export function AndroidContestDetail({ onNavigate, userState = "new" }: ContestD
         {userState !== "post-compete" && (
           <div className="px-4 pt-5">
             <div className="flex items-center justify-between mb-1">
-              <p className="text-[14px] font-medium" style={{ color: "var(--md-on-surface-variant)", letterSpacing: "0.1px" }}>STEPS TO START EARNING</p>
+              <p className="text-[11px] font-medium" style={{ color: "var(--md-on-surface-variant)", letterSpacing: "0.5px" }}>STEPS TO START EARNING</p>
               <span className="text-[12px] font-medium" style={{ color: "var(--md-primary-container)" }}>
                 {isNew ? "1/4" : "4/4"} done
               </span>
             </div>
             <p className="text-[12px] mb-3" style={{ color: "var(--md-on-surface-variant)" }}>Complete these to unlock your earnings.</p>
 
-            <div className="rounded-[20px] overflow-hidden" style={{ border: "1px solid #D2C1D4" }}>
+            <div className="rounded-[16px] overflow-hidden" style={{ border: "1px solid #D2C1D4" }}>
               {steps.map((step, i) => (
                 <div key={i}>
                   {i > 0 && <div style={{ height: "1px", background: "var(--md-outline-variant)", marginLeft: "64px" }} />}

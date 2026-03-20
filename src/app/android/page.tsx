@@ -135,8 +135,26 @@ function NavBtn({
 
 const WARMUP_TOTAL = 3; // prototype; real app = 10–25 from topic config
 
+// Screen depth for directional transitions (M3 Shared Axis X)
+const SCREEN_DEPTH: Partial<Record<string, number>> = {
+  "android-compete": 0,
+  "android-contest-detail": 1,
+  "android-labeling": 2,
+  "android-case-result-earned": 3,
+  "android-case-result-not-earned": 3,
+  "android-feedback-a-earned": 3,
+  "android-feedback-b-earned": 3,
+  "android-feedback-calibration": 3,
+  "android-feedback-a-accuracy-low": 3,
+  "android-feedback-b-accuracy-low": 3,
+  "android-session-complete": 4,
+  "android-max-earned": 4,
+  "android-contest-ended": 4,
+};
+
 export default function AndroidPage() {
   const [screen, setScreen] = useState<AndroidScreen>(getInitialScreen);
+  const [navDirection, setNavDirection] = useState<"forward" | "back" | "neutral">("neutral");
   const [darkMode, setDarkMode] = useState(false);
   const [earnState, setEarnState] = useState<"warmup" | "threshold" | "active">("warmup");
   const [warmupRemaining, setWarmupRemaining] = useState(WARMUP_TOTAL);
@@ -145,8 +163,11 @@ export default function AndroidPage() {
   const sidebarScreens = [...SIDEBAR_HAPPY, ...SIDEBAR_ENDINGS];
   const currentIndex = sidebarScreens.indexOf(screen);
 
-  function nav(s: string) {
-    setScreen(s as AndroidScreen);
+  function nav(next: string) {
+    const currentDepth = SCREEN_DEPTH[screen] ?? 0;
+    const nextDepth = SCREEN_DEPTH[next] ?? 0;
+    setNavDirection(nextDepth > currentDepth ? "forward" : nextDepth < currentDepth ? "back" : "neutral");
+    setScreen(next as AndroidScreen);
   }
 
   function renderScreen() {
@@ -183,7 +204,7 @@ export default function AndroidPage() {
         return (
           <AndroidCaseResult
             onNavigate={nav}
-            variant="accuracy-low"
+            variant="not-earned"
             option="A"
             earnState="active"
             warmupRemaining={0}
@@ -194,7 +215,7 @@ export default function AndroidPage() {
         return (
           <AndroidCaseResult
             onNavigate={nav}
-            variant="accuracy-low"
+            variant="not-earned"
             option="B"
             earnState="active"
             warmupRemaining={0}
@@ -330,7 +351,10 @@ export default function AndroidPage() {
         </div>
 
         <AndroidPhoneFrame>
-          <div key={screen} className="animate-screen-in h-full">
+          <div
+            key={screen}
+            className={`${navDirection === "forward" ? "animate-screen-forward-in" : navDirection === "back" ? "animate-screen-back-in" : "animate-screen-in"} h-full`}
+          >
             {renderScreen()}
           </div>
         </AndroidPhoneFrame>

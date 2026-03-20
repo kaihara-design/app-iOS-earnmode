@@ -172,7 +172,7 @@ export function AndroidSessionComplete({ onNavigate, variant = "session" }: Sess
         {/* Context label */}
         <p
           className="text-[11px] font-medium tracking-[0.8px] mb-2 animate-fade-up"
-          style={{ color: "var(--md-secondary)", animationDelay: "200ms" }}
+          style={{ color: "var(--md-secondary)", animationDelay: "200ms", letterSpacing: "0.5px" }}
         >
           EARN MODE · PATHOLOGY SLIDES
         </p>

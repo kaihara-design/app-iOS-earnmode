@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // Android Earn Mode — Labeling (Box Segmentation) screen
 // M3 spec: white bg, contained dark image card (#303030, 24dp radius)
-// Earn Mode HUD: inline row between progress bar and image card
+// Earn Mode HUD: inline second row beneath progress bar (no card, no border)
 // After submit → navigate to Case Result screen (full screen, not sheet)
 
 interface LabelingProps {
@@ -119,42 +119,36 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
         </button>
       </div>
 
-      {/* ── Progress bar ── */}
+      {/* ── Progress + inline Earn Mode HUD ── */}
       <div className="px-4 pb-2 shrink-0">
-        <div className="mb-1">
+        {/* Progress row */}
+        <div className="flex justify-between mb-1.5">
           <span className="text-[12px]" style={{ color: "var(--md-on-surface)" }}>Question {readCount}/5</span>
         </div>
-        <div className="h-[11px] rounded-[15px] overflow-hidden" style={{ background: "var(--md-surface-variant)" }}>
+        <div className="h-1 rounded-full overflow-hidden mb-2" style={{ background: "var(--md-surface-variant)" }}>
           <div
-            className="h-[9px] rounded-[15px] mt-px ml-px transition-all duration-300"
-            style={{ width: `calc(${progressPct}% - 2px)`, background: "var(--md-on-surface-variant)" }}
+            className="h-full rounded-full transition-all duration-300"
+            style={{ width: `${progressPct}%`, background: "var(--md-on-surface-variant)" }}
           />
         </div>
-      </div>
 
-      {/* ── Earn Mode HUD ── */}
-      <div
-        className="mx-4 mb-2 rounded-[12px] flex items-center justify-end px-3 py-2.5 shrink-0"
-        style={{ background: "var(--color-secondary-bg)", border: "1px solid var(--md-secondary)" }}
-      >
-        <div className="flex items-center gap-2">
-          <div
-            className="flex items-center gap-1 px-2 rounded-full"
-            style={{ height: "22px", border: "1px solid var(--md-secondary)", color: "var(--md-secondary)" }}
-          >
-            <DollarIcon />
-            <span className="text-[10px] font-medium tracking-[0.3px]">Earn Mode</span>
-          </div>
+        {/* Earn Mode status — inline, no container */}
+        <div className="flex items-center gap-1.5">
+          <DollarIcon />
           {earnState === "warmup" ? (
-            <span className="text-[13px] font-medium" style={{ color: "var(--md-on-surface-variant)" }}>Qualifying · {warmupRemaining} to go</span>
+            <span className="text-[12px] font-medium" style={{ color: "var(--md-on-surface-variant)" }}>
+              Qualifying · {warmupRemaining} to go
+            </span>
           ) : (
-            <span className="text-[16px] font-medium" style={{ color: "var(--md-secondary)" }}>${sessionEarnings.toFixed(2)} · {qualifiedCount} qualified</span>
+            <span key={sessionEarnings} className="text-[14px] font-medium animate-earn-tick" style={{ color: "var(--md-secondary)" }}>
+              ${sessionEarnings.toFixed(2)} · {qualifiedCount} qualified
+            </span>
           )}
         </div>
       </div>
 
       {/* ── Image zone — fills all remaining vertical space ── */}
-      <div className="flex-1 min-h-0 px-4">
+      <div className="flex-1 min-h-0 px-4 pt-1">
         <div
           className="relative overflow-hidden w-full h-full"
           style={{ borderRadius: "24px", background: "#303030" }}
@@ -267,7 +261,7 @@ export function AndroidLabeling({ onNavigate, initialShowContestEnded = false, e
             This contest has ended
           </h2>
           <p className="text-[15px] leading-relaxed mb-5" style={{ color: "var(--md-on-surface-variant)" }}>
-            The prize pool was claimed while you were reading. Your earnings from this session are safe.
+            The prize pool was claimed while you were labeling. Your earnings in this contest are safe.
           </p>
 
           {/* Earnings summary */}
